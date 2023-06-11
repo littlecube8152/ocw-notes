@@ -642,6 +642,8 @@ There are 11 basic properties of determinant, and the first four of them (is one
 11. $\det A^T = \det A$.
     *Proof.* If $A$ is singular then both sides are $0$. Otherwise let $A = LU$, then $A^T=U^TL^T$ and it is obvious that $\det A^T = \det U^T \det L^T = \det U \det L = \det L \det U = \det A$.  
 
+\[Lecture 19 starts here]
+
 ### The Big Formula
 From property 4, we can break the matrix into multiple parts:
 $$\begin{vmatrix} a & b \\ c & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ c & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ c & 0 \end{vmatrix} + \begin{vmatrix} a & 0 \\ 0 & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & 0 \end{vmatrix} + \begin{vmatrix} 0 & b \\ 0 & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ 0 & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & 0 \end{vmatrix} \\ = ad - bc$$
@@ -792,6 +794,8 @@ $$A_n =
 \end{bmatrix}$$
 $$\det A_n = \det A_{n - 1} - \det A_{n - 2}$$
 
+\[Lecture 20 starts here]
+
 ### Inverse Formula
 Let the cofactor matrix $C$ be $c_{i, j} = (-1)^{i + 1}\det M_{i, j}$.  
 The inverse of $A$ is 
@@ -826,6 +830,8 @@ Another way to see this is directly by Gram-Schmidt process. The volume defined 
 *Special Case.* The signed area of triangle with corners $(x_1, y_1), (x_2, y_2), (x_3, y_3)$ is 
 $$\frac 1 2\begin{vmatrix}x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1 \end{vmatrix}$$
 
+\[Lecture 21 starts here]
+
 ## Eigenvalues and Eigenvectors
 **Definition.** The **eigenvectors** of a square matrix $A$ is the non-zero vectors satisfying
 $$Ax = \lambda x$$
@@ -853,5 +859,76 @@ For $A = \begin{bmatrix} 3 & 1 \\ 0 & 3 \end{bmatrix}$,
 $$A - \lambda I = \begin{bmatrix} 3 - \lambda & 1 \\ 0 & 3 - \lambda \end{bmatrix} \Rightarrow (3 - \lambda)^2 = 0 \Rightarrow \lambda_1 = \lambda_2 = 3$$
 but the thing is there is only one eigenvector: $x = \begin{bmatrix}1 \\ 0\end{bmatrix}$.
 
-It is noteworthy that eigenvalues are **not additive (linear) and multiplicative**. Eigenvalues of $A, B$ have nothing to do with eigenvalues of $A+B, AB$.  
+It is noteworthy that eigenvalues are **not additive (linear) and multiplicative**. Eigenvalues of $A, B$ 
+have nothing to do with eigenvalues of $A+B, AB$.  
+
+\[Lecture 22 starts here]
+
+### Diagonalization
+
+Suppose we have $n$ linearly independent eigenvectors of $A$, we put them in the columns of $S$,
+$$AS = \begin{bmatrix}\lambda_1x_1 & \lambda_2x_2 & \cdots & \lambda_nx_n\end{bmatrix} = 
+\underbrace{\begin{bmatrix}
+	\lambda_1 & 0 & \cdots & 0 \\ 
+	0 & \lambda_2 & \cdots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\  
+	0 & 0 & \cdots & \lambda_nx_n
+\end{bmatrix}}_\Lambda S$$
+If $S$ is invertible (if there are linearly indepenent, under our assumption), then we can write
+$$A = S^{-1}\Lambda S$$
+
+### $A$ powered
+Suppose $Ax = \lambda x$, then for $A^2$,  
+$$A^2x = A\lambda x = \lambda^2x$$
+Same holds for the diagonalization we just have:
+$$A^2 = S^{-1}\Lambda S S^{-1}\Lambda S = S^{-1}\Lambda^2 S$$
+
+In fact we can do this *any integer times*, therefore
+$$A^kx = \lambda^kx$$
+$$A^k = S^{-1}\Lambda^k S$$
+
+**Theorem.** $\lim_{k \rightarrow \infty} A = \mathbf 0$ if all $|\lambda_i| < 1$.  
+
+When can we do such convenient thing? It turns out  
+**Property.** $A$ is sure to have $n$ independent eigenvectors if all eigenvalues are different.  
+> *Proof.*
+> If we have only one vector $x_1$, then $x_1$ is sure to be linearly independent.  
+> Assume we already have $k - 1$ linearly independent eigenvectors, then consider the $k$-th eigenvector.  
+> We want to show that
+> $c_1x_1 + c_2x_2 + \cdots + c_kx_k$ only have solution of $c_i = 0$.  
+> Let $c = \begin{bmatrix}c_1, c_2, \cdots, c_k, 0, \cdots, 0\end{bmatrix}$. The equation is equivlant to
+> $$Sc = \mathbf 0$$
+> Multiply both side by $A$ gives
+> $$ASc = S\Lambda c = \mathbf 0$$
+> Therefore if $c$ is a solution, then $\Lambda c$ is also a solution, which means  
+> $$\begin{cases}c_1x_1 + c_2x_2 + \cdots + c_kx_k = \mathbf 0 \\ c_1\lambda_1x_1 + c_2\lambda_2x_2 + \cdots + c_k\lambda_kx_k = \mathbf 0\end{cases}$$
+> Multiply the first equation by $\lambda_k$ we get
+> $$c_1(\lambda_1-\lambda_k)x_1 + c_2(\lambda_2-\lambda_k)x_2 + \cdots + c_{k-1}(\lambda_{k-1}-\lambda_k)x_{k-1} = \mathbf 0$$
+> If $c$ is non-zero, then $c_1, \cdots, c_k$ has at least two non-zero entries. Because all $\lambda_i$ are different, at least one $c_i(\lambda_i - \lambda_k)$ is non-zero.  
+> However by induction hypothesis, $x_1, \cdots, x_{k-1}$ are linearly independent so $c_1, \cdots, c_{k-1}$ must be all zero.  
+> We have met a contradiction and thus, there is no solution $c$ other than zero and $x_1, \cdots, x_k$ are thus linearly independent.  
+> By math induction, all eigenvectors are linear independent if their eigenvalues are different.   
+
+#### Solving $A$ powered
+Suppose we have some column vector $u_0$ and recursively $u_{k+1} = Au_k$. How do we found $u_k$?  
+
+Let's say $u_0 = c_1x_1 + c_2x_2 + \cdots + c_nx_n = Sc$,  
+then $u_1 = c_1\lambda_1x_1 + c_2\lambda_2x_2 + \cdots + c_n\lambda_nx_n = S\Lambda c$.  
+Furthurmore, $u_k = c_1\lambda_1^kx_1 + c_2\lambda_2^kx_2 + \cdots + c_n\lambda_n^kx_n = S\Lambda^kc$.  
+> In fact it is simply $u_k = S\Lambda^kS^{-1}u_0$.  
+
+For example we have Fibonacci sequence:
+$$\begin{cases}F_0 = 0 \\ F_1 = 1 \\ F_{n+2} = F_{n+1} + F_n\end{cases}$$
+and we can build it as
+$$\underbrace{\begin{bmatrix} 1 & 1 \\ 1 & 0 \end{bmatrix}}_A\begin{bmatrix} F_{n+1} \\ F_{n} \end{bmatrix} = \begin{bmatrix} F_{n+2} \\ F_{n+1} \end{bmatrix}$$
+Solving it:
+$$\det (A - \lambda I) = \begin{vmatrix} 1 - \lambda & 1 \\ 1 & - \lambda \end{vmatrix} \Rightarrow \lambda^2 - \lambda - 1 = 0 \Rightarrow \lambda_1 = \frac{1 + \sqrt 5}{2}, \lambda_2 = \frac{1 - \sqrt 5}{2}$$
+Finding null space of $A - \lambda I$:  
+Since this matrix has a special property of $(\lambda - 1)\lambda = 1$,  
+$$x_1 = \begin{bmatrix} \lambda_1 \\ 1 \end{bmatrix}, x_2 = \begin{bmatrix} \lambda_2 \\ 1 \end{bmatrix}$$
+and
+$$\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \frac{x_1 - x_2}{\lambda_1 - \lambda_2} $$
+We have
+$$\begin{bmatrix} F_{n+1} \\ F_{n} \end{bmatrix} = A^n\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \frac{\lambda_1^nx_1 - \lambda_2^nx_2}{\lambda_1 - \lambda_2} $$
+$$F_n = \frac{\lambda_1^n - \lambda_2^n}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt 5}\left(\left(\frac{1 + \sqrt 5}{2}\right)^n-\left(\frac{1 - \sqrt 5}{2}\right)^n\right) \approx \frac{1}{\sqrt 5}\left(\frac{1 + \sqrt 5}{2}\right)^n$$
 
