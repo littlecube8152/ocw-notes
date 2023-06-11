@@ -12,7 +12,7 @@ Linear algebra is a study about **linear equations**.
 
 \[Lecture 01 starts here\]
 
-## Linear equations - three perspectives
+## Linear equations
 
 There are three perspective of a system of linear equations, say $m$ equations and $n$ variables,
 1. **Row picture**. It is how we see the equations. In two dimensions, it looks like lines intersecting each others, and in three dimensions, it looks like plane intersecting each others.
@@ -92,7 +92,7 @@ $(E_{32}E_{21})A = U$
 is also correct, and we have a matrix $E = E_{32}E_{21}$ that does all the work.
 
 \[Lecture 03 starts here]
-## Matrix Multiplication - Five Approaches
+## Matrix Multiplication
 Say we multiply two matrices $A$ and $B$, and the result would be $C$.
 Now we use the respective lowercase of the matrix name to represent its corresponding elements, for example, $a_{1, 2}$ means the element in $A$ at row 1 column 2.
 1. **Multiply rows by columns - the definition**
@@ -399,7 +399,7 @@ The first two are pretty obvious according to the definition, and the last can b
 
 \[Lecture 11 starts here]
 
-## Other Spaces
+### Other Spaces
 Let $M$ be the set of all $3\times 3$ matrices. Is $M$ a vector space? Yes.  
 In fact there are several subspaces, such as $U$, the set of all upper triangular matrices, and $S$, the set of all symmetric matrices.  
 
@@ -416,7 +416,7 @@ $$\frac{\mathrm d^2y}{{\mathrm dx}^2} + y = 0$$
 There are two special solutions: $y = \cos x, \sin x$.  
 And they span the whole solution space $S$.
 
-## Rank 1 matrices
+### Rank 1 matrices
 
 Every rank 1 matrix can be expressed by a column matrix times a row matrix.  
 
@@ -877,6 +877,53 @@ $$AS = \begin{bmatrix}\lambda_1x_1 & \lambda_2x_2 & \cdots & \lambda_nx_n\end{bm
 If $S$ is invertible (if there are linearly indepenent, under our assumption), then we can write
 $$A = S^{-1}\Lambda S$$
 
+> ### Trace and determinant
+> This part is only mentioned in the lectures but not deeply discussed, this part is meant to fill in that.  
+>
+> **Theorem.** The sum of all eigenvalues is equal the *trace* of $A$, which is the sum of the main diagonal.  
+> *Proof.* We take a look on the characteristic polynomal of matrix $A$, we want to show that
+> $$t^n - \mathrm{tr}(A) t^{n - 1} + \underbrace{\cdots}_{\text{terms under }t^{n-2}} = 0$$
+> Consider $A - tI$, for $n = 1$, the above equation holds.  
+> Suppose all matrices with $n \leq k$ holds, for any matrix that is $(k+1)\times(k+1)$, we have
+> $$\begin{align*}
+> \det (A - tI) & = 
+> \det \begin{bmatrix}
+> 	a_{1, 1} - t & a_{1, 2} & \cdots & a_{1, n} \\ 
+> 	a_{2, 1} & a_{2, 2} - t & \cdots & a_{2, n} \\
+> 	\vdots & \vdots & \ddots & \vdots \\
+> 	a_{n, 1} & a_{n, 2} & \cdots & a_{n, n} - t\\
+> \end{bmatrix} \\
+> & = \det \begin{bmatrix}
+> 	- t & 0 & \cdots & 0 \\ 
+> 	a_{2, 1} &  & \cdots &  \\
+> 	\vdots & \vdots & \ddots & \vdots \\
+> 	a_{n, 1} &  & \cdots & \\
+> \end{bmatrix} + \det \begin{bmatrix}
+> 	a_{1, 1} & a_{1, 2} & \cdots & a_{1, n} \\ 
+> 	a_{2, 1} &  & \cdots &  \\
+> 	\vdots & \vdots & \ddots & \vdots \\
+> 	a_{n, 1} &  & \cdots & \\
+> \end{bmatrix} \\
+> \end{align*}$$
+> We want to keep the terms which have $t^{n-1}$. In the second matrix, the only way is to have $a_{1, 1}$. Because otherwise if we have $a_{1, i}$, then for the rest $n - 1$ of $t$s we can only choose maximum $n - 2$ of them.  
+> Therefore we are only interested in
+> $$\begin{align*}
+> & (a_{1, 1} - t) \det \begin{bmatrix}
+> 	a_{2, 2} - t & \cdots & a_{2, n} \\
+> 	\vdots & \ddots & \vdots \\
+> 	a_{2, n} & \cdots & a_{n, n} - t \\ 
+> \end{bmatrix} \\
+> = & (a_{1, 1} - t)(t^{n-1} - (a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 2} + \cdots) \\
+> = & (-1)(t^n - (a_{1,1} + a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 1} + \cdots)
+> \end{align*}$$
+> which is what we desired.  
+> By math induction all finite square matrices have this property.  
+>
+> **Theorem.** The product of all eigenvalues is equal the *determinant* of $A$.  
+> *Proof.* Now we are interested in the last term of the charateristic polynomial:
+> $$t^n + \underbrace{\cdots}_{\text{terms having }t} + (-1)^n\det A = 0$$
+> We can do the expand thing we have just done, but instead we drop all the terms having $t$, and we are left with $\det A$.  
+
 ### $A$ powered
 Suppose $Ax = \lambda x$, then for $A^2$,  
 $$A^2x = A\lambda x = \lambda^2x$$
@@ -932,3 +979,73 @@ We have
 $$\begin{bmatrix} F_{n+1} \\ F_{n} \end{bmatrix} = A^n\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \frac{\lambda_1^nx_1 - \lambda_2^nx_2}{\lambda_1 - \lambda_2} $$
 $$F_n = \frac{\lambda_1^n - \lambda_2^n}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt 5}\left(\left(\frac{1 + \sqrt 5}{2}\right)^n-\left(\frac{1 - \sqrt 5}{2}\right)^n\right) \approx \frac{1}{\sqrt 5}\left(\frac{1 + \sqrt 5}{2}\right)^n$$
 
+\[Lecture 23 starts here]
+
+### Differential Equations
+In this part we are interested in systems look like this:
+$$\begin{cases}\begin{matrix}
+\dfrac{du_1}{dt} & = & a_{1,1}u_1 & + &a_{1,2}u_2 & + &\cdots & + & a_{1,n}u_n \\
+\dfrac{du_2}{dt} & = & a_{2,1}u_1 & + &a_{2,2}u_2 & + &\cdots & + & a_{2,n}u_n \\
+\vdots & = & \vdots & + & \vdots & + &\ddots & + &\vdots \\
+\dfrac{du_n}{dt} & = & a_{n,1}u_1 & + &a_{n,2}u_2 & + &\cdots & + & a_{n,n}u_n \\
+\end{matrix}\end{cases}$$
+Which can be write as
+$$\frac{d\mathbf u}{dt} = A\mathbf u$$
+The special solution to this is
+$$\mathbf u = e^{\lambda_it}x_i$$
+since
+$$\frac{d\mathbf u}{dt} = \lambda_ie^{\lambda_it}x_i = A\mathbf u$$
+
+Therefore we can solve these as
+$$\mathbf u = c_1e^{\lambda_1t}x_1 + c_2e^{\lambda_2t}x_2 + \cdots + c_ne^{\lambda_nt}x_n$$
+
+Given some $\mathbf u(t_0)$, we can do some elimination to obtain $\mathbf u$.  
+There are some interesting property of *every* $\mathbf u$:
+1. Stability. $\lim_{t \rightarrow \infty} \mathbf u(0) = \mathbf 0$ if $\textrm{Re}(\lambda_i) \leq 0$.  
+   The imaginary part does not matter since $e^{i\theta} = \cos \theta + i \sin \theta$ and it always have the modular of $1$.  
+2. Steady state. $\frac{d\mathbf u}{dt} = \mathbf u$ if some $\lambda_i = 0$ and others have $\textrm{Re}(\lambda_i) \leq 0$.  
+3. Blow up. If any $\textrm{Re}(\lambda_i) > 0$.  
+
+Notes on $2$ variable differential equation: for matrix $A = \begin{vmatrix}a & b \\ c & d \end{vmatrix}$, we can verify this matrix is stable or blowing up by $a + d < 0$ and $ad - bc > 0$.  
+
+We can do more things than we current have.  
+Let's say $A$ has $n$ independent eigenvectors, and for the vector function $u$, we find
+$$S\mathbf u = \mathbf v$$
+then
+$$S\frac{d\mathbf v}{dt} = AS\mathbf v$$
+$$\frac{d\mathbf v}{dt} = \Lambda\mathbf v$$
+We are going to write that as
+$$\mathbf v(t) = e^{\Lambda t}\mathbf v(0), \mathbf u(t) = Se^{\Lambda t}S^{-1}\mathbf u(0) = e^{A t}\mathbf u(0)$$
+Wait a minute, what is $e^{At}$? 
+
+**Definition.** We define $e^{A}$ by the Taylor Series:
+$$e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \cdots = \sum_{n = 0}^{\infty}\frac{A^n}{n!}$$
+
+It is clear that
+$$e^{At} = \sum_{n = 0}^{\infty}\frac{A^nt^n}{n!} = \sum_{n = 0}^{\infty}\frac{S\Lambda^nS^{-1}t^n}{n!} = S\sum_{n = 0}^{\infty}\frac{\Lambda^nt^n}{n!}S^{-1} = Se^{\Lambda t}S^{-1}$$
+if $A$ is diagonalizable.  
+
+### Ordinary Differential Equation
+Let's start with order $2$:
+$$y'' + by' + ky = 0$$
+Setup a column vector by
+$$u = \begin{bmatrix} y' \\ y\end{bmatrix}$$
+then
+$$u' = \begin{bmatrix} y'' \\ y'\end{bmatrix}$$
+and we have
+$$\begin{bmatrix} y'' \\ y'\end{bmatrix} = \begin{bmatrix}
+-b & -k \\
+1 & 0 \\\end{bmatrix}\begin{bmatrix} y' \\ y\end{bmatrix}$$
+which is solving 
+$$\frac{du}{dx} = Au$$
+
+In fact, every ordinary differential equation with order $n$ can be solved by setting
+
+$$\begin{bmatrix} y^{(n)} \\ \vdots \\ y'\end{bmatrix} = \begin{bmatrix}
+-a_{n-1} & -a_{n-2} & -a_{n-3} & \cdots & -a_1 \\
+1 & 0 & \cdots & \cdots & 0 \\
+0 & 1 & 0 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \ddots & \vdots\\
+0 & 0 & \cdots & 1 & 0\\\end{bmatrix}\begin{bmatrix} y^{(n-1)} \\ \vdots \\ y\end{bmatrix}$$
+
+and use the technique mentioned on previous section.  
