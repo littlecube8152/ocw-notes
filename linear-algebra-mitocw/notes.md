@@ -2,8 +2,16 @@
 Texts wrapped in
 > this style are the notes not included in the tape. 
 
+Some order of contents might not match with the tape because I would like to put relevant contents together, place motivation before introducing something (why would you learn something for nothing?)
+
+
+
+---
+Linear algebra is a study about **linear equations**.
+---
+
 \[Lecture 01 starts here\]
-## Linear algebra is a study about **linear equations**.
+
 ## Linear equations - three perspectives
 
 There are three perspective of a system of linear equations, say $m$ equations and $n$ variables,
@@ -443,7 +451,7 @@ Why this is important? We will see a few applications.
   In circuits, these edges are wires and some currents run through them. In this case, the potential of each node should have net difference of zero. Therefore it is stated by the equation  
   $$ A^Ty=\mathbf 0$$
   $$\begin{bmatrix}-1 & 0 & -1 & -1 & 0 \\ 1 & -1 & 0 & 0 & 0 \\ 0 & 1 & 1 & 0 & -1 \\ 0 & 0 & 0 & 1 & 1 \end{bmatrix}\begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5\end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0\end{bmatrix}$$
-  Solving the left null space, $N(A^T)$, tells us what are the stable states. In fact, the basis of the null space are *circuits*.  
+  Solving the left null space, $N(A^T)$, tells us what are the stable states. In fact, the basis of the null space are *circuits* (or called *cycles*).  
   Assume the graph is *connected*, we have the following identity:
   $$\text{\#nodes } - \text{\#edges +} \dim N(A^T) = 1$$ 
   In physics, this is called **Kirchhoff's Current Law**.  
@@ -453,7 +461,7 @@ Using Ohm's Law, the two aspects of incidence matrix can be united into a single
 \[Lecture 13 is about Quiz 1]  
 \[Lecture 14 starts here]
 
-## Orthogonal
+## Orthogonality
 
 Two column matrices $x, y$ are called **orthogonal** ($x \perp y$) if
 $$x^Ty = \mathbf 0$$
@@ -482,3 +490,368 @@ For the same reason, column space is orthogonal to the left null space.
 Not only they are orthogonal, they are *orthogonal complements* in $\mathbb R^n$, which means null space contains *all* vectors that are orthogonal to the (all the elements in) the row space and vice versa.  
 
 \[Lecture 15 starts here]
+## Projection
+### Motivation
+Using the knowkledge we've know so far, it is possible that
+$$Ax = b$$
+does not have a solution, and it is bugging.  
+Sometimes we want something that is *the nearest* solvable $b$. For example, we want to find a line through $(1, 1), (2, 2), (3, 2)$, but it is certainly impossible. Then we start to think, if we are going to find a line that is closest to the ideal one, what would it be?  
+It turns out we want to solve it as
+$$\begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{bmatrix}\begin{bmatrix} a \\ b \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}$$
+but as we can see it has no solution.  
+Projection, is the tool that enables us project any $b$ onto the $C(A)$ in a formulated manner, and it is invented to solve many problems, including this one.  
+
+### Projections onto Subspaces
+#### 2D cases
+Let's say $a, b$ are two vectors. What does it mean to *project* $b$ onto $a$?  
+We want to find some $p = xa$, and the error $b - p$, should perpendicular (or *orthogonal*) to $a$. In the language of math, 
+$$a^T(b - xa) = \mathbf 0$$
+Solving it yields
+$$a^Tb = xa^Ta \Rightarrow x = \frac{a^Tb}{a^Ta} \Rightarrow p = a \cdot \frac{a^Tb}{a^Ta}$$
+There is something noteworthy, that is, if we re-write the equation as
+$$p = \frac{aa^T}{a^Ta}\cdot b$$
+This gives a matrix $P = \dfrac{aa^T}{a^Ta}$ which does the projection work!
+Also we have the following identity:  
+**Property.** Assume $P$ is a projection matrix, then  
+1. $P$ is symmetric.  
+2. $P^2 = P$.  
+3. $\dim C(P) = 1$ if $a \neq \mathbf 0$
+
+*Proof.* 
+1. $P^T = \dfrac{(aa^T)^T}{a^Ta}= \dfrac{a^{TT}a^T}{a^Ta} = \dfrac{aa^T}{a^Ta} = P$
+2. In geometric perspective, projecting a vector twice does the same thing of projecing it once. In explicit definition,
+   $P^2 = \dfrac{aa^T}{a^Ta}\dfrac{aa^T}{a^Ta} = \dfrac{a}{a^Ta}\dfrac{a^Ta}{a^Ta}\dfrac{a^T}{1} = \dfrac{aa^T}{a^Ta} = P$  
+3. It is pretty obvious by the definition: every row is a multiple of $a^T$. Moreover, $C(P) = \{ca\}$.  
+
+#### 3D cases
+Let's say there are two vectors $a_1, a_2$ and they form a plane. How do we project any $b$ onto the plane?  
+We want to find some $p$ which is the linear combination of $a_1$ and $a_2$, and the error $b - p$, should perpendicular (or *orthogonal*) to $a_1$ and $a_2$. In the language of math, let
+$$p = x_1 a_1 + x_2 a_2$$
+we could re-write that as
+$$p = \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\underbrace{\begin{bmatrix}x_1 \\ x_2\end{bmatrix}}_{\hat x}$$
+$$\begin{cases}a_1^T(b - A\hat x) & = \mathbf 0 \\ a_2^T(b - A\hat x) & = \mathbf 0  \end{cases}$$
+In matrix form, 
+$$ \underbrace{\begin{bmatrix} & a_1^T & \\ & a_2^T & \\\end{bmatrix}}_{A^T}\left(b - \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\begin{bmatrix}x_1 \\ x_2\end{bmatrix}\right) = \mathbf 0$$
+$$A^Tb = A^TA\hat x$$
+Notice that the error $b-A\hat x$ is in $N(A^T)$ (which is kind of intuitive: we restrict it to perpendicular to the column space).  
+If the inverse of $AA^T$ exists, then we can find
+$$p = A\hat x = A(A^TA)^{-1}A^Tb$$
+
+\[Lecture 16 starts here]
+
+What is happening in the projection matrix $P = A(A^TA)^{-1}A^T$?
+ - If $b$ is orthogonal to the column space, then $A^Tb = \mathbf 0$, giving $p = \mathbf 0$.  
+ - If $b$ is in the column space, then there exists $Ax = b$, then $p = Pb = Ax = b$.  
+
+We can see that we are actually finding two projections: $b = p + e$ and $p \in C(A), e \in N(A^T)$.  
+
+**Property.** If $A$ has independent columns, then $A^TA$ is invertible.  
+*Proof.* Suppose $A^TAx = \mathbf 0$, then we want to show that $x = \mathbf 0$.  
+BRILLIANT IDEA: multiply both side by $x^T$ on the left.  
+$$x^TA^TAx = \mathbf 0$$
+Therefore 
+$$(Ax)^T(Ax) = \mathbf 0 \Rightarrow \|Ax\| = 0 \Rightarrow Ax = \mathbf 0$$
+Since $A$ has independent columns, its null space is $\{\mathbf 0\}$. Thus $x = \mathbf 0$.  
+
+### Application - Smallest Square
+Let's head back the example we left as describing why projection is important and actually solve it.  
+
+**Property.** If $b = p + e$ and $p \in C(A)$, then $e$ attains its minimum length ($\|e\|$) if $e \in N(A^T)$.  
+It is kind of intuitive, if $e$ is not then we can always extract the part in column space and get a smaller one.  
+
+In 2D, we are going to find a line $a + bt$ to make the error as small as possible. The points were $(1, 1), (2, 2), (3, 2)$, thus
+$$\begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{bmatrix}\begin{bmatrix} a \\ b \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}$$
+and to solve it to the best,
+$$\begin{bmatrix} 
+	1 & 1 & 1 \\ 1 & 2 & 3 
+\end{bmatrix}\begin{bmatrix} 
+	1 & 1 \\ 
+	1 & 2 \\ 
+	1 & 3 
+\end{bmatrix}\begin{bmatrix} 
+	a \\ b 
+\end{bmatrix} = \begin{bmatrix} 
+	1 & 1 & 1 \\ 
+	1 & 2 & 3 
+\end{bmatrix}\begin{bmatrix} 
+	1 \\ 2 \\ 2 
+\end{bmatrix}$$
+$$\begin{bmatrix} 
+	3 & 6 \\ 6 & 14
+\end{bmatrix}\begin{bmatrix} 
+	a \\ b 
+\end{bmatrix} = \begin{bmatrix} 
+	5 \\ 11
+\end{bmatrix}$$
+which gives $a = \frac 2 3, b = \frac 1 2$.  
+
+> There is another calculus approach: since the least square is a quadratic function, taking its (partial) derivative is not a hard work.  
+
+\[Lecture 17 starts here]
+
+### Orthonormal basis and matrix
+A basis $q_1, q_2, \cdots, q_n$ is called a **orthonormal basis** if $q_i^Tq_j = \begin{cases} 0 & \text{if } i \neq j \\ 1 & \text{if } i = j\end{cases}$.  
+A **square** matrix is **orthonormal (orthogonal)** if its columns are orthonormal basis.  
+
+**Property.** Let $q$ be a orthonormal basis, and $Q = \begin{bmatrix}q_1 & q_2 & \cdots & q_n\end{bmatrix}$, then $Q^TQ = I$.  
+**Property.** Let $Q$ be a orthonormal matrix, then $Q^T = Q^{-1}, Q^TQ = QQ^T = I$.
+
+Why are we discussing orthonormal basis? It turns out when dealing with projections,  
+$$P = Q(Q^TQ)^{-1}Q^T = QQ^T$$
+$$Q^TQ\hat x=\hat x=Q^Tb$$
+If we could, somehow turn every matrix $A$ into orthonomal basis $Q$, then projection is very easy.  
+
+### Gram-Schmidt Process
+Goal: turn every matrix $A$ whose columns are independent into matrix $Q$ formed by orthonormal column vectors.  
+Idea: The first vector can stay, and for each new vector we meet, we subtract its projection to every previous vector. Finally, divide every vector by their length.  
+
+Suppose we have $v_1, v_2, v_3$.  
+ - $u_1 = v_1$
+ - $u_2 = v_2 - \dfrac{u_1^Tv_2}{u_1^Tu_1}u_1$  
+ - $u_3 = v_3 - \dfrac{u_1^Tv_3}{u_1^Tu_1}u_1 - \dfrac{u_2^Tv_3}{u_2^Tu_2}u_2$  
+
+Then $q_1 = \dfrac{u_1}{\|u_1\|}, q_2 = \dfrac{u_2}{\|u_2\|}, q_3 = \dfrac{u_3}{\|u_3\|}$.  
+
+\[Lecture 18 starts here]
+
+## Determinant
+
+For every **square** matrix $A$, we denote its **determinant** as $\det A$ or $|A|$.  
+
+There are 11 basic properties of determinant, and the first four of them (is one way to) give the explicit definition of determinant.  
+
+1. $\det I = 1$.  
+2. Exchanging two different rows of $A$ multiplies its determinant by $-1$. 
+   > It is not clear that every *permuting* operation gives the same $\pm 1$ by any swap order, but in fact we have this property:  
+   > Define *inversions of a permutation* be the number such that $i < j$ but $p_i > p_j$, then whenever we swap two different elements, the parity of number of inversions changes.  
+   > Therefore if we think it as the parity of inversions, every permuting operation gives $\pm 1$ no matter how one performs the swap.  
+3. Multipling a row by $c$ multiplies its determinant by $c$.  
+4. If two matrices $A, B$ only differ by 1 row, then matrix $C$ obtained by copying other rows but adding up the different row has $\det C = \det A + \det B$.  
+5. If matrix $A$ has two same row then $\det A = 0$.  
+   *Proof.* If we swap the two rows, we have $\det A = -\det A \Rightarrow \det A = 0$.  
+6. Subtracting $c$ times row $i$ to row $j$ (with $i \neq j$) does not change the determinant.  
+   *Proof.* According to 4. we can break the row apart, and extract $-c$ from the matrix conatining the subtract operation, which gives determinant $0$. Therefore the determinant does not change.  
+7. If matrix $A$ has a row of zero then $\det A = 0$.  
+   *Proof.* We add any row to the zero row, and according to 5., $\det A = 0$.  
+8. For some upper-triangular matrix $A$ with $d_1, d_2, \cdots, d_n$ on its main diagonal, then $\det A = \prod d_i$.  
+   *Proof.* According to 6. we can eliminate all elements not on the main diagonal, therefore we can compute that according to 3.  
+   The same holds for lower-triangular, so an efficient way to compute determinant is by $LU$-decomposition and calculating the determainant by multiplying numbers on the diagonal.  
+9. $\det A = 0$ if $A$ is singular; $\det A \neq 0$ if $A$ is invertible.  
+   *Proof.* With 6. we can do elimination and this property is pretty obvious.  
+10. $\det AB = \det A \det B$.
+11. $\det A^T = \det A$.
+    *Proof.* If $A$ is singular then both sides are $0$. Otherwise let $A = LU$, then $A^T=U^TL^T$ and it is obvious that $\det A^T = \det U^T \det L^T = \det U \det L = \det L \det U = \det A$.  
+
+### The Big Formula
+From property 4, we can break the matrix into multiple parts:
+$$\begin{vmatrix} a & b \\ c & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ c & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ c & 0 \end{vmatrix} + \begin{vmatrix} a & 0 \\ 0 & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & 0 \end{vmatrix} + \begin{vmatrix} 0 & b \\ 0 & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ 0 & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & 0 \end{vmatrix} \\ = ad - bc$$
+There will be $n^n$ parts, but only those with non-zero columns will give a non-zero determinant, therefore we are left with $n!$ parts. In $3 \times 3$,
+$$\begin{align*}
+& \begin{vmatrix} 
+	a_{1, 1} & a_{1, 2} & a_{1, 3} \\ 
+	a_{2, 1} & a_{2, 2} & a_{2, 3} \\ 
+	a_{3, 1} & a_{3, 2} & a_{3, 3} 
+\end{vmatrix} \\
+= & \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	0 & a_{3, 2} & 0 
+\end{vmatrix} - \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} \\
++ & \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	a_{3, 1} & 0 & 0
+\end{vmatrix} + \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & a_{3, 2} & 0
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	0 & a_{2, 2} & 0 \\ 
+	a_{3, 1} & 0 & 0 
+\end{vmatrix}
+\end{align*}$$
+
+We can obtain the general formula by
+$$\det A_{n\times n} = \sum_{\text{permutation p}}\mathrm{sgn}(p)a_{1,p_1}a_{2,p_2}\cdots a_{n,p_n}$$
+
+### Cofactors
+There is a way to simplify the matrix. Take $3\times 3$ as an example:
+$$\begin{align*}
+& \begin{vmatrix} 
+	a_{1, 1} & a_{1, 2} & a_{1, 3} \\ 
+	a_{2, 1} & a_{2, 2} & a_{2, 3} \\ 
+	a_{3, 1} & a_{3, 2} & a_{3, 3} 
+\end{vmatrix} \\
+= & \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	0 & a_{3, 2} & 0 
+\end{vmatrix} - \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} \\
++ & \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	a_{3, 1} & 0 & 0
+\end{vmatrix} + \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & a_{3, 2} & 0
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	0 & a_{2, 2} & 0 \\ 
+	a_{3, 1} & 0 & 0 
+\end{vmatrix} \\
+= & +a_{1,1}\left(\begin{vmatrix} 
+	1 & 0 & 0 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	1 & 0 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	0 & a_{3, 2} & 0 
+\end{vmatrix}\right) \\
+& +a_{1, 2}\left(\begin{vmatrix} 
+	0 & 1 & 0 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & 0 & a_{3, 3}
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 1 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	a_{3, 1} & 0 & 0
+\end{vmatrix}\right) \\
+& +a_{1, 3}\left(\begin{vmatrix} 
+	0 & 0 & 1 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & a_{3, 2} & 0
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 0 & 1 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	a_{3, 1} & 0 & 0 
+\end{vmatrix}\right) \\
+= & +a_{1,1}\left(\begin{vmatrix} 
+	a_{2, 2} & 0 \\ 
+	0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	0 & a_{2, 3} \\ 
+	a_{3, 2} & 0 
+\end{vmatrix}\right) \\
+&-a_{1, 2}\left(\begin{vmatrix}
+	a_{2, 1} & 0 \\ 
+	0 & a_{3, 3}
+\end{vmatrix} - \begin{vmatrix}
+	0 & a_{2, 3} \\ 
+	a_{3, 1} & 0
+\end{vmatrix}\right) \\
+&+a_{1, 3}\left(\begin{vmatrix} 
+	a_{2, 1} & 0 \\ 
+	0 & a_{3, 2} 
+\end{vmatrix} - \begin{vmatrix}
+	0 & a_{2, 2} \\ 
+	a_{3, 1} & 0 
+\end{vmatrix}\right)
+\end{align*}$$
+
+Let $M_{a, b}$ is the matrix obtained by erasing row $a$ and column $b$ from $A$.   
+We can rewrite the big formula of $n\times n$ matrix to this:
+$$\det A_{n\times n} = \sum_{i=1}^{n}a_{1, i}(-1)^{i+1}\det M_{1, i} = \sum_{i=1}^{n}a_{1, i}$$
+
+Moreover, instead of expanding by row $1$, we can do that for any row $i$:
+$$\det A_{n\times n} = \sum_{j=1}^{n}a_{i, j}(-1)^{i+j}\det M_{i, j}$$
+> The reason the sign is $(-1)^{i+j}$ is actually *how the parity of inversion will change if we insert $i$ into position $j$*.  
+> Assume there are $k$ numbers that are greater than $i$ in position $1$ to $j - 1$, then the inversion is going to increase by
+> $$k + (n - j) - (n - i - k) = i - j$$
+> and it is equivlant to $i + j$ modulo $2$.  
+
+This formula is useful for some matrices where most of one row is zero. For example the tridiagonal matrix:
+$$A_n = \left[a_{i, j} = \begin{cases} 1 & \text{if } |i - j| \leq 1 \\ 0 & \text{otherwise}\end{cases}\right]_{n\times n}$$
+We have
+$$\det A_1 = |1| = 1, \det A_2 = \begin{vmatrix} 1 & 1 \\ 1 & 1 \end{vmatrix} = 0$$
+$$A_n = 
+\begin{bmatrix} 
+	1 & 1 & 0 & \cdots & 0 \\
+	1 & 1 & 1 & \cdots & 0 \\
+	0 & 1 \\
+	\vdots & \vdots & & A_{n-2} \\
+	0 & 0\\
+\end{bmatrix}$$
+$$\det A_n = \det A_{n - 1} - \det A_{n - 2}$$
+
+### Inverse Formula
+Let the cofactor matrix $C$ be $c_{i, j} = (-1)^{i + 1}\det M_{i, j}$.  
+The inverse of $A$ is 
+$$A^{-1} = \frac 1 {\det A}C^T$$
+Why?
+For the main diagaonal of row $i$,
+$$\sum_{j = 1}^{n}a_{i, j}c_{i, j} = \det A$$
+For the rest, say row $i$ column $j$,
+$$\sum_{k=1}^{n}a_{i, k}c_{j, k}$$
+we rebuild a matrix $K$ the same with $A$ but the row $j$ is replaced by row $i$, then this matrix is singular and $\det K = 0$.  
+Therefore $AC^T = (\det A)I$, $A^{-1} = \frac 1 {\det A}C^T$.  
+
+### Cramer's Rule
+If $A$ is invertible then
+$$Ax = b \Rightarrow x = A^{-1}b = \frac 1 {\det A} C^Tb$$
+What is $x_i$?
+$$x_i = \frac 1 {\det A}\sum_{j=1}^n b_jc_{j, i}$$
+If we define the matrix $B_i$ the same with $A$ but the column $i$ is replaced by $b$, then
+$$x_i = \frac{\det B_i}{\det A}$$
+In general, Cramer's rule is a disastrous mess (since determinant computation is awful, the best way to do that is probably elimination). However it sure has some value, for example this is the *algebraic* form of the solution instead of doing some algorithms.  
+
+### Volumes
+**Property.** The volume defined by the $n$ row vectors of $A$ is $|\det A|$.  
+*Proof.*  
+1. $\det I = 1$ and the volume defined by these vector is indeed $1$.
+2. By definition, it is true.  
+3. If we stretch any vector by scalar $c$, the volume multiplies by $|c|$.  
+4. Assume the two vector are $u$ and $v$, let the rest vector form the base, then we are going to consider the height (i.e. the projection error $e$), and this projection is linear so the same property holds for both determinant and volume.  
+
+Another way to see this is directly by Gram-Schmidt process. The volume defined by these orthogonal vectors are intuitive.  
+
+*Special Case.* The signed area of triangle with corners $(x_1, y_1), (x_2, y_2), (x_3, y_3)$ is 
+$$\frac 1 2\begin{vmatrix}x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1 \end{vmatrix}$$
+
+## Eigenvalues and Eigenvectors
+**Definition.** The **eigenvectors** of a square matrix $A$ is the non-zero vectors satisfying
+$$Ax = \lambda x$$
+for some $\lambda$. Here, $\lambda$ is called the **eigenvalue**.  
+
+We don't know anything about that, but here is a cool thing:
+$$Ax = \lambda x\Rightarrow (A - \lambda I)x = 0 \Rightarrow \det (A - \lambda I) = 0$$
+Let's see some instances of eigenvalues and eigenvectors.  
+
+For projection matrix $P$, if $x$ is aleady in the column space $C(A)$ then $Px = x$ and $x$ is an eigenvector with $\lambda = 1$; if $x$ is perpendicular to $C(A)$ then $Px = \mathbf 0$ and $x$ is an eignenvector with $\lambda = 0$.  
+
+For $A = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$, we have $x_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \lambda_1 = 1$ and $x_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}, \lambda_1 = -1$.  
+
+For $A = \begin{bmatrix} 3 & 1 \\ 1 & 3 \end{bmatrix}$, 
+$$A - \lambda I = \begin{bmatrix} 3 - \lambda & 1 \\ 1 & 3 - \lambda \end{bmatrix} \Rightarrow (3 - \lambda)^2 - 1 = 0 \Rightarrow \lambda_1 = 2, \lambda_2 = 4$$
+$x_1$ is in $N(A - 2I) \Rightarrow x_1 = \begin{bmatrix}1 \\ 1\end{bmatrix}$, $x_2$ is in $N(A - 4I) \Rightarrow x_2 = \begin{bmatrix}1 \\ -1\end{bmatrix}$.
+
+For $A = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}$ which rotates any vector by 90 degree counterclockwise, things are getting strange: what the hell vector is going to have the same direction when rotated by 90 degree?  
+$$A - \lambda I = \begin{bmatrix} -\lambda & -1 \\ 1 & -\lambda \end{bmatrix} \Rightarrow \lambda^2 + 1 = 0 \Rightarrow \lambda = i, -i$$
+WHAT?  
+It turns out the eigenvalues can be *complex* even when $A$ is a real value matrix.  
+> This is why the lecturer told "it was a disaster" since imaginary number were not invented until 1804.  
+
+For $A = \begin{bmatrix} 3 & 1 \\ 0 & 3 \end{bmatrix}$,
+$$A - \lambda I = \begin{bmatrix} 3 - \lambda & 1 \\ 0 & 3 - \lambda \end{bmatrix} \Rightarrow (3 - \lambda)^2 = 0 \Rightarrow \lambda_1 = \lambda_2 = 3$$
+but the thing is there is only one eigenvector: $x = \begin{bmatrix}1 \\ 0\end{bmatrix}$.
+
+It is noteworthy that eigenvalues are **not additive (linear) and multiplicative**. Eigenvalues of $A, B$ have nothing to do with eigenvalues of $A+B, AB$.  
+
