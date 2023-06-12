@@ -612,6 +612,43 @@ Suppose we have $v_1, v_2, v_3$.
 
 Then $q_1 = \dfrac{u_1}{\|u_1\|}, q_2 = \dfrac{u_2}{\|u_2\|}, q_3 = \dfrac{u_3}{\|u_3\|}$.  
 
+\[A section from lecture 24 inserted]
+### Fourier Series
+
+If we have all orthonormal vectors in a vector space, when computing
+$$v = c_1q_1 + c_2q_2 + \cdots c_nq_n$$
+We can do
+$$q_i^Tv = c_1q_i^Tq_1 + c_2q_i^Tq_2 + \cdots c_nq_i^Tq_n = c_iq_i^Tq_i = c_i$$
+
+A fourier series is to break some $f: [0, 2\pi) \rightarrow \mathbb R$ into
+$$f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots$$
+
+The key that this is related to linear algebra is we are actually doing some linear combinations under the vector space spanned by the basis $\{1, \sin x, \cos x, \sin 2x, \cos 2x, \cdots\}$.  
+
+If we can find some orthonormal basis, then decomposing $f$ into Fourier Series can be easily found. But first we need to define dot product. The most similar we can do is
+$$f \cdot g = \int_0^{2\pi}f(x)g(x) dx$$
+This definition leads to many convenient properties:
+$$\begin{align*}
+\int_0^{2\pi}\sin ax \cos bx dx 
+& = \int_0^{2\pi}\frac 1 2\left(\sin (a+b)x+\sin (a-b)x\right) dx \\
+& = \int_0^{2(a+b)\pi}\frac{1}{2(a+b)}\sin x dx + \int_0^{2(a-b)\pi}\frac{1}{2(a-b)}\sin x dx \\
+& = 0\end{align*}$$
+
+$$\int_0^{2\pi}\sin ax \sin bx dx 
+= \int_0^{2\pi}\frac 1 2\left(\cos (a-b)x-\cos (a+b)x\right) dx  
+= \begin{cases} \pi & \text{if } a = b \\ 0 & \text{otherwise}\end{cases}$$
+
+$$\int_0^{2\pi}\cos ax \cos bx dx 
+= \int_0^{2\pi}\frac 1 2\left(\cos (a+b)x+\cos (a-b)x\right) dx  
+= \begin{cases} \pi & \text{if } a = b \\ 0 & \text{otherwise}\end{cases}$$
+
+Therefore, we know that the orthonormal basis is
+$$\frac{1}{\sqrt{2\pi}}, \frac{\cos x}{\sqrt{\pi}}, \frac{\sin x}{\sqrt{\pi}}, \frac{\cos 2x}{\sqrt{\pi}}, \frac{\sin 2x}{\sqrt{\pi}}, \cdots$$
+and the coefficients are
+$$a_0 = \frac{1}{2\pi}\int_0^{2\pi}f(x)dx$$
+$$a_n = \frac{1}{\pi}\int_0^{2\pi}f(x)\cos nx dx$$
+$$b_n = \frac{1}{\pi}\int_0^{2\pi}f(x)\sin nx dx$$
+
 \[Lecture 18 starts here]
 
 ## Determinant
@@ -886,36 +923,36 @@ $$A = S^{-1}\Lambda S$$
 > Consider $A - tI$, for $n = 1$, the above equation holds.  
 > Suppose all matrices with $n \leq k$ holds, for any matrix that is $(k+1)\times(k+1)$, we have
 > $$\begin{align*}
-> \det (A - tI) & = 
-> \det \begin{bmatrix}
-> 	a_{1, 1} - t & a_{1, 2} & \cdots & a_{1, n} \\ 
-> 	a_{2, 1} & a_{2, 2} - t & \cdots & a_{2, n} \\
-> 	\vdots & \vdots & \ddots & \vdots \\
-> 	a_{n, 1} & a_{n, 2} & \cdots & a_{n, n} - t\\
-> \end{bmatrix} \\
-> & = \det \begin{bmatrix}
-> 	- t & 0 & \cdots & 0 \\ 
-> 	a_{2, 1} &  & \cdots &  \\
-> 	\vdots & \vdots & \ddots & \vdots \\
-> 	a_{n, 1} &  & \cdots & \\
-> \end{bmatrix} + \det \begin{bmatrix}
-> 	a_{1, 1} & a_{1, 2} & \cdots & a_{1, n} \\ 
-> 	a_{2, 1} &  & \cdots &  \\
-> 	\vdots & \vdots & \ddots & \vdots \\
-> 	a_{n, 1} &  & \cdots & \\
-> \end{bmatrix} \\
-> \end{align*}$$
+ \det (A - tI) & = 
+ \det \begin{bmatrix}
+ 	a_{1, 1} - t & a_{1, 2} & \cdots & a_{1, n} \\ 
+ 	a_{2, 1} & a_{2, 2} - t & \cdots & a_{2, n} \\
+ 	\vdots & \vdots & \ddots & \vdots \\
+ 	a_{n, 1} & a_{n, 2} & \cdots & a_{n, n} - t\\
+ \end{bmatrix} \\
+ & = \det \begin{bmatrix}
+ 	- t & 0 & \cdots & 0 \\ 
+ 	a_{2, 1} &  & \cdots &  \\
+ 	\vdots & \vdots & \ddots & \vdots \\
+ 	a_{n, 1} &  & \cdots & \\
+ \end{bmatrix} + \det \begin{bmatrix}
+ 	a_{1, 1} & a_{1, 2} & \cdots & a_{1, n} \\ 
+ 	a_{2, 1} &  & \cdots &  \\
+ 	\vdots & \vdots & \ddots & \vdots \\
+ 	a_{n, 1} &  & \cdots & \\
+ \end{bmatrix} \\
+ \end{align*}$$
 > We want to keep the terms which have $t^{n-1}$. In the second matrix, the only way is to have $a_{1, 1}$. Because otherwise if we have $a_{1, i}$, then for the rest $n - 1$ of $t$s we can only choose maximum $n - 2$ of them.  
 > Therefore we are only interested in
 > $$\begin{align*}
-> & (a_{1, 1} - t) \det \begin{bmatrix}
-> 	a_{2, 2} - t & \cdots & a_{2, n} \\
-> 	\vdots & \ddots & \vdots \\
-> 	a_{2, n} & \cdots & a_{n, n} - t \\ 
-> \end{bmatrix} \\
-> = & (a_{1, 1} - t)(t^{n-1} - (a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 2} + \cdots) \\
-> = & (-1)(t^n - (a_{1,1} + a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 1} + \cdots)
-> \end{align*}$$
+ & (a_{1, 1} - t) \det \begin{bmatrix}
+ 	a_{2, 2} - t & \cdots & a_{2, n} \\
+ 	\vdots & \ddots & \vdots \\
+ 	a_{2, n} & \cdots & a_{n, n} - t \\ 
+ \end{bmatrix} \\
+ = & (a_{1, 1} - t)(t^{n-1} - (a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 2} + \cdots) \\
+ = & (-1)(t^n - (a_{1,1} + a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 1} + \cdots)
+ \end{align*}$$
 > which is what we desired.  
 > By math induction all finite square matrices have this property.  
 >
@@ -1049,3 +1086,179 @@ $$\begin{bmatrix} y^{(n)} \\ \vdots \\ y'\end{bmatrix} = \begin{bmatrix}
 0 & 0 & \cdots & 1 & 0\\\end{bmatrix}\begin{bmatrix} y^{(n-1)} \\ \vdots \\ y\end{bmatrix}$$
 
 and use the technique mentioned on previous section.  
+
+\[Lecture 24 starts here]
+### Markov Matrix
+**Definition.** A markov matrix is a matrix that satisfies  
+1. $0 \leq a_{i, j}$  
+2. $\sum_{i = 0}^{n}a_{i, j} = 1$  
+
+**Property.** Any markov matrix $A$ has a eigenvalue of $\lambda = 1$.  
+*Proof.* Considering $A - I$ has all columns sum to $0$, it is not a full row rank matrix so it is singular and $\det (A - I) = 0$.   
+
+**Property.** Any markov matrix $A$ has all eigenvalues $|\lambda_i| \leq 1$.  
+> *Proof.* Let $\lambda$ be any eigenvalue of $A$, we have
+> $$Ax = \lambda x$$
+> Let $k = \arg\max_i |x_i|$, we have
+> $$|\lambda||x_k| = \left|\sum_{i=1}^{n}a_{k, i}x_i\right| \leq \sum_{i=1}^{n}|a_{k, i}||x_i| = \sum_{i=1}^{n}a_{k, i}|x_i| = |x_i| \leq |x_k|$$
+> Therefore $|\lambda| \leq 1$.  
+
+By this property, we know for some initial $u_0$, when $A^ku_0$ converges as $k \rightarrow \infty$, the parts with $|\lambda| < 1$ decay and left with all the steady states.  
+
+The way to find all steady states (i.e. $Ax = x$) is by finding the null space of $A - I$.  
+
+\[Lecture 25 starts here]
+
+### Symmetric Matrices
+Let $A$ be a symmetric matrix.  
+
+**Property.** All eigenvalues $\lambda_i$ of $A$ is real.  
+*Proof.* Assume $x$ is the correspond eigenvector of eigenvector $\lambda$.  
+$$Ax = \lambda x \Rightarrow \bar A\bar x = \bar\lambda \bar x \Rightarrow \bar x^T\bar A = \bar\lambda \bar x^T$$
+Let $A^*$ be the conjugate transpose of $A$.  
+We have
+$$x^*A = \bar \lambda x^* \Rightarrow x^*Ax = \lambda x^*x = \bar \lambda x^*x$$
+Since $x$ is non-zero, $\|x\|^2 = x^*x > 0$, and $\lambda = \bar\lambda \Rightarrow \lambda \in \mathbb R$.  
+
+**Property.** We can choose $n$ orthonormal eigenvectors of $A$.  
+> *Proof.* We introduce a more general case: The Spectral Theorem.  
+> Link: [https://math.mit.edu/~dav/spectral.pdf](https://math.mit.edu/~dav/spectral.pdf)
+> For now this part is skipped and it will be filled in later (hope so).  
+
+Using the two properties we get that not only $A$ is diagonalizable but also  
+$$A = Q\Lambda Q^{-1} = Q\Lambda Q^T$$  
+and  
+**Proposition.** Every symmetric matrix is a linear combination of projection matrices.  
+
+**Property.** For symmetric matrices, the signs of the pivots are the same as the signs of the eigenvalues.  
+> *Proof.* There is a thing called congurent relation, link: https://math.stackexchange.com/questions/57887/how-does-number-of-signs-of-pivots-same-as-number-of-signs-of-eigenvalues-help-i  
+> For short, for symmetric matrix $A$ and non-singular matrix $M$, $MAM^T$ has the same signs of the eigenvalues with $A$.  
+> Since the symmetric matrix can have a $LDL^T$ decomposition, if the abovementioned theorem is true then this property is true then.  
+
+### Positive Definite Symmetric Matrices
+**Definition.** A matrix $A$ is called *positive definite symmetric matrix* if  
+1. $A$ is symmetric.  
+2. All eigenvalues of $A$ is positive.  
+
+**Property.** All the pivots of any positive definite symmetric matrix* is positive.  
+**Property.** All the sub-determinant (i.e. pick all of the small submatrices) are positive.  
+
+\[Lecture 26 starts here]  
+
+## Complex Matrices  
+There are some details we are going to change before we go from *real* to *complex*.  
+
+  - Norm  
+	In real world, we can take $|a|^2 = a^2$, but in complex numbers, $|z|^2 = z\bar z$.  
+	Therefore the new definition of magnitude is  
+	$$\|v\|^2 = v^Hv \quad (v^H = \bar v^T)$$
+	We call the conjugate transpose of $v$ the *Hermitian* of $v$.  
+  - Inner Product  
+	We are going to change the definition of inner product because this definition is subjective to the definition of norm.  
+	$$y \cdot x = y^Hx$$ 
+  - Symmetric Matrix  
+	Now symmetric matrices are the matrices satisfying  
+	$$\bar A^T = A^H = A$$
+  - Orthogonal  
+	A new definition: if complex square matrix $Q$ satisfying  
+	$$Q^HQ = I$$
+	then $Q$ is called a **unitary** matrix.  
+
+### Fast Fourier Transform  
+Motivation: A polynomial of degree $n$ can be multiplied in $\mathcal O(n)$ multiplication if it is in the form of point values. To multiply two polynomial, we are interested in how to *transform* *fast* between terms and point values.  
+
+**Definition.** DFT matrix $F_n = [\omega_n^{(i-1)(j-1)}]_{n\times n}$. Here, $\omega_n = e^{\frac{2\pi i}{n}} = \cos \frac{2\pi}{n} + i \sin \frac{2\pi}{n}$.   
+For example, 
+$$F_4 = 
+\begin{bmatrix} 
+	1 & 1 & 1 & 1 \\
+	1 & i & i^2 & i^3 \\
+	1 & i^2 & i^4 & i^6 \\
+	1 & i^3 & i^6 & i^9
+\end{bmatrix} = \begin{bmatrix} 
+	1 & 1 & 1 & 1 \\
+	1 & i & -1 & -i \\
+	1 & -1 & 1 & -1 \\
+	1 & -i & -1 & i
+\end{bmatrix}$$
+
+**Property.** $F_n$ is symmetric and the columns are orthogonal.  
+
+Consider the odd columns and even columns separately:
+To generate these columns,   
+$$\begin{bmatrix} 
+	1 & 1 \\
+	1 & (i^2) \\
+	1 & (i^2)^2 \\
+	1 & (i^2)^3
+\end{bmatrix} = \begin{bmatrix} 
+	1 &  \\
+	 & 1 \\ 
+	1 &  \\
+	 & 1 \\ 
+\end{bmatrix}\begin{bmatrix} 
+	1 & 1 \\
+	1 & -1 \\ 
+\end{bmatrix}$$
+For the even rows,
+$$\begin{bmatrix} 
+	1 & 1 \\
+	i & i^3 \\
+	i^2 & i^6 \\
+	i^3 & i^9
+\end{bmatrix} = \begin{bmatrix} 
+	1 \\
+	& i \\
+	i^2 \\
+	& i^3\\
+\end{bmatrix}\begin{bmatrix} 
+	1 & 1 \\
+	1 & -1 \\ 
+\end{bmatrix}$$
+Therefore
+$$\begin{bmatrix} 
+	1 & 1 & 1 & 1 \\
+	1 & i^2 & i & i^3 \\
+	1 & i^4 & i^2 & i^6 \\
+	1 & i^6 & i^3 & i^9
+\end{bmatrix} = \begin{bmatrix} 
+	1 &  & 1  \\
+	 & 1 & & i \\ 
+	1 && i^2\\
+	& 1 && i^3\\
+\end{bmatrix}\begin{bmatrix} 
+	1 & 1 \\
+	1 & -1 \\
+	&& 1 & 1 \\
+	&& 1 & -1  \\ 
+\end{bmatrix}$$
+so 
+$$F_4 = \begin{bmatrix} 
+	1 &  & 1  \\
+	 & 1 & & i \\ 
+	1 && i^2\\
+	& 1 && i^3\\
+\end{bmatrix}\begin{bmatrix} 
+	F_2 \\
+	& F_2
+\end{bmatrix}\begin{bmatrix} 
+	1 & & \\
+	 & & 1 &  \\ 
+	 & 1 &\\
+	& & & 1\\
+\end{bmatrix}$$
+
+**Property.** 
+Let 
+$$D_n = \left[\begin{cases} \omega^i & i = j \\ 0 & \text{otherwise}\end{cases}\right]_{n\times n}, P_n = \left[\begin{cases} 1 & i \leq \frac n 2 \text{ and } j = 2i - 1 \\ 1 & i > \frac n 2 \text{ and } j = 2i \\ 0 & \text{otherwise}\end{cases}\right]_{n\times n}$$
+ then for any general $F_n$ we can compute it as  
+$$F_n = \begin{bmatrix} 
+	F_{\frac n 2} \\
+	& F_{\frac n 2}
+\end{bmatrix}\begin{bmatrix} 
+	I & D_{\frac n 2} \\
+	I & -D_{\frac n 2} \\
+\end{bmatrix}P_n$$  
+Utilizing this formula makes multiplication of $F_nx$ takes only $\mathcal O(n \log n)$ of time.  
+
+In fact we have $F_n^HF_n = nI$, so inverse should not be a problem.  

@@ -1,0 +1,1039 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script>MathJax={tex:{inlineMath:[['$','$'],['\\(','\\)']]},svg:{fontCache:'global'}}</script>
+    <script type="text/javascript" id="MathJax-script" async="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <link href="./markdown.css" rel="stylesheet" />
+</head>
+<body>
+<p>Texts wrapped in</p>
+<blockquote>
+<p>this style are the notes not included in the tape.</p>
+</blockquote>
+<p>Some order of contents might not match with the tape because I would like to put relevant contents together, place motivation before introducing something (why would you learn something for nothing?)</p>
+<hr>
+<h2><a id="user-content-linear-algebra-is-a-study-about-linear-equations" class="anchor" aria-hidden="true" href="#linear-algebra-is-a-study-about-linear-equations"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linear algebra is a study about <strong>linear equations</strong>.</h2>
+<p>[Lecture 01 starts here]</p>
+<h2><a id="user-content-linear-equations" class="anchor" aria-hidden="true" href="#linear-equations"><span aria-hidden="true" class="octicon octicon-link"></span></a>Linear equations</h2>
+<p>There are three perspective of a system of linear equations, say $m$ equations and $n$ variables,</p>
+<ol>
+<li>
+<strong>Row picture</strong>. It is how we see the equations. In two dimensions, it looks like lines intersecting each others, and in three dimensions, it looks like plane intersecting each others.</li>
+<li>
+<strong>Column picture</strong>. It is to treat the equations as linear combinations of vectors.</li>
+<li>
+<strong>Matrix picture</strong>. It is to combine the two aforementioned picture into a matrix form.</li>
+</ol>
+<p>For equation $A\mathbf{x} = b$, we think it as "can $b$ be represented by linear combination of columns of $A$?"</p>
+<p>Some examples.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Row picture</th>
+<th align="left">Column picture</th>
+<th align="left">Matrix picture</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">$\begin{cases}2x & -y & = 0 \\ x & + 2y & = 3 \end{cases}$</td>
+<td align="left">$x\begin{bmatrix}2\\ 1\end{bmatrix}+y\begin{bmatrix}-1\\ 2\end{bmatrix}=\begin{bmatrix}0\\ 3\end{bmatrix}$</td>
+<td align="left">$\begin{bmatrix}2 & -1\\ 1 & 2\end{bmatrix}\begin{bmatrix}x \\ y\end{bmatrix}=\begin{bmatrix}0\\ 3\end{bmatrix}$</td>
+</tr>
+<tr>
+<td align="left">$\begin{cases}2x & -y & & = 0 \\ -x & + 2y & -1z & = -1 \\  & -3y & +4z & = -4 \end{cases}$</td>
+<td align="left">$x\begin{bmatrix}2\\ 1\\ 0\end{bmatrix}+y\begin{bmatrix}-1\\ 2\\ -3\end{bmatrix}+z\begin{bmatrix}0\\ -1\\ 4\end{bmatrix}=\begin{bmatrix}0\\ -1\\ 4\end{bmatrix}$</td>
+<td align="left">$\begin{bmatrix}2 & -1 & 0\\ 1 & 2 & -1\\ 0 & -3 & 4\end{bmatrix}\begin{bmatrix}x \\ y\\ z\end{bmatrix}=\begin{bmatrix}0\\ -1\\ 4\end{bmatrix}$</td>
+</tr>
+</tbody>
+</table>
+<p>Can I solve every $A\mathbf{x} = b$ for every $b$?
+Which is, do all the linear combinations of all columns of $A$ fills the whole dimension?</p>
+<p>[Lecture 02 starts here]</p>
+<h2><a id="user-content-eliminations" class="anchor" aria-hidden="true" href="#eliminations"><span aria-hidden="true" class="octicon octicon-link"></span></a>Eliminations</h2>
+<p>How do we solve a system of equations algorithmic? Eliminations.
+Our idea is to make the matrix $A$ triangular, so we can back-substitute the variables with ease.</p>
+<p>Example.
+Suppose the equation we would like to solve is</p>
+<p>$\begin{cases}x & +2y & +z & = 2 \\ 3x & + 8y & +z & = 12 \\  & 4y & +z & = 2 \end{cases}$</p>
+<p>Then the matrix $A$ will be</p>
+<p>$A = \begin{bmatrix}1 & 2 & 1 \\ 3 & 8 & 1 \\ 0 & 4 & 1\end{bmatrix}$</p>
+<p>First, we aim to eliminate the first column, so we select row 1 column 1 as the pivot.</p>
+<p>$\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 3 & 8 & 1 \\ 0 & 4 & 1\end{bmatrix}$</p>
+<p>Then we subtract three times row 1 from row 2, making row 2 column 1 zero.</p>
+<p>$\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 3 & 8 & 1 \\ 0 & 4 & -4\end{bmatrix}\rightarrow\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & 2 & -2 \\ 0 & 4 & 1\end{bmatrix}$</p>
+<p>Row 3 column 1 is already zero so we do nothing here.</p>
+<p>$\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & 2 & -2 \\ 0 & 4 & 1\end{bmatrix}$</p>
+<p>Now we are left with two variables (column 2, 3) and two equations, (row 2, 3). We do what we have done recursively.
+Select row 1 column 1 as the pivot.</p>
+<p>$\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 4 & 1\end{bmatrix}$</p>
+<p>Then we subtract two times row 2 from row 3 to eliminate the four.</p>
+<p>$\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 4 & 1\end{bmatrix}\rightarrow\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 0 & 5\end{bmatrix}$</p>
+<p>Then only one row and one column are left, and we are done!</p>
+<p>Well, before we go to the solution of the original equation, let's see will the elimination work in every case?
+Obvious no, if at some point we are not able to choose a pivot, that is, the column we are dealing with are left with all zeros.</p>
+<p>Let's head back to the solution. We put the constant term in column 4 and solve it, this called <strong>augmented matrix</strong>.</p>
+<p>$\begin{bmatrix}\mathbf{1} & 2 & 1 & 2 \\ 3 & 8 & 1 & 12 \\ 0 & 4 & -4 & 2 \end{bmatrix}\rightarrow\begin{bmatrix}\mathbf{1} & 2 & 1 & 2 \\ 0 & \mathbf{2} & -2 & 6\\ 0 & 4 & 1 & 2\end{bmatrix}\rightarrow\begin{bmatrix}\mathbf{1} & 2 & 1 & 2 \\ 0 & \mathbf{2} & -2 & 6 \\ 0 & 0 & 5 & -10\end{bmatrix}$</p>
+<p>Now we know that</p>
+<p>$\begin{cases}x & +2y & +z & = 2 \\  & 2y & -2z & = 6 \\  &  & 5z & = -10 \end{cases}$</p>
+<p>Which has a (also the only) solution</p>
+<p>$\begin{cases}x = 2 \\ y = 1 \\ z = -2 \end{cases}$</p>
+<h3><a id="user-content-elimination-matrix" class="anchor" aria-hidden="true" href="#elimination-matrix"><span aria-hidden="true" class="octicon octicon-link"></span></a>Elimination Matrix</h3>
+<p>In the column picture, we take multiplying a matrix by a column matrix as <strong>taking the linear combination of each column</strong>.
+Say we multiply
+$\begin{bmatrix}a & b \\ c & d\\\end{bmatrix}\begin{bmatrix}2 \\ 3\end{bmatrix} = 2 \begin{bmatrix}a \\ c\end{bmatrix} + 3 \begin{bmatrix}b \\ d\end{bmatrix}$
+and we get a column matrix.</p>
+<p>Now we are dealing with mostly row operations, and if we multiplying a row matrix by a matrix, we are <strong>taking the linear combination of each row</strong>.
+$\begin{bmatrix}2 & 3\end{bmatrix}\begin{bmatrix}a & b \\ c & d\\\end{bmatrix} = 2 \begin{bmatrix}a & b\end{bmatrix} + 3 \begin{bmatrix}c & d\end{bmatrix}$</p>
+<p><strong>This is how we want the matrix multiplication to be. If we want column picture, we multiply on the right. If we want row picture, we multiply on the left. Matrix is a way to unite two different perspectives.</strong></p>
+<p>Head back to our elimination, how can we speak it in the language of matrix?
+$E_{21}\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 3 & 8 & 1 \\ 0 & 4 & -4\end{bmatrix} = \begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & 2 & -2 \\ 0 & 4 & 1\end{bmatrix}$
+We want that $E_{21}$ subtracts three times row 1 from row 2 and do nothing about other rows. We are doing row operations so we put it on the left side.
+Recall that row matrices are "linear combinations of rows", so
+$E_{21} = \begin{bmatrix}1 & 0 & 0 \\ -3 & 1 & 0 \\ 0 & 0 & 1\end{bmatrix}$
+Also for the second step, we want to find some $E_{32}$ satisfying
+$E_{32}\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 4 & 1\end{bmatrix} = \begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 0 & 5\end{bmatrix}$
+and it is
+$E_{21} = \begin{bmatrix}1 & 0 & 0 \\ 0 & 1 & 0 \\ 0 & -2 & 1\end{bmatrix}$</p>
+<p>Let we denote the final result as $U$, then we know that
+$E_{32}(E_{21}A) = U$
+In fact, we can change the parentheses, which means
+$(E_{32}E_{21})A = U$
+is also correct, and we have a matrix $E = E_{32}E_{21}$ that does all the work.</p>
+<p>[Lecture 03 starts here]</p>
+<h2><a id="user-content-matrix-multiplication" class="anchor" aria-hidden="true" href="#matrix-multiplication"><span aria-hidden="true" class="octicon octicon-link"></span></a>Matrix Multiplication</h2>
+<p>Say we multiply two matrices $A$ and $B$, and the result would be $C$.
+Now we use the respective lowercase of the matrix name to represent its corresponding elements, for example, $a_{1, 2}$ means the element in $A$ at row 1 column 2.</p>
+<ol>
+<li>
+<strong>Multiply rows by columns - the definition</strong>
+Two matrices can be multiplied together if their the number of the rows in the first one is the same with the number of the columns in the second one (which is kind of obvious if you look at the row picture or the column picture).
+Let's say that $A$ is a $m$ by $n$ matrix (which means there are $m$ rows and $n$ columns in $A$) and $B$ is a $n$ by $p$ matrix.
+Then the result of multiplication $C = AB$, is a $m \times p$ matrix where each elements is defined as below:
+$c_{i, j} = \sum_{k = 1}^n a_{i, k}b_{k, j}$
+Which is, for $c_{i, j}$, we take the $i$-th row of $A$ and the $j$-th row of $B$ and take their dot products.<br>
+$\begin{bmatrix} \ &\ &\  \\ - & - & - \\ \ &\ &\  \end{bmatrix}\begin{bmatrix}\ &|&\ \\ \ &|&\  \\ \ &|&\  \end{bmatrix} = \begin{bmatrix} \ &\ &\  \\ \ &\cdot &\ \\ \ &\ &\  \end{bmatrix}$</li>
+<li>
+<strong>Multiply columns by columns</strong>
+Well, we can also take the column picture, where each column of $B$ produces a column which is the linear combination of the columns in $A$, and we concatenate them in order.<br>
+$\begin{bmatrix} - & - & - \\ - & - & - \\ - & - & - \end{bmatrix}\begin{bmatrix}\ &|&\ \\ \ &|&\  \\ \ &|&\  \end{bmatrix} = \begin{bmatrix} \ &|&\  \\ \ &|&\ \\ \ &|&\  \end{bmatrix}$</li>
+<li>
+<strong>Multiply rows by rows</strong>
+Row picture also works this way, and it is clear so there is going to be only illustrations.<br>
+$\begin{bmatrix} && \\ - & - & - \\ && \end{bmatrix}\begin{bmatrix} |&|&| \\ |&|&| \\ |&|&| \end{bmatrix} = \begin{bmatrix} && \\ -&-&- \\ &&  \end{bmatrix}$</li>
+<li>
+<strong>Multiply columns by rows</strong>
+What if we do the only left possibility, multiply columns by rows?<br>
+In this way, we take the $k$-th row of $A$ and the $k$-th row of $B$ and they multiply into a $m\times p$ matrix.<br>
+And we have $n$ of them, adding them up we get $C$ in the end.<br>
+In computers, this is the best way we have since it has the best cache.</li>
+<li>Block Multiplication
+Instead of doing the full matrix multiplication at once, we can chop them into chunks, say we have
+$A = \begin{bmatrix}A_1 & A_2 \\ A_3 & A_4 \end{bmatrix}, B = \begin{bmatrix}B_1 & B_2 \\ B_3 & B_4 \end{bmatrix}$<br>
+As long as the size is consistent with each others, we can do multiplication in this way:
+$C = \begin{bmatrix}A_1B_1 + A_2B_3 & A_1B_2 + A_2B_4 \\ A_3B_1 + A_4B_3 & A_3B_2 + A_4B_4\end{bmatrix}$<br>
+which is kind of, resembling the $2\times 2$ multiplication.</li>
+</ol>
+<h2><a id="user-content-inverse-of-square-matrices" class="anchor" aria-hidden="true" href="#inverse-of-square-matrices"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inverse (of square matrices)</h2>
+<p>For every square matrix $A$, is there another matrix $A^{-1}$ satisfying $A^{-1}A = I$?<br>
+If $A^{-1}$ does exist, then $A^{-1}A = I = AA^{-1}$.</p>
+<p>For those which have an inverse, they are called <strong>invertible matrices</strong> or <strong>non-singular matrices</strong>.
+For those which do not have an inverse, they are called <strong>singular matrices</strong>.</p>
+<p><strong>Property.</strong> A matrix $A$ is singular matrix if there is a non-zero $\mathbf{x}$ satisfies $A\mathbf x = \mathbf 0$.</p>
+<blockquote>
+<p>Assume that $A^{-1}$ exists, then we have $A^{-1}A\mathbf x = A^{-1} \mathbf 0$, which means $\mathbf x = \mathbf 0$ and we get a contradiction.</p>
+</blockquote>
+<blockquote>
+<p>Thus we know for each column matrix of size $n$, $A$ is a way to map each column matrix to another matrix, such that no two matrices have the same output.
+Assume that $A^{-1}$ exists, then $A$ and $A^{-1}$ can be treated as two functions which are the inverse of each other, thus $AA^{-1} = I = A^{-1}A$.<br>
+Also we can imply that the property is actually the sufficient and necessary condition of singular matrices.</p>
+</blockquote>
+<p>Let's take a look of $2\times 2$ matrices, when does $A = \begin{bmatrix} a & b \\ c & d \end{bmatrix}$ have an inverse?<br>
+$AA^{-1} = I$, which means there is a solution for the two system:<br>
+$\begin{bmatrix} a & b \\ c & d \end{bmatrix}\begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 1 \\ 0 \end{bmatrix}$<br>
+$\begin{bmatrix} a & b \\ c & d \end{bmatrix}\begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 0 \\ 1 \end{bmatrix}$<br>
+When we expand it, they have the same coefficient for the $x$ and the $y$ terms, but not the constant ones.
+Then we are going to introduce Gauss-Jordan Elimination, which is capable of solving multiple system with the same coefficient of variables at the same time.</p>
+<h3><a id="user-content-gauss-jordan-elimination" class="anchor" aria-hidden="true" href="#gauss-jordan-elimination"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gauss-Jordan Elimination</h3>
+<p>In order to find the inverse, we put $A$ on the left side and $I$ on the right side, combined into a single long matrix (an <strong>augmented matrix</strong>).</p>
+<p>$[A|I]$</p>
+<p>And we keep doing row operations, until the left side becomes $I$ and the right side is $A^{-1}$. Why is that?<br>
+Recall row operations are matrices, let's say we have done $E_1, E_2, \cdots, E_k$ in order. Since we are in row pictures, we can break the augmented matrix into two matrices, and because of the associative law, we denote $E$ as $E_kE_{k-1}\cdots E_1$.<br>
+Then we have $EA = I$, which means $E = A^{-1}$ and on the right side we have $A^{-1}I = A^{-1}$, which is why it works magically for every invertible matrix.</p>
+<p>[Lecture 04 starts here]</p>
+<h3><a id="user-content-more-inverses" class="anchor" aria-hidden="true" href="#more-inverses"><span aria-hidden="true" class="octicon octicon-link"></span></a>More inverses</h3>
+<p>Inverse of $AB$? $B^{-1}A^{-1}$. (Check it for both sides!)<br>
+Inverse of $A^{T}$?<br>
+$(A^{-1}A)^T = I^T$<br>
+$A^T(A^{-1})^T = I$<br>
+Therefore it is $(A^{-1})^T$.</p>
+<h2><a id="user-content-lu-factorization-decomposition" class="anchor" aria-hidden="true" href="#lu-factorization-decomposition"><span aria-hidden="true" class="octicon octicon-link"></span></a>LU-factorization (decomposition)</h2>
+<blockquote>
+<p>Purposes of $LU$-factorization:</p>
+<ol>
+<li>It is another way to interpret Gauss Elimination.</li>
+<li>In computation, for a fixed $A$, a $n\times n$ matrix, solving $Ax = b$ is $\mathcal O(n^3)$ each time. However for upper-triangle matrices and lower-triangle matrices, solving $Lx = b$ or $Ux = b$ is $\mathcal O(n^2)$ (because the elimination is easier each steps, almost identical to back substitution). Since in many applications of linear algebra, $A$ is fixed during the whole procedure, $LU$ decomposition comes in handy since it reduces time significantly.<br>
+Notice that even we have the inverse matrix, matrix multiplication still takes $\mathcal O(n^\omega)$ time and $LU$-factorization is still far better (at least at the moment I am writing this note).</li>
+</ol>
+</blockquote>
+<p>Recall what we have learnt about elimination, our goal is</p>
+<p>$A = LU$</p>
+<p>How do we find $L$? We already have the elimination matrices:</p>
+<p>$E_kE_{k-1}\cdots E_1A = U$</p>
+<p>For these elimination matrices, they are easy to "undo" them. Every row operation we have done is subtract $k$ times row $i$ from row $j$. To undo it, we just add back $k$ times row $i$ to row $j$, and it is easy to verify this is the inverse matrix.
+Therefore we can do this:</p>
+<p>$E_1^{-1}\cdots E_{k-1}^{-1}E_k^{-1}E_kE_{k-1}\cdots E_1 A = E_1^{-1}\cdots E_{k-1}^{-1}E_k^{-1}U$</p>
+<p>And we have</p>
+<p>$A = E_1 A = E_1^{-1}\cdots E_{k-1}^{-1}E_k^{-1}U = LU$</p>
+<p>which means</p>
+<p>$L = E_1^{-1}\cdots E_{k-1}^{-1}E_k^{-1}$</p>
+<p>For now, we ignore the troublesome matrices, which gives zero when performing elimination.
+The cool thing is, multiplying any two lower-triangular matrices obtains another lower-triangular matrix, so $L$ must be a lower-triangular matrix.<br>
+And if we want there are all $1$s in the main diagonal, we can always do</p>
+<p>$A = LDU$</p>
+<p>where $D$ is a diagonal matrix (which means any elements not lying on the main diagonal is zero).</p>
+<p>[Lecture 05 start here]</p>
+<h3><a id="user-content-permuting-allowed" class="anchor" aria-hidden="true" href="#permuting-allowed"><span aria-hidden="true" class="octicon octicon-link"></span></a>Permuting allowed</h3>
+<p>Sometimes $A$ is good enough to perform elimination without failing to pick a pivot, but for all invertible matrices, it is not always the case.
+Therefore we are introducing the idea of permutation matrices. With permuting allowed, every invertible matrix is able to do the LU-factorization.</p>
+<p>$PA = LU$</p>
+<p>A permutation matrix $P$ is a square matrix which has exactly one $1$ in each row and column, and other elements are all $0$.
+In the previous section, $P = I$, which means no row exchanges are performed.
+From the row picture, we can see what $P$ does is exactly permuting the rows.
+A cool fact is that, the inverse of $P$, $P^{-1}$, is actually identical to the transpose of $P$, $P^T$.</p>
+<h2><a id="user-content-transpose" class="anchor" aria-hidden="true" href="#transpose"><span aria-hidden="true" class="octicon octicon-link"></span></a>Transpose</h2>
+<p>Basic rule:</p>
+<p>$(AB)^T = B^TA^T$</p>
+<p>Symmetric matrices are the matrices satisfying</p>
+<p>$A = A^T$</p>
+<p>And we have the following property:
+<strong>Property.</strong> For any matrix $A$, $AA^T$ is symmetric.
+<em>Proof.</em></p>
+<p>$(AA^T)^T = A^{TT}A^T = AA^T$</p>
+<p>[Lecture 06 starts here]</p>
+<h2><a id="user-content-vector-spaces---a-generalization-of-vectors" class="anchor" aria-hidden="true" href="#vector-spaces---a-generalization-of-vectors"><span aria-hidden="true" class="octicon octicon-link"></span></a>Vector Spaces - A Generalization of Vectors</h2>
+<p>A vector space is a set of vectors which supports scalar multiplication and addition (which is what we have used to solve linear equations so far).
+To generalize the idea, a vector space is a set of vectors $V$ over a field $F$.
+It has to support the following axioms.</p>
+<p>The first two are operations, and the remain eight are vector space axioms.
+If not mentioned, we assume it should be hold for any $a, b \in F$ and $u, v, w \in F$.</p>
+<table>
+<thead>
+<tr>
+<th>Meaning</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Addition</td>
+<td>$u + v \in V$</td>
+</tr>
+<tr>
+<td>Scalar Multiplication</td>
+<td>$au \in V$</td>
+</tr>
+<tr>
+<td>Associativity</td>
+<td>$u + (v + w) = (u + v) + w$</td>
+</tr>
+<tr>
+<td>Commutativity</td>
+<td>$u + v = v + u$</td>
+</tr>
+<tr>
+<td>Identity element (of addition)</td>
+<td>$\exists \mathbf 0 \in V$ s.t. $v + \mathbf 0 = v$</td>
+</tr>
+<tr>
+<td>Identity element (of multiplication)</td>
+<td>$\exists 1 \in F$ s.t. $1v = v$</td>
+</tr>
+<tr>
+<td>Inverse elements</td>
+<td>$\exists -v \in V$ s.t. $v + (-v) = \mathbf 0$</td>
+</tr>
+<tr>
+<td>Compatibility (of scalars)*</td>
+<td>$(ab)v = a(bv)$</td>
+</tr>
+<tr>
+<td>Distributivity (of vectors)</td>
+<td>$a(u+v) = au + av$</td>
+</tr>
+<tr>
+<td>Distributivity (of scalars)</td>
+<td>$(a + b)v = av + bv$</td>
+</tr>
+<tr>
+<td>* Note: associativity of scalars are defined by fields, and vector spaces are good with the non-associative fields.</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>There are many examples. In fact, for any positive integer $n$, $\mathbb R^n$ is a vector space over $\mathbb R$ (and it is easy to verify that).</p>
+<h3><a id="user-content-subspaces" class="anchor" aria-hidden="true" href="#subspaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>Subspaces</h3>
+<p><strong>Definition.</strong> A set $S \subset V$, where $V$ is a vector space over $F$, is called a subspaces if $S$ is a vector space over $F$ with the same addition and scalar multiplication operations.</p>
+<p><strong>Property.</strong> For two subspaces of $V$, say $S$ and $T$, their intersection forms another subspace, but their union is not always another subspace.</p>
+<p>Notice that when regarding subspaces, many of the axioms are actually applied to the operations directly, so we can only check if the addition and scalar multiplication is closed in the set and zero is present.</p>
+<h3><a id="user-content-column-spaces" class="anchor" aria-hidden="true" href="#column-spaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>Column Spaces</h3>
+<p>Assume we are in $\mathbb R^n$, a $n\times m$ matrix $A$ forms a column space, which is a subspace of $\mathbb R^n$, defined as follows:</p>
+<p>$C(A) = \{\mathbf v | \exists C_{1\times m} \text{ s.t. } AC = \mathbf v\}$</p>
+<p>In other words, we put all linear combinations of columns of $A$ in the set.
+Now we start to think of, does $C(A)$ fill the whole $\mathbb R^n$? If not always, how much is $C(A)$ filling?
+The answer is,</p>
+<p>$C(A) = \{b | Ax = b \text{ has a solution}\}$</p>
+<p>which is equivalent to the definition above.</p>
+<h3><a id="user-content-null-spaces" class="anchor" aria-hidden="true" href="#null-spaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>Null Spaces</h3>
+<p>Assume we are in $\mathbb R^m$, a $n\times m$ matrix $A$ not only forms a column space but also forms a <strong>null space</strong>, which is a subspace of $\mathbb R^m$, defined as follows:</p>
+<p>$N(A) = \{\mathbf x | A\mathbf x = \mathbf 0\}$</p>
+<p>$\mathbf 0$ is definitely in the set. For any scalars, $c\mathbf x$ is still in the set, and for any vectors, their combination, say $A(\mathbf x + \mathbf y)$, still equals to $\mathbf 0$.</p>
+<p>[Lecture 07 starts here]</p>
+<blockquote>
+<p>Why is null spaces important?<br>
+As mentioned before, with $\mathcal O(n^3)$ pre-processing, we can obtain any solution of $Ax = b$ under $\mathcal O(n^2)$. Well, that applies only if $A$ is invertible.<br>
+With null spaces, we can know if $Ax = b$ has a unique solution, and if not, we can even know all the solutions under $\mathcal O(n^2)$. Back-substitution takes $\mathcal O(n^3)$ if there are more than one solution (since in $i$-th step there are at most $i$ free variables, and back-substitution would take $\mathcal O(i^2)$ times. Summing them up gets $\mathcal O(n^3)$.)</p>
+</blockquote>
+<h4><a id="user-content-row-echelon-form" class="anchor" aria-hidden="true" href="#row-echelon-form"><span aria-hidden="true" class="octicon octicon-link"></span></a>Row Echelon Form</h4>
+<p>Now we try to find null spaces of a matrix, and we need a working algorithm.
+Let's start with an example, say</p>
+<p>$A = \begin{bmatrix}1 & 2 & 2 & 2 \\ 2 & 4 & 6 & 8 \\ 3 & 6 & 8 & 10\end{bmatrix}$</p>
+<p>Now we try to apply elimination, since for any elimination matrix or permutation matrix $E$,</p>
+<p>$Ax = \mathbf 0 \Rightarrow EAx = E \mathbf 0 = \mathbf 0$</p>
+<p>the algorithm still works, so let's see.</p>
+<p>$\begin{bmatrix}1 & 2 & 2 & 2 \\ 2 & 4 & 6 & 8 \\ 3 & 6 & 8 & 10\end{bmatrix} \rightarrow \begin{bmatrix}1 & 2 & 2 & 2 \\ 0 & 0 & 2 & 4 \\ 0 & 0 & 2 & 4\end{bmatrix} \rightarrow \begin{bmatrix}1 & 2 & 2 & 2 \\ 0 & 0 & 2 & 4 \\ 0 & 0 & 0 & 0\end{bmatrix} = U$</p>
+<p>We call the result $U$, a matrix with a staircase-looking zeroes, is the <strong>(row) echelon form</strong>.
+This matrix represents</p>
+<p>$\begin{cases}x_1 & +2x_2 & +2x_3 & +2x_4 & = 0 \\ && 2x_3 & +2x_4 & = 0 \end{cases}$</p>
+<p>which only have 2 equations but 4 unknowns, and it seems there is still a lot of space left for the solutions.<br>
+Therefore we introduce how do we describe "how free the solutions are".<br>
+The <strong>rank</strong> of $A$ is defined as the number of pivots during the elimination.
+And we say the columns which contains pivots are <strong>pivot columns</strong> and the rest of them are <strong>free columns</strong>.<br>
+Why is it called <strong>free columns</strong>? Because they does not contain important pivots, and we could cancel out them by adjusting pivot columns.<br>
+What it takes to eliminate 1 column 2? We take negative 2 times of column 1, therefore one of the solutions is</p>
+<p>$x = \begin{bmatrix}-2 \\ 1 \\ 0 \\ 0\end{bmatrix}$</p>
+<p>What it takes to eliminate 1 column 4? We take negative 2 times of column 3 and 2 times of column 1, therefore another solution is</p>
+<p>$x = \begin{bmatrix}2 \\ 0 \\ -2 \\ 1\end{bmatrix}$</p>
+<p>And we could take all of the linear combinations, thus the null space of $A$ is</p>
+<p>$x = c\begin{bmatrix}-2 \\ 1 \\ 0 \\ 0\end{bmatrix} + d\begin{bmatrix}2 \\ 0 \\ -2 \\ 1\end{bmatrix}$</p>
+<p>What does "rank" mean? It means there are $n - \mathrm{rank}(A)$ number of free columns, which means the solutions are the linear combinations of these $n - \mathrm{rank}(A)$ vectors. In this case, we have $2$ of them.</p>
+<h4><a id="user-content-reduced-row-echelon-form" class="anchor" aria-hidden="true" href="#reduced-row-echelon-form"><span aria-hidden="true" class="octicon octicon-link"></span></a>Reduced Row Echelon Form</h4>
+<p>Actually, we can do more. Continuing from the previous matrix $A$, we already have</p>
+<p>$\begin{bmatrix}1 & 2 & 2 & 2 \\ 2 & 4 & 6 & 8 \\ 3 & 6 & 8 & 10\end{bmatrix} \rightarrow \begin{bmatrix}1 & 2 & 2 & 2 \\ 0 & 0 & 2 & 4 \\ 0 & 0 & 2 & 4\end{bmatrix} \rightarrow \begin{bmatrix}1 & 2 & 2 & 2 \\ 0 & 0 & 2 & 4 \\ 0 & 0 & 0 & 0\end{bmatrix} = U$</p>
+<p>We eliminate more, making all pivot columns left with only single one.</p>
+<p>$U = \begin{bmatrix}1 & 2 & 2 & 2 \\ 0 & 0 & 2 & 4 \\ 0 & 0 & 0 & 0\end{bmatrix} \rightarrow \begin{bmatrix}1 & 2 & 0 & -2 \\ 0 & 0 & 1 & 2 \\ 0 & 0 & 0 & 0\end{bmatrix} = R$</p>
+<p>We call $R$ <strong>row reduced echelon form</strong> of $A$, denoted by $R = \mathrm{rref}(A)$.
+The idea is when we are finding the way to balance out the effect by picking some free columns, we have to pick exactly negative amount of these pivot columns, and the solutions can be seen with ease by this way.<br>
+Let's suppose $R$ is in this form:</p>
+<p>$R = \begin{bmatrix} I & F \\ \mathbf 0 & \mathbf 0 \end{bmatrix}$</p>
+<p>Where $I$ are the pivot columns and $F$ are the free columns, then the null space of $R$ is the column space of</p>
+<p>$N = \begin{bmatrix} -F \\ I \end{bmatrix}$</p>
+<p>Another example, suppose $A$ is</p>
+<p>$A = \begin{bmatrix}1 & 2 & 3 \\ 2 & 4 & 6 \\ 2 & 6 & 8 \\ 2 & 8 & 10 \end{bmatrix}$</p>
+<p>Then we have</p>
+<p>$U = \begin{bmatrix}1 & 2 & 3 \\ 0 & 2 & 2 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$</p>
+<p>and also</p>
+<p>$R = \begin{bmatrix}1 & 0 & 1 \\ 0 & 1 & 1 \\ 0 & 0 & 0 \\ 0 & 0 & 0 \end{bmatrix}$</p>
+<p>The rank is $2$, and there are going to be $1$ free columns. The solutions are</p>
+<p>$x = c\begin{bmatrix}-1 \\ -1 \\ 0\end{bmatrix}$</p>
+<p>You see the formula we just obtained also works here.</p>
+<p>[Lecture 08 starts here]</p>
+<h4><a id="user-content-finding-solutions" class="anchor" aria-hidden="true" href="#finding-solutions"><span aria-hidden="true" class="octicon octicon-link"></span></a>Finding Solutions</h4>
+<p>We already solved all solutions of $Ax = \mathbf 0$, then what about the general problem: solving $Ax = b$?
+What are the solutions? How many are them? Or do they even exist?</p>
+<ul>
+<li>Existence
+$b$ has a solution if and only if the augmented matrix $[A|b]$ does not have any row with all zeroes in $A$ but non-zero in $b$.</li>
+<li>Uniqueness
+If $b$ has a solution, then after elimination (into rref), we can obtain a solution $x_{p}$ only using the pivot rows. The full solution to the equation $Ax = b$ is every element in $x_p + x_n$ where $x_n$ is the null space.</li>
+</ul>
+<p>Some special cases:</p>
+<ul>
+<li>Full row rank matrices $r = m < n$
+Every $b$ has a solution, and there are infinitely many solutions for every $b$.</li>
+<li>Full column rank matrices $r = n < m$
+For every $b$ has a solution, there is exactly one solution.</li>
+<li>Full rank matrices $r = n = m$
+For every $b$, there is a unique solution. In other words, the matrix is invertible.</li>
+</ul>
+<p>[Lecture 09 starts here]</p>
+<h2><a id="user-content-independence-span-and-basis" class="anchor" aria-hidden="true" href="#independence-span-and-basis"><span aria-hidden="true" class="octicon octicon-link"></span></a>Independence, span and basis</h2>
+<p>Suppose $A$ is a $m$ by $n$ matrix with $m < n$.<br>
+Then there are non-zero solutions to $Ax = \mathbf 0$! (since there are always free variables).</p>
+<h3><a id="user-content-independent" class="anchor" aria-hidden="true" href="#independent"><span aria-hidden="true" class="octicon octicon-link"></span></a>Independent</h3>
+<p><strong>Definition.</strong> Vector $v_1, v_2, \cdots, v_n$ are called <strong>`(linearly) independent</strong> if no non-zero combination of them gives $\mathbf 0$. Otherwise, they are called <strong>(linearly) dependent</strong>.</p>
+<p><strong>Property.</strong> Let $v_1, v_2, \cdots, v_n$ be the columns of $A$. These vectors are independent if $N(A) = \{\mathbf 0\}$, which means $\mathrm{rank}(A) = n$ and dependent if otherwise.<br>
+It is easy to see that property is true.</p>
+<h3><a id="user-content-span" class="anchor" aria-hidden="true" href="#span"><span aria-hidden="true" class="octicon octicon-link"></span></a>Span</h3>
+<p><strong>Definition.</strong> Vector $v_1, v_2, \cdots, v_n$ <strong>span</strong> a vector space which is the set of all linear combinations of the vectors.</p>
+<p>As column vectors, we can say if $v_1, v_2, \cdots, v_n$ are the columns of $A$, then $v_1, v_2, \cdots, v_n$ span $C(A)$.</p>
+<h3><a id="user-content-basis" class="anchor" aria-hidden="true" href="#basis"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basis</h3>
+<p><strong>Definition.</strong> For a vector space $V$, $v_1, v_2, \cdots, v_n$ is called the <strong>basis</strong> of the space if</p>
+<ol>
+<li>$v_1, v_2, \cdots, v_n$ are independent.</li>
+<li>$v_1, v_2, \cdots, v_n$ span $V$.</li>
+</ol>
+<p>Example.
+$\begin{bmatrix}1 \\ 0 \\ 0 \end{bmatrix}, \begin{bmatrix}0 \\ 1 \\ 0 \end{bmatrix}, \begin{bmatrix}0 \\ 0 \\ 1 \end{bmatrix}$ span $\mathbb R^3$.</p>
+<p><strong>Property.</strong> $n$ vectors gives a basis of the $n\times n$ matrix containing them as columns is <strong>invertible</strong>.</p>
+<h3><a id="user-content-dimension" class="anchor" aria-hidden="true" href="#dimension"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dimension</h3>
+<p><strong>Property.</strong> Every basis of the vector space has same number of vectors.<br>
+<em>Proof.</em> Suppose a basis $b'$ is bigger than the other basis $b$, then we can know after elimination, $b'$ should have null space other than $\{\mathbf 0\}$.</p>
+<p>Therefore we can now tell how <em>big</em> a vector space is.<br>
+<strong>Definition.</strong> The dimension of a vector space, called $\dim V$, is defined as the size of its basis.<br>
+<strong>Property.</strong> $\dim C(A) = \mathrm{rank}(A)$.</p>
+<p>Keypoint: if you already know the dimension of $V$, then every independent $\dim V$ vectors in $V$ is a basis.</p>
+<p><strong>Property.</strong> Suppose $A$ is a $n \times m$ matrix. $\dim N(A) = \#\text{free variables}$, $\dim N(A) + \dim C(A) = m$.</p>
+<p>[Lecture 10 starts here]</p>
+<h2><a id="user-content-four-important-spaces" class="anchor" aria-hidden="true" href="#four-important-spaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>Four Important Spaces</h2>
+<p>Suppose $A$ is a $m \times n$ matrix.</p>
+<ol>
+<li>Column space $C(A) \subset \mathbb R^m$</li>
+<li>Null space $N(A) \subset \mathbb R^n$</li>
+<li>Row space $C(A^T)  \subset \mathbb R^n$</li>
+<li>Left null space $N(A^T)  \subset \mathbb R^m$</li>
+</ol>
+<p>We aleady know how to find the first two. What about the rest?</p>
+<h3><a id="user-content-row-space" class="anchor" aria-hidden="true" href="#row-space"><span aria-hidden="true" class="octicon octicon-link"></span></a>Row space</h3>
+<p>We are interested in what vectors can these rows span?<br>
+The idea is, <strong>when applying row operations, the row space does not change</strong>.<br>
+Then we are just going to find the row reduced echelon form, and the non-zero rows form a basis.</p>
+<blockquote>
+<p>The reason why this is correct.<br>
+All the zero rows was a linear combination of the rest before elimination. Thus if them remain, these row vectors are dependent, and we can delete them safely.<br>
+Also, we don't reduce the dimension of the row space. Think about it intuitively, if the rest are independent, then replace one as itself add others should not make the new vectors dependent.</p>
+</blockquote>
+<p>Say $A = \begin{bmatrix} 1 & 2 & 3 & 1 \\ 1 & 1 & 2 & 1 \\ 1 & 2 & 3 & 1\end{bmatrix}$, then $\mathrm{rref}(A) = \begin{bmatrix} 1 & 0 & 1 & 1 \\ 0 & 1 & 1 & 0 \\ 0 & 0 & 0 & 0\end{bmatrix}$. Thus the row space has a basis of $\begin{bmatrix} 1 & 0 & 1 & 1 \\ 0 & 1 & 1 & 0 \end{bmatrix}$.</p>
+<h3><a id="user-content-left-null-space" class="anchor" aria-hidden="true" href="#left-null-space"><span aria-hidden="true" class="octicon octicon-link"></span></a>Left null space</h3>
+<p>The reason it is called <em>left</em> null space is because, it contains all elements $y$ satisfying</p>
+<p>$A^Ty = \mathbf 0$</p>
+<p>Transpose both side yields</p>
+<p>$y^TA = \mathbf 0^T$</p>
+<p>which resembles the definition of null space but the vector is on the left side.</p>
+<p>How do we find it? Well, now we are interested in <strong>what linear combinations of rows gives a zero row</strong>.</p>
+<p>We know they are going to be some (or none) after we reduce them into row reduced echelon form, but what are these? We need the elimination matrix.<br>
+Let's use that augmented thing again.</p>
+<p>$[A|I] \rightarrow [R|E]$</p>
+<p>Then we know for each zero row of $R$, the corresponding row of $E$ tells us what combination can we have this zero, and collecting all of them gives the left null space.</p>
+<p>For example, take $A = \begin{bmatrix} 1 & 2 & 3 & 1 \\ 1 & 1 & 2 & 1 \\ 1 & 2 & 3 & 1\end{bmatrix}$ again. $E$ is going to be $\begin{bmatrix} -1 & 2 & 0 \\ 1 & -1 & 0 \\ -1 & 0 & 1\end{bmatrix}$. Therefore the left null space has the basis of $\begin{bmatrix}-1 & 0 & 1\end{bmatrix}$.</p>
+<h3><a id="user-content-dimension-relation" class="anchor" aria-hidden="true" href="#dimension-relation"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dimension relation</h3>
+<p>The following relation holds:</p>
+<p>$\dim C(A) + \dim N(A) = n$</p>
+<p>$\dim C(A^T) + \dim N(A^T) = m$</p>
+<p>$\dim C(A) = \dim C(A^T)$</p>
+<p>The first two are pretty obvious according to the definition, and the last can be observed that the pivot columns have the same number of non-zero rows, thus they have the same dimension.</p>
+<p>[Lecture 11 starts here]</p>
+<h3><a id="user-content-other-spaces" class="anchor" aria-hidden="true" href="#other-spaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>Other Spaces</h3>
+<p>Let $M$ be the set of all $3\times 3$ matrices. Is $M$ a vector space? Yes.<br>
+In fact there are several subspaces, such as $U$, the set of all upper triangular matrices, and $S$, the set of all symmetric matrices.</p>
+<p>We know that $\dim M = 9, \dim S = 6, \dim U = 6$, and there is more than that.<br>
+Let $D = S \cap U$, then $D$ contains all diagonal matrices and $\dim D = 3$.<br>
+Let $A = S + U$, then $A$ is $M$ and $\dim A = 9$.<br>
+A cool relation is that, $\dim S + \dim D = \dim (S \cap D) + \dim (S + D)$. Is that always true?</p>
+<p>Another example: let $S$ be all of the solutions $y$ to the equation</p>
+<p>$\frac{\mathrm d^2y}{{\mathrm dx}^2} + y = 0$</p>
+<blockquote>
+<p>In differential equations, we will know that the solution space has dimension $2$. Now we assume that is true and think of it later in calculus class.</p>
+</blockquote>
+<p>There are two special solutions: $y = \cos x, \sin x$.<br>
+And they span the whole solution space $S$.</p>
+<h3><a id="user-content-rank-1-matrices" class="anchor" aria-hidden="true" href="#rank-1-matrices"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rank 1 matrices</h3>
+<p>Every rank 1 matrix can be expressed by a column matrix times a row matrix.</p>
+<blockquote>
+<p>It is easy to see that: pick the first non-zero column and the first non-zero row, since its rank has to be 1 and all of the rows and columns must be some constant times a scalar.</p>
+</blockquote>
+<p>[Lecture 12 starts here]</p>
+<h2><a id="user-content-applications" class="anchor" aria-hidden="true" href="#applications"><span aria-hidden="true" class="octicon octicon-link"></span></a>Applications</h2>
+<h3><a id="user-content-graph-potential---currents-and-kirchhoffs-law" class="anchor" aria-hidden="true" href="#graph-potential---currents-and-kirchhoffs-law"><span aria-hidden="true" class="octicon octicon-link"></span></a>Graph Potential - Currents and Kirchhoff's Law</h3>
+<p>Graph is formed by a set of vertices and a set of edges, used to represent abstract idea of real world connection models. In this case, we are going to discuss <strong>potential</strong>, for example, electrical potential in circuit.</p>
+<p>Let's talk about this graph $G$, it has $n = 4$ nodes and $m = 5$ edges.</p>
+<pre><code>1--→4
+|\  ↑
+| \ |
+↓  ↘|
+2--→3
+</code></pre>
+<p>We define the <strong>incidence matrix</strong> $A$ of the graph as a $m\times n$ matrix, where each row represent a edge.</p>
+<p>$A = \begin{bmatrix}-1 & 1 & 0 & 0 \\ 0 & -1 & 1 & 0 \\ -1 & 0 & 1 & 0 \\ -1 & 0 & 0 & 1 \\ 0 & 0 & -1 & 1\end{bmatrix}$</p>
+<p>Why this is important? We will see a few applications.</p>
+<ul>
+<li>Potentials<br>
+Let's say each vertex has its own <em>potential</em>. Therefore the difference of potential of each edge (which indicates how likely or how strong power is going down the edge), is the incidence matrix $A$ multiplies the potential column matrix $x$. In this example, it is</li>
+</ul>
+<p>$\begin{bmatrix}-1 & 1 & 0 & 0 \\ 0 & -1 & 1 & 0 \\ -1 & 0 & 1 & 0 \\ -1 & 0 & 0 & 1 \\ 0 & 0 & -1 & 1\end{bmatrix}\begin{bmatrix}x_1 \\ x_2 \\ x_3 \\ x_4\end{bmatrix}$</p>
+<p>Solving $Ax = \mathbf 0$ gives us some possiblilties of stable state. More specifically, the set of all stable states is the null space $N(A)$.</p>
+<ul>
+<li>Currents<br>
+In circuits, these edges are wires and some currents run through them. In this case, the potential of each node should have net difference of zero. Therefore it is stated by the equation</li>
+</ul>
+<p>$ A^Ty=\mathbf 0$</p>
+<p>$\begin{bmatrix}-1 & 0 & -1 & -1 & 0 \\ 1 & -1 & 0 & 0 & 0 \\ 0 & 1 & 1 & 0 & -1 \\ 0 & 0 & 0 & 1 & 1 \end{bmatrix}\begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5\end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0\end{bmatrix}$</p>
+<p>Solving the left null space, $N(A^T)$, tells us what are the stable states. In fact, the basis of the null space are <em>circuits</em> (or called <em>cycles</em>).<br>
+Assume the graph is <em>connected</em>, we have the following identity:</p>
+<p>$\text{\#nodes } - \text{\#edges +} \dim N(A^T) = 1$</p>
+<p>In physics, this is called <strong>Kirchhoff's Current Law</strong>.</p>
+<p>Using Ohm's Law, the two aspects of incidence matrix can be united into a single equation.</p>
+<p>[Lecture 13 is about Quiz 1]<br>
+[Lecture 14 starts here]</p>
+<h2><a id="user-content-orthogonality" class="anchor" aria-hidden="true" href="#orthogonality"><span aria-hidden="true" class="octicon octicon-link"></span></a>Orthogonality</h2>
+<p>Two column matrices $x, y$ are called <strong>orthogonal</strong> ($x \perp y$) if</p>
+<p>$x^Ty = \mathbf 0$</p>
+<p><strong>Property.</strong> Let $\|x\|^2 = x^Tx$. $x$ and $y$ are orthogonal if and only if</p>
+<p>$\|x\|^2 + \|y\|^2 = \|x+y\|^2$</p>
+<p><em>Proof.</em> Expand RHS gives</p>
+<p>$x^Tx + x^Ty + y^Tx + y^Ty = x^Tx + y^Ty = \|x\|^2 + \|y\|^2$</p>
+<p><strong>Definition.</strong> Subspace $S$ is called <strong>orthogonal to</strong> subspace $T$ if</p>
+<p>$\forall s \in S, \forall t \in T, s^Tt = \mathbf 0$</p>
+<p>For example,<br>
+<strong>Property.</strong> For the same matrix $A$, row space is orthogonal to the null space.<br>
+<em>Proof.</em> Recall the definition of null space:</p>
+<p>$Ax = \mathbf 0$</p>
+<p>Thus for every row $u$ and every element $x$ in the null space, we have
+$ux = \mathbf 0$
+Since row space only contains linear combinations of the rows, they all satisfy the condition.<br>
+Formally, let's say $A$ is $m \times n$, and we denote row $i$ by vector $u_i$. For each element $v$ in the row space, we can find $m$ real numbers $c_1, c_2, \cdots, c_m$ satisfying</p>
+<p>$c_1 u_1 + c_2 u_2 + \cdots + c_m u_m = u$</p>
+<p>Therefore, for any element $x$ in the null space,</p>
+<p>$u^Tx = (c_1 u_1 + c_2 u_2 + \cdots + c_m u_m)^Tx = 0 + 0 + \cdots + 0 = 0$</p>
+<p>For the same reason, column space is orthogonal to the left null space.</p>
+<p>Not only they are orthogonal, they are <em>orthogonal complements</em> in $\mathbb R^n$, which means null space contains <em>all</em> vectors that are orthogonal to the (all the elements in) the row space and vice versa.</p>
+<p>[Lecture 15 starts here]</p>
+<h2><a id="user-content-projection" class="anchor" aria-hidden="true" href="#projection"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projection</h2>
+<h3><a id="user-content-motivation" class="anchor" aria-hidden="true" href="#motivation"><span aria-hidden="true" class="octicon octicon-link"></span></a>Motivation</h3>
+<p>Using the knowkledge we've know so far, it is possible that</p>
+<p>$Ax = b$</p>
+<p>does not have a solution, and it is bugging.<br>
+Sometimes we want something that is <em>the nearest</em> solvable $b$. For example, we want to find a line through $(1, 1), (2, 2), (3, 2)$, but it is certainly impossible. Then we start to think, if we are going to find a line that is closest to the ideal one, what would it be?<br>
+It turns out we want to solve it as</p>
+<p>$\begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{bmatrix}\begin{bmatrix} a \\ b \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}$</p>
+<p>but as we can see it has no solution.<br>
+Projection, is the tool that enables us project any $b$ onto the $C(A)$ in a formulated manner, and it is invented to solve many problems, including this one.</p>
+<h3><a id="user-content-projections-onto-subspaces" class="anchor" aria-hidden="true" href="#projections-onto-subspaces"><span aria-hidden="true" class="octicon octicon-link"></span></a>Projections onto Subspaces</h3>
+<h4><a id="user-content-2d-cases" class="anchor" aria-hidden="true" href="#2d-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a>2D cases</h4>
+<p>Let's say $a, b$ are two vectors. What does it mean to <em>project</em> $b$ onto $a$?<br>
+We want to find some $p = xa$, and the error $b - p$, should perpendicular (or <em>orthogonal</em>) to $a$. In the language of math,</p>
+<p>$a^T(b - xa) = \mathbf 0$</p>
+<p>Solving it yields</p>
+<p>$a^Tb = xa^Ta \Rightarrow x = \frac{a^Tb}{a^Ta} \Rightarrow p = a \cdot \frac{a^Tb}{a^Ta}$</p>
+<p>There is something noteworthy, that is, if we re-write the equation as</p>
+<p>$p = \frac{aa^T}{a^Ta}\cdot b$</p>
+<p>This gives a matrix $P = \dfrac{aa^T}{a^Ta}$ which does the projection work!
+Also we have the following identity:<br>
+<strong>Property.</strong> Assume $P$ is a projection matrix, then</p>
+<ol>
+<li>$P$ is symmetric.</li>
+<li>$P^2 = P$.</li>
+<li>$\dim C(P) = 1$ if $a \neq \mathbf 0$</li>
+</ol>
+<p><em>Proof.</em></p>
+<ol>
+<li>$P^T = \dfrac{(aa^T)^T}{a^Ta}= \dfrac{a^{TT}a^T}{a^Ta} = \dfrac{aa^T}{a^Ta} = P$</li>
+<li>In geometric perspective, projecting a vector twice does the same thing of projecing it once. In explicit definition,
+$P^2 = \dfrac{aa^T}{a^Ta}\dfrac{aa^T}{a^Ta} = \dfrac{a}{a^Ta}\dfrac{a^Ta}{a^Ta}\dfrac{a^T}{1} = \dfrac{aa^T}{a^Ta} = P$</li>
+<li>It is pretty obvious by the definition: every row is a multiple of $a^T$. Moreover, $C(P) = \{ca\}$.</li>
+</ol>
+<h4><a id="user-content-3d-cases" class="anchor" aria-hidden="true" href="#3d-cases"><span aria-hidden="true" class="octicon octicon-link"></span></a>3D cases</h4>
+<p>Let's say there are two vectors $a_1, a_2$ and they form a plane. How do we project any $b$ onto the plane?<br>
+We want to find some $p$ which is the linear combination of $a_1$ and $a_2$, and the error $b - p$, should perpendicular (or <em>orthogonal</em>) to $a_1$ and $a_2$. In the language of math, let</p>
+<p>$p = x_1 a_1 + x_2 a_2$</p>
+<p>we could re-write that as</p>
+<p>$p = \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\underbrace{\begin{bmatrix}x_1 \\ x_2\end{bmatrix}}_{\hat x}$</p>
+<p>$\begin{cases}a_1^T(b - A\hat x) & = \mathbf 0 \\ a_2^T(b - A\hat x) & = \mathbf 0  \end{cases}$</p>
+<p>In matrix form,</p>
+<p>$ \underbrace{\begin{bmatrix} & a_1^T & \\ & a_2^T & \\\end{bmatrix}}_{A^T}\left(b - \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\begin{bmatrix}x_1 \\ x_2\end{bmatrix}\right) = \mathbf 0$</p>
+<p>$A^Tb = A^TA\hat x$</p>
+<p>Notice that the error $b-A\hat x$ is in $N(A^T)$ (which is kind of intuitive: we restrict it to perpendicular to the column space).<br>
+If the inverse of $AA^T$ exists, then we can find</p>
+<p>$p = A\hat x = A(A^TA)^{-1}A^Tb$</p>
+<p>[Lecture 16 starts here]</p>
+<p>What is happening in the projection matrix $P = A(A^TA)^{-1}A^T$?</p>
+<ul>
+<li>If $b$ is orthogonal to the column space, then $A^Tb = \mathbf 0$, giving $p = \mathbf 0$.</li>
+<li>If $b$ is in the column space, then there exists $Ax = b$, then $p = Pb = Ax = b$.</li>
+</ul>
+<p>We can see that we are actually finding two projections: $b = p + e$ and $p \in C(A), e \in N(A^T)$.</p>
+<p><strong>Property.</strong> If $A$ has independent columns, then $A^TA$ is invertible.<br>
+<em>Proof.</em> Suppose $A^TAx = \mathbf 0$, then we want to show that $x = \mathbf 0$.<br>
+BRILLIANT IDEA: multiply both side by $x^T$ on the left.</p>
+<p>$x^TA^TAx = \mathbf 0$</p>
+<p>Therefore</p>
+<p>$(Ax)^T(Ax) = \mathbf 0 \Rightarrow \|Ax\| = 0 \Rightarrow Ax = \mathbf 0$</p>
+<p>Since $A$ has independent columns, its null space is $\{\mathbf 0\}$. Thus $x = \mathbf 0$.</p>
+<h3><a id="user-content-application---smallest-square" class="anchor" aria-hidden="true" href="#application---smallest-square"><span aria-hidden="true" class="octicon octicon-link"></span></a>Application - Smallest Square</h3>
+<p>Let's head back the example we left as describing why projection is important and actually solve it.</p>
+<p><strong>Property.</strong> If $b = p + e$ and $p \in C(A)$, then $e$ attains its minimum length ($\|e\|$) if $e \in N(A^T)$.<br>
+It is kind of intuitive, if $e$ is not then we can always extract the part in column space and get a smaller one.</p>
+<p>In 2D, we are going to find a line $a + bt$ to make the error as small as possible. The points were $(1, 1), (2, 2), (3, 2)$, thus</p>
+<p>$\begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{bmatrix}\begin{bmatrix} a \\ b \end{bmatrix} = \begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix}$</p>
+<p>and to solve it to the best,</p>
+<p>$\begin{bmatrix} 
+	1 & 1 & 1 \\ 1 & 2 & 3 
+\end{bmatrix}\begin{bmatrix} 
+	1 & 1 \\ 
+	1 & 2 \\ 
+	1 & 3 
+\end{bmatrix}\begin{bmatrix} 
+	a \\ b 
+\end{bmatrix} = \begin{bmatrix} 
+	1 & 1 & 1 \\ 
+	1 & 2 & 3 
+\end{bmatrix}\begin{bmatrix} 
+	1 \\ 2 \\ 2 
+\end{bmatrix}$</p>
+<p>$\begin{bmatrix} 
+	3 & 6 \\ 6 & 14
+\end{bmatrix}\begin{bmatrix} 
+	a \\ b 
+\end{bmatrix} = \begin{bmatrix} 
+	5 \\ 11
+\end{bmatrix}$</p>
+<p>which gives $a = \frac 2 3, b = \frac 1 2$.</p>
+<blockquote>
+<p>There is another calculus approach: since the least square is a quadratic function, taking its (partial) derivative is not a hard work.</p>
+</blockquote>
+<p>[Lecture 17 starts here]</p>
+<h3><a id="user-content-orthonormal-basis-and-matrix" class="anchor" aria-hidden="true" href="#orthonormal-basis-and-matrix"><span aria-hidden="true" class="octicon octicon-link"></span></a>Orthonormal basis and matrix</h3>
+<p>A basis $q_1, q_2, \cdots, q_n$ is called a <strong>orthonormal basis</strong> if $q_i^Tq_j = \begin{cases} 0 & \text{if } i \neq j \\ 1 & \text{if } i = j\end{cases}$.<br>
+A <strong>square</strong> matrix is <strong>orthonormal (orthogonal)</strong> if its columns are orthonormal basis.</p>
+<p><strong>Property.</strong> Let $q$ be a orthonormal basis, and $Q = \begin{bmatrix}q_1 & q_2 & \cdots & q_n\end{bmatrix}$, then $Q^TQ = I$.<br>
+<strong>Property.</strong> Let $Q$ be a orthonormal matrix, then $Q^T = Q^{-1}, Q^TQ = QQ^T = I$.</p>
+<p>Why are we discussing orthonormal basis? It turns out when dealing with projections,</p>
+<p>$P = Q(Q^TQ)^{-1}Q^T = QQ^T$</p>
+<p>$Q^TQ\hat x=\hat x=Q^Tb$</p>
+<p>If we could, somehow turn every matrix $A$ into orthonomal basis $Q$, then projection is very easy.</p>
+<h3><a id="user-content-gram-schmidt-process" class="anchor" aria-hidden="true" href="#gram-schmidt-process"><span aria-hidden="true" class="octicon octicon-link"></span></a>Gram-Schmidt Process</h3>
+<p>Goal: turn every matrix $A$ whose columns are independent into matrix $Q$ formed by orthonormal column vectors.<br>
+Idea: The first vector can stay, and for each new vector we meet, we subtract its projection to every previous vector. Finally, divide every vector by their length.</p>
+<p>Suppose we have $v_1, v_2, v_3$.</p>
+<ul>
+<li>$u_1 = v_1$</li>
+<li>$u_2 = v_2 - \dfrac{u_1^Tv_2}{u_1^Tu_1}u_1$</li>
+<li>$u_3 = v_3 - \dfrac{u_1^Tv_3}{u_1^Tu_1}u_1 - \dfrac{u_2^Tv_3}{u_2^Tu_2}u_2$</li>
+</ul>
+<p>Then $q_1 = \dfrac{u_1}{\|u_1\|}, q_2 = \dfrac{u_2}{\|u_2\|}, q_3 = \dfrac{u_3}{\|u_3\|}$.</p>
+<p>[Lecture 18 starts here]</p>
+<h2><a id="user-content-determinant" class="anchor" aria-hidden="true" href="#determinant"><span aria-hidden="true" class="octicon octicon-link"></span></a>Determinant</h2>
+<p>For every <strong>square</strong> matrix $A$, we denote its <strong>determinant</strong> as $\det A$ or $|A|$.</p>
+<p>There are 11 basic properties of determinant, and the first four of them (is one way to) give the explicit definition of determinant.</p>
+<ol>
+<li>$\det I = 1$.</li>
+<li>Exchanging two different rows of $A$ multiplies its determinant by $-1$.
+<blockquote>
+<p>It is not clear that every <em>permuting</em> operation gives the same $\pm 1$ by any swap order, but in fact we have this property:<br>
+Define <em>inversions of a permutation</em> be the number such that $i < j$ but $p_i > p_j$, then whenever we swap two different elements, the parity of number of inversions changes.<br>
+Therefore if we think it as the parity of inversions, every permuting operation gives $\pm 1$ no matter how one performs the swap.</p>
+</blockquote>
+</li>
+<li>Multipling a row by $c$ multiplies its determinant by $c$.</li>
+<li>If two matrices $A, B$ only differ by 1 row, then matrix $C$ obtained by copying other rows but adding up the different row has $\det C = \det A + \det B$.</li>
+<li>If matrix $A$ has two same row then $\det A = 0$.<br>
+<em>Proof.</em> If we swap the two rows, we have $\det A = -\det A \Rightarrow \det A = 0$.</li>
+<li>Subtracting $c$ times row $i$ to row $j$ (with $i \neq j$) does not change the determinant.<br>
+<em>Proof.</em> According to 4. we can break the row apart, and extract $-c$ from the matrix conatining the subtract operation, which gives determinant $0$. Therefore the determinant does not change.</li>
+<li>If matrix $A$ has a row of zero then $\det A = 0$.<br>
+<em>Proof.</em> We add any row to the zero row, and according to 5., $\det A = 0$.</li>
+<li>For some upper-triangular matrix $A$ with $d_1, d_2, \cdots, d_n$ on its main diagonal, then $\det A = \prod d_i$.<br>
+<em>Proof.</em> According to 6. we can eliminate all elements not on the main diagonal, therefore we can compute that according to 3.<br>
+The same holds for lower-triangular, so an efficient way to compute determinant is by $LU$-decomposition and calculating the determainant by multiplying numbers on the diagonal.</li>
+<li>$\det A = 0$ if $A$ is singular; $\det A \neq 0$ if $A$ is invertible.<br>
+<em>Proof.</em> With 6. we can do elimination and this property is pretty obvious.</li>
+<li>$\det AB = \det A \det B$.</li>
+<li>$\det A^T = \det A$.
+<em>Proof.</em> If $A$ is singular then both sides are $0$. Otherwise let $A = LU$, then $A^T=U^TL^T$ and it is obvious that $\det A^T = \det U^T \det L^T = \det U \det L = \det L \det U = \det A$.</li>
+</ol>
+<p>[Lecture 19 starts here]</p>
+<h3><a id="user-content-the-big-formula" class="anchor" aria-hidden="true" href="#the-big-formula"><span aria-hidden="true" class="octicon octicon-link"></span></a>The Big Formula</h3>
+<p>From property 4, we can break the matrix into multiple parts:</p>
+<p>$\begin{vmatrix} a & b \\ c & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ c & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ c & 0 \end{vmatrix} + \begin{vmatrix} a & 0 \\ 0 & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & 0 \end{vmatrix} + \begin{vmatrix} 0 & b \\ 0 & d \end{vmatrix} = \begin{vmatrix} a & 0 \\ 0 & d \end{vmatrix} + \begin{vmatrix} 0 & b \\ c & 0 \end{vmatrix} \\ = ad - bc$</p>
+<p>There will be $n^n$ parts, but only those with non-zero columns will give a non-zero determinant, therefore we are left with $n!$ parts. In $3 \times 3$,</p>
+<p>$\begin{align*}
+& \begin{vmatrix} 
+	a_{1, 1} & a_{1, 2} & a_{1, 3} \\ 
+	a_{2, 1} & a_{2, 2} & a_{2, 3} \\ 
+	a_{3, 1} & a_{3, 2} & a_{3, 3} 
+\end{vmatrix} \\
+= & \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	0 & a_{3, 2} & 0 
+\end{vmatrix} - \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} \\
++ & \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	a_{3, 1} & 0 & 0
+\end{vmatrix} + \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & a_{3, 2} & 0
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	0 & a_{2, 2} & 0 \\ 
+	a_{3, 1} & 0 & 0 
+\end{vmatrix}
+\end{align*}$</p>
+<p>We can obtain the general formula by</p>
+<p>$\det A_{n\times n} = \sum_{\text{permutation p}}\mathrm{sgn}(p)a_{1,p_1}a_{2,p_2}\cdots a_{n,p_n}$</p>
+<h3><a id="user-content-cofactors" class="anchor" aria-hidden="true" href="#cofactors"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cofactors</h3>
+<p>There is a way to simplify the matrix. Take $3\times 3$ as an example:</p>
+<p>$\begin{align*}
+& \begin{vmatrix} 
+	a_{1, 1} & a_{1, 2} & a_{1, 3} \\ 
+	a_{2, 1} & a_{2, 2} & a_{2, 3} \\ 
+	a_{3, 1} & a_{3, 2} & a_{3, 3} 
+\end{vmatrix} \\
+= & \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	a_{1, 1} & 0 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	0 & a_{3, 2} & 0 
+\end{vmatrix} - \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} \\
++ & \begin{vmatrix} 
+	0 & a_{1, 2} & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	a_{3, 1} & 0 & 0
+\end{vmatrix} + \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & a_{3, 2} & 0
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 0 & a_{1, 3} \\ 
+	0 & a_{2, 2} & 0 \\ 
+	a_{3, 1} & 0 & 0 
+\end{vmatrix} \\
+= & +a_{1,1}\left(\begin{vmatrix} 
+	1 & 0 & 0 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	0 & 0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	1 & 0 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	0 & a_{3, 2} & 0 
+\end{vmatrix}\right) \\
+& +a_{1, 2}\left(\begin{vmatrix} 
+	0 & 1 & 0 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & 0 & a_{3, 3}
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 1 & 0 \\ 
+	0 & 0 & a_{2, 3} \\ 
+	a_{3, 1} & 0 & 0
+\end{vmatrix}\right) \\
+& +a_{1, 3}\left(\begin{vmatrix} 
+	0 & 0 & 1 \\ 
+	a_{2, 1} & 0 & 0 \\ 
+	0 & a_{3, 2} & 0
+\end{vmatrix} - \begin{vmatrix} 
+	0 & 0 & 1 \\ 
+	0 & a_{2, 2} & 0 \\ 
+	a_{3, 1} & 0 & 0 
+\end{vmatrix}\right) \\
+= & +a_{1,1}\left(\begin{vmatrix} 
+	a_{2, 2} & 0 \\ 
+	0 & a_{3, 3} 
+\end{vmatrix} - \begin{vmatrix} 
+	0 & a_{2, 3} \\ 
+	a_{3, 2} & 0 
+\end{vmatrix}\right) \\
+&-a_{1, 2}\left(\begin{vmatrix}
+	a_{2, 1} & 0 \\ 
+	0 & a_{3, 3}
+\end{vmatrix} - \begin{vmatrix}
+	0 & a_{2, 3} \\ 
+	a_{3, 1} & 0
+\end{vmatrix}\right) \\
+&+a_{1, 3}\left(\begin{vmatrix} 
+	a_{2, 1} & 0 \\ 
+	0 & a_{3, 2} 
+\end{vmatrix} - \begin{vmatrix}
+	0 & a_{2, 2} \\ 
+	a_{3, 1} & 0 
+\end{vmatrix}\right)
+\end{align*}$</p>
+<p>Let $M_{a, b}$ is the matrix obtained by erasing row $a$ and column $b$ from $A$.<br>
+We can rewrite the big formula of $n\times n$ matrix to this:</p>
+<p>$\det A_{n\times n} = \sum_{i=1}^{n}a_{1, i}(-1)^{i+1}\det M_{1, i} = \sum_{i=1}^{n}a_{1, i}$</p>
+<p>Moreover, instead of expanding by row $1$, we can do that for any row $i$:</p>
+<p>$\det A_{n\times n} = \sum_{j=1}^{n}a_{i, j}(-1)^{i+j}\det M_{i, j}$</p>
+<blockquote>
+<p>The reason the sign is $(-1)^{i+j}$ is actually <em>how the parity of inversion will change if we insert $i$ into position $j$</em>.<br>
+Assume there are $k$ numbers that are greater than $i$ in position $1$ to $j - 1$, then the inversion is going to increase by</p>
+</blockquote>
+<p>$k + (n - j) - (n - i - k) = i - j$</p>
+<blockquote>
+<p>and it is equivlant to $i + j$ modulo $2$.</p>
+</blockquote>
+<p>This formula is useful for some matrices where most of one row is zero. For example the tridiagonal matrix:</p>
+<p>$A_n = \left[a_{i, j} = \begin{cases} 1 & \text{if } |i - j| \leq 1 \\ 0 & \text{otherwise}\end{cases}\right]_{n\times n}$</p>
+<p>We have</p>
+<p>$\det A_1 = |1| = 1, \det A_2 = \begin{vmatrix} 1 & 1 \\ 1 & 1 \end{vmatrix} = 0$</p>
+<p>$A_n = 
+\begin{bmatrix} 
+	1 & 1 & 0 & \cdots & 0 \\
+	1 & 1 & 1 & \cdots & 0 \\
+	0 & 1 \\
+	\vdots & \vdots & & A_{n-2} \\
+	0 & 0\\
+\end{bmatrix}$</p>
+<p>$\det A_n = \det A_{n - 1} - \det A_{n - 2}$</p>
+<p>[Lecture 20 starts here]</p>
+<h3><a id="user-content-inverse-formula" class="anchor" aria-hidden="true" href="#inverse-formula"><span aria-hidden="true" class="octicon octicon-link"></span></a>Inverse Formula</h3>
+<p>Let the cofactor matrix $C$ be $c_{i, j} = (-1)^{i + 1}\det M_{i, j}$.<br>
+The inverse of $A$ is</p>
+<p>$A^{-1} = \frac 1 {\det A}C^T$</p>
+<p>Why?
+For the main diagaonal of row $i$,</p>
+<p>$\sum_{j = 1}^{n}a_{i, j}c_{i, j} = \det A$</p>
+<p>For the rest, say row $i$ column $j$,</p>
+<p>$\sum_{k=1}^{n}a_{i, k}c_{j, k}$</p>
+<p>we rebuild a matrix $K$ the same with $A$ but the row $j$ is replaced by row $i$, then this matrix is singular and $\det K = 0$.<br>
+Therefore $AC^T = (\det A)I$, $A^{-1} = \frac 1 {\det A}C^T$.</p>
+<h3><a id="user-content-cramers-rule" class="anchor" aria-hidden="true" href="#cramers-rule"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cramer's Rule</h3>
+<p>If $A$ is invertible then</p>
+<p>$Ax = b \Rightarrow x = A^{-1}b = \frac 1 {\det A} C^Tb$</p>
+<p>What is $x_i$?</p>
+<p>$x_i = \frac 1 {\det A}\sum_{j=1}^n b_jc_{j, i}$</p>
+<p>If we define the matrix $B_i$ the same with $A$ but the column $i$ is replaced by $b$, then</p>
+<p>$x_i = \frac{\det B_i}{\det A}$</p>
+<p>In general, Cramer's rule is a disastrous mess (since determinant computation is awful, the best way to do that is probably elimination). However it sure has some value, for example this is the <em>algebraic</em> form of the solution instead of doing some algorithms.</p>
+<h3><a id="user-content-volumes" class="anchor" aria-hidden="true" href="#volumes"><span aria-hidden="true" class="octicon octicon-link"></span></a>Volumes</h3>
+<p><strong>Property.</strong> The volume defined by the $n$ row vectors of $A$ is $|\det A|$.<br>
+<em>Proof.</em></p>
+<ol>
+<li>$\det I = 1$ and the volume defined by these vector is indeed $1$.</li>
+<li>By definition, it is true.</li>
+<li>If we stretch any vector by scalar $c$, the volume multiplies by $|c|$.</li>
+<li>Assume the two vector are $u$ and $v$, let the rest vector form the base, then we are going to consider the height (i.e. the projection error $e$), and this projection is linear so the same property holds for both determinant and volume.</li>
+</ol>
+<p>Another way to see this is directly by Gram-Schmidt process. The volume defined by these orthogonal vectors are intuitive.</p>
+<p><em>Special Case.</em> The signed area of triangle with corners $(x_1, y_1), (x_2, y_2), (x_3, y_3)$ is</p>
+<p>$\frac 1 2\begin{vmatrix}x_1 & y_1 & 1 \\ x_2 & y_2 & 1 \\ x_3 & y_3 & 1 \end{vmatrix}$</p>
+<p>[Lecture 21 starts here]</p>
+<h2><a id="user-content-eigenvalues-and-eigenvectors" class="anchor" aria-hidden="true" href="#eigenvalues-and-eigenvectors"><span aria-hidden="true" class="octicon octicon-link"></span></a>Eigenvalues and Eigenvectors</h2>
+<p><strong>Definition.</strong> The <strong>eigenvectors</strong> of a square matrix $A$ is the non-zero vectors satisfying</p>
+<p>$Ax = \lambda x$</p>
+<p>for some $\lambda$. Here, $\lambda$ is called the <strong>eigenvalue</strong>.</p>
+<p>We don't know anything about that, but here is a cool thing:</p>
+<p>$Ax = \lambda x\Rightarrow (A - \lambda I)x = 0 \Rightarrow \det (A - \lambda I) = 0$</p>
+<p>Let's see some instances of eigenvalues and eigenvectors.</p>
+<p>For projection matrix $P$, if $x$ is aleady in the column space $C(A)$ then $Px = x$ and $x$ is an eigenvector with $\lambda = 1$; if $x$ is perpendicular to $C(A)$ then $Px = \mathbf 0$ and $x$ is an eignenvector with $\lambda = 0$.</p>
+<p>For $A = \begin{bmatrix} 0 & 1 \\ 1 & 0 \end{bmatrix}$, we have $x_1 = \begin{bmatrix} 1 \\ 1 \end{bmatrix}, \lambda_1 = 1$ and $x_2 = \begin{bmatrix} 1 \\ -1 \end{bmatrix}, \lambda_1 = -1$.</p>
+<p>For $A = \begin{bmatrix} 3 & 1 \\ 1 & 3 \end{bmatrix}$,</p>
+<p>$A - \lambda I = \begin{bmatrix} 3 - \lambda & 1 \\ 1 & 3 - \lambda \end{bmatrix} \Rightarrow (3 - \lambda)^2 - 1 = 0 \Rightarrow \lambda_1 = 2, \lambda_2 = 4$</p>
+<p>$x_1$ is in $N(A - 2I) \Rightarrow x_1 = \begin{bmatrix}1 \\ 1\end{bmatrix}$, $x_2$ is in $N(A - 4I) \Rightarrow x_2 = \begin{bmatrix}1 \\ -1\end{bmatrix}$.</p>
+<p>For $A = \begin{bmatrix} 0 & -1 \\ 1 & 0 \end{bmatrix}$ which rotates any vector by 90 degree counterclockwise, things are getting strange: what the hell vector is going to have the same direction when rotated by 90 degree?</p>
+<p>$A - \lambda I = \begin{bmatrix} -\lambda & -1 \\ 1 & -\lambda \end{bmatrix} \Rightarrow \lambda^2 + 1 = 0 \Rightarrow \lambda = i, -i$</p>
+<p>WHAT?<br>
+It turns out the eigenvalues can be <em>complex</em> even when $A$ is a real value matrix.</p>
+<blockquote>
+<p>This is why the lecturer told "it was a disaster" since imaginary number were not invented until 1804.</p>
+</blockquote>
+<p>For $A = \begin{bmatrix} 3 & 1 \\ 0 & 3 \end{bmatrix}$,</p>
+<p>$A - \lambda I = \begin{bmatrix} 3 - \lambda & 1 \\ 0 & 3 - \lambda \end{bmatrix} \Rightarrow (3 - \lambda)^2 = 0 \Rightarrow \lambda_1 = \lambda_2 = 3$</p>
+<p>but the thing is there is only one eigenvector: $x = \begin{bmatrix}1 \\ 0\end{bmatrix}$.</p>
+<p>It is noteworthy that eigenvalues are <strong>not additive (linear) and multiplicative</strong>. Eigenvalues of $A, B$
+have nothing to do with eigenvalues of $A+B, AB$.</p>
+<p>[Lecture 22 starts here]</p>
+<h3><a id="user-content-diagonalization" class="anchor" aria-hidden="true" href="#diagonalization"><span aria-hidden="true" class="octicon octicon-link"></span></a>Diagonalization</h3>
+<p>Suppose we have $n$ linearly independent eigenvectors of $A$, we put them in the columns of $S$,</p>
+<p>$AS = \begin{bmatrix}\lambda_1x_1 & \lambda_2x_2 & \cdots & \lambda_nx_n\end{bmatrix} = 
+\underbrace{\begin{bmatrix}
+	\lambda_1 & 0 & \cdots & 0 \\ 
+	0 & \lambda_2 & \cdots & 0 \\
+	\vdots & \vdots & \ddots & \vdots \\  
+	0 & 0 & \cdots & \lambda_nx_n
+\end{bmatrix}}_\Lambda S$</p>
+<p>If $S$ is invertible (if there are linearly indepenent, under our assumption), then we can write</p>
+<p>$A = S^{-1}\Lambda S$</p>
+<blockquote>
+<h3><a id="user-content-trace-and-determinant" class="anchor" aria-hidden="true" href="#trace-and-determinant"><span aria-hidden="true" class="octicon octicon-link"></span></a>Trace and determinant</h3>
+<p>This part is only mentioned in the lectures but not deeply discussed, this part is meant to fill in that.</p>
+<p><strong>Theorem.</strong> The sum of all eigenvalues is equal the <em>trace</em> of $A$, which is the sum of the main diagonal.<br>
+<em>Proof.</em> We take a look on the characteristic polynomal of matrix $A$, we want to show that</p>
+</blockquote>
+<p>$t^n - \mathrm{tr}(A) t^{n - 1} + \underbrace{\cdots}_{\text{terms under }t^{n-2}} = 0$</p>
+<blockquote>
+<p>Consider $A - tI$, for $n = 1$, the above equation holds.<br>
+Suppose all matrices with $n \leq k$ holds, for any matrix that is $(k+1)\times(k+1)$, we have</p>
+</blockquote>
+<p>$\begin{align*}
+ \det (A - tI) & = 
+ \det \begin{bmatrix}
+ 	a_{1, 1} - t & a_{1, 2} & \cdots & a_{1, n} \\ 
+ 	a_{2, 1} & a_{2, 2} - t & \cdots & a_{2, n} \\
+ 	\vdots & \vdots & \ddots & \vdots \\
+ 	a_{n, 1} & a_{n, 2} & \cdots & a_{n, n} - t\\
+ \end{bmatrix} \\
+ & = \det \begin{bmatrix}
+ 	- t & 0 & \cdots & 0 \\ 
+ 	a_{2, 1} &  & \cdots &  \\
+ 	\vdots & \vdots & \ddots & \vdots \\
+ 	a_{n, 1} &  & \cdots & \\
+ \end{bmatrix} + \det \begin{bmatrix}
+ 	a_{1, 1} & a_{1, 2} & \cdots & a_{1, n} \\ 
+ 	a_{2, 1} &  & \cdots &  \\
+ 	\vdots & \vdots & \ddots & \vdots \\
+ 	a_{n, 1} &  & \cdots & \\
+ \end{bmatrix} \\
+ \end{align*}$</p>
+<blockquote>
+<p>We want to keep the terms which have $t^{n-1}$. In the second matrix, the only way is to have $a_{1, 1}$. Because otherwise if we have $a_{1, i}$, then for the rest $n - 1$ of $t$s we can only choose maximum $n - 2$ of them.<br>
+Therefore we are only interested in</p>
+</blockquote>
+<p>$\begin{align*}
+ & (a_{1, 1} - t) \det \begin{bmatrix}
+ 	a_{2, 2} - t & \cdots & a_{2, n} \\
+ 	\vdots & \ddots & \vdots \\
+ 	a_{2, n} & \cdots & a_{n, n} - t \\ 
+ \end{bmatrix} \\
+ = & (a_{1, 1} - t)(t^{n-1} - (a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 2} + \cdots) \\
+ = & (-1)(t^n - (a_{1,1} + a_{2,2} + a_{3,3}+\cdots+a_{n,n})t^{n - 1} + \cdots)
+ \end{align*}$</p>
+<blockquote>
+<p>which is what we desired.<br>
+By math induction all finite square matrices have this property.</p>
+<p><strong>Theorem.</strong> The product of all eigenvalues is equal the <em>determinant</em> of $A$.<br>
+<em>Proof.</em> Now we are interested in the last term of the charateristic polynomial:</p>
+</blockquote>
+<p>$t^n + \underbrace{\cdots}_{\text{terms having }t} + (-1)^n\det A = 0$</p>
+<blockquote>
+<p>We can do the expand thing we have just done, but instead we drop all the terms having $t$, and we are left with $\det A$.</p>
+</blockquote>
+<h3><a id="user-content-df91b9d8bde2bd79d3cb76137bd81f2206b660c9b7f45db5c393b3dc8b225e3e-powered" class="anchor" aria-hidden="true" href="#df91b9d8bde2bd79d3cb76137bd81f2206b660c9b7f45db5c393b3dc8b225e3e-powered"><span aria-hidden="true" class="octicon octicon-link"></span></a>$A$ powered</h3>
+<p>Suppose $Ax = \lambda x$, then for $A^2$,</p>
+<p>$A^2x = A\lambda x = \lambda^2x$</p>
+<p>Same holds for the diagonalization we just have:</p>
+<p>$A^2 = S^{-1}\Lambda S S^{-1}\Lambda S = S^{-1}\Lambda^2 S$</p>
+<p>In fact we can do this <em>any integer times</em>, therefore</p>
+<p>$A^kx = \lambda^kx$</p>
+<p>$A^k = S^{-1}\Lambda^k S$</p>
+<p><strong>Theorem.</strong> $\lim_{k \rightarrow \infty} A = \mathbf 0$ if all $|\lambda_i| < 1$.</p>
+<p>When can we do such convenient thing? It turns out<br>
+<strong>Property.</strong> $A$ is sure to have $n$ independent eigenvectors if all eigenvalues are different.</p>
+<blockquote>
+<p><em>Proof.</em>
+If we have only one vector $x_1$, then $x_1$ is sure to be linearly independent.<br>
+Assume we already have $k - 1$ linearly independent eigenvectors, then consider the $k$-th eigenvector.<br>
+We want to show that
+$c_1x_1 + c_2x_2 + \cdots + c_kx_k$ only have solution of $c_i = 0$.<br>
+Let $c = \begin{bmatrix}c_1, c_2, \cdots, c_k, 0, \cdots, 0\end{bmatrix}$. The equation is equivlant to</p>
+</blockquote>
+<p>$Sc = \mathbf 0$</p>
+<blockquote>
+<p>Multiply both side by $A$ gives</p>
+</blockquote>
+<p>$ASc = S\Lambda c = \mathbf 0$</p>
+<blockquote>
+<p>Therefore if $c$ is a solution, then $\Lambda c$ is also a solution, which means</p>
+</blockquote>
+<p>$\begin{cases}c_1x_1 + c_2x_2 + \cdots + c_kx_k = \mathbf 0 \\ c_1\lambda_1x_1 + c_2\lambda_2x_2 + \cdots + c_k\lambda_kx_k = \mathbf 0\end{cases}$</p>
+<blockquote>
+<p>Multiply the first equation by $\lambda_k$ we get</p>
+</blockquote>
+<p>$c_1(\lambda_1-\lambda_k)x_1 + c_2(\lambda_2-\lambda_k)x_2 + \cdots + c_{k-1}(\lambda_{k-1}-\lambda_k)x_{k-1} = \mathbf 0$</p>
+<blockquote>
+<p>If $c$ is non-zero, then $c_1, \cdots, c_k$ has at least two non-zero entries. Because all $\lambda_i$ are different, at least one $c_i(\lambda_i - \lambda_k)$ is non-zero.<br>
+However by induction hypothesis, $x_1, \cdots, x_{k-1}$ are linearly independent so $c_1, \cdots, c_{k-1}$ must be all zero.<br>
+We have met a contradiction and thus, there is no solution $c$ other than zero and $x_1, \cdots, x_k$ are thus linearly independent.<br>
+By math induction, all eigenvectors are linear independent if their eigenvalues are different.</p>
+</blockquote>
+<h4><a id="user-content-solving-df91b9d8bde2bd79d3cb76137bd81f2206b660c9b7f45db5c393b3dc8b225e3e-powered" class="anchor" aria-hidden="true" href="#solving-df91b9d8bde2bd79d3cb76137bd81f2206b660c9b7f45db5c393b3dc8b225e3e-powered"><span aria-hidden="true" class="octicon octicon-link"></span></a>Solving $A$ powered</h4>
+<p>Suppose we have some column vector $u_0$ and recursively $u_{k+1} = Au_k$. How do we found $u_k$?</p>
+<p>Let's say $u_0 = c_1x_1 + c_2x_2 + \cdots + c_nx_n = Sc$,<br>
+then $u_1 = c_1\lambda_1x_1 + c_2\lambda_2x_2 + \cdots + c_n\lambda_nx_n = S\Lambda c$.<br>
+Furthurmore, $u_k = c_1\lambda_1^kx_1 + c_2\lambda_2^kx_2 + \cdots + c_n\lambda_n^kx_n = S\Lambda^kc$.</p>
+<blockquote>
+<p>In fact it is simply $u_k = S\Lambda^kS^{-1}u_0$.</p>
+</blockquote>
+<p>For example we have Fibonacci sequence:</p>
+<p>$\begin{cases}F_0 = 0 \\ F_1 = 1 \\ F_{n+2} = F_{n+1} + F_n\end{cases}$</p>
+<p>and we can build it as</p>
+<p>$\underbrace{\begin{bmatrix} 1 & 1 \\ 1 & 0 \end{bmatrix}}_A\begin{bmatrix} F_{n+1} \\ F_{n} \end{bmatrix} = \begin{bmatrix} F_{n+2} \\ F_{n+1} \end{bmatrix}$</p>
+<p>Solving it:</p>
+<p>$\det (A - \lambda I) = \begin{vmatrix} 1 - \lambda & 1 \\ 1 & - \lambda \end{vmatrix} \Rightarrow \lambda^2 - \lambda - 1 = 0 \Rightarrow \lambda_1 = \frac{1 + \sqrt 5}{2}, \lambda_2 = \frac{1 - \sqrt 5}{2}$</p>
+<p>Finding null space of $A - \lambda I$:<br>
+Since this matrix has a special property of $(\lambda - 1)\lambda = 1$,</p>
+<p>$x_1 = \begin{bmatrix} \lambda_1 \\ 1 \end{bmatrix}, x_2 = \begin{bmatrix} \lambda_2 \\ 1 \end{bmatrix}$</p>
+<p>and</p>
+<p>$\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \frac{x_1 - x_2}{\lambda_1 - \lambda_2} $</p>
+<p>We have</p>
+<p>$\begin{bmatrix} F_{n+1} \\ F_{n} \end{bmatrix} = A^n\begin{bmatrix} 1 \\ 0 \end{bmatrix} = \frac{\lambda_1^nx_1 - \lambda_2^nx_2}{\lambda_1 - \lambda_2} $</p>
+<p>$F_n = \frac{\lambda_1^n - \lambda_2^n}{\lambda_1 - \lambda_2} = \frac{1}{\sqrt 5}\left(\left(\frac{1 + \sqrt 5}{2}\right)^n-\left(\frac{1 - \sqrt 5}{2}\right)^n\right) \approx \frac{1}{\sqrt 5}\left(\frac{1 + \sqrt 5}{2}\right)^n$</p>
+<p>[Lecture 23 starts here]</p>
+<h3><a id="user-content-differential-equations" class="anchor" aria-hidden="true" href="#differential-equations"><span aria-hidden="true" class="octicon octicon-link"></span></a>Differential Equations</h3>
+<p>In this part we are interested in systems look like this:</p>
+<p>$\begin{cases}\begin{matrix}
+\dfrac{du_1}{dt} & = & a_{1,1}u_1 & + &a_{1,2}u_2 & + &\cdots & + & a_{1,n}u_n \\
+\dfrac{du_2}{dt} & = & a_{2,1}u_1 & + &a_{2,2}u_2 & + &\cdots & + & a_{2,n}u_n \\
+\vdots & = & \vdots & + & \vdots & + &\ddots & + &\vdots \\
+\dfrac{du_n}{dt} & = & a_{n,1}u_1 & + &a_{n,2}u_2 & + &\cdots & + & a_{n,n}u_n \\
+\end{matrix}\end{cases}$</p>
+<p>Which can be write as</p>
+<p>$\frac{d\mathbf u}{dt} = A\mathbf u$</p>
+<p>The special solution to this is</p>
+<p>$\mathbf u = e^{\lambda_it}x_i$</p>
+<p>since</p>
+<p>$\frac{d\mathbf u}{dt} = \lambda_ie^{\lambda_it}x_i = A\mathbf u$</p>
+<p>Therefore we can solve these as</p>
+<p>$\mathbf u = c_1e^{\lambda_1t}x_1 + c_2e^{\lambda_2t}x_2 + \cdots + c_ne^{\lambda_nt}x_n$</p>
+<p>Given some $\mathbf u(t_0)$, we can do some elimination to obtain $\mathbf u$.<br>
+There are some interesting property of <em>every</em> $\mathbf u$:</p>
+<ol>
+<li>Stability. $\lim_{t \rightarrow \infty} \mathbf u(0) = \mathbf 0$ if $\textrm{Re}(\lambda_i) \leq 0$.<br>
+The imaginary part does not matter since $e^{i\theta} = \cos \theta + i \sin \theta$ and it always have the modular of $1$.</li>
+<li>Steady state. $\frac{d\mathbf u}{dt} = \mathbf u$ if some $\lambda_i = 0$ and others have $\textrm{Re}(\lambda_i) \leq 0$.</li>
+<li>Blow up. If any $\textrm{Re}(\lambda_i) > 0$.</li>
+</ol>
+<p>Notes on $2$ variable differential equation: for matrix $A = \begin{vmatrix}a & b \\ c & d \end{vmatrix}$, we can verify this matrix is stable or blowing up by $a + d < 0$ and $ad - bc > 0$.</p>
+<p>We can do more things than we current have.<br>
+Let's say $A$ has $n$ independent eigenvectors, and for the vector function $u$, we find</p>
+<p>$S\mathbf u = \mathbf v$</p>
+<p>then</p>
+<p>$S\frac{d\mathbf v}{dt} = AS\mathbf v$</p>
+<p>$\frac{d\mathbf v}{dt} = \Lambda\mathbf v$</p>
+<p>We are going to write that as</p>
+<p>$\mathbf v(t) = e^{\Lambda t}\mathbf v(0), \mathbf u(t) = Se^{\Lambda t}S^{-1}\mathbf u(0) = e^{A t}\mathbf u(0)$</p>
+<p>Wait a minute, what is $e^{At}$?</p>
+<p><strong>Definition.</strong> We define $e^{A}$ by the Taylor Series:</p>
+<p>$e^A = I + A + \frac{A^2}{2!} + \frac{A^3}{3!} + \cdots = \sum_{n = 0}^{\infty}\frac{A^n}{n!}$</p>
+<p>It is clear that</p>
+<p>$e^{At} = \sum_{n = 0}^{\infty}\frac{A^nt^n}{n!} = \sum_{n = 0}^{\infty}\frac{S\Lambda^nS^{-1}t^n}{n!} = S\sum_{n = 0}^{\infty}\frac{\Lambda^nt^n}{n!}S^{-1} = Se^{\Lambda t}S^{-1}$</p>
+<p>if $A$ is diagonalizable.</p>
+<h3><a id="user-content-ordinary-differential-equation" class="anchor" aria-hidden="true" href="#ordinary-differential-equation"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ordinary Differential Equation</h3>
+<p>Let's start with order $2$:</p>
+<p>$y'' + by' + ky = 0$</p>
+<p>Setup a column vector by</p>
+<p>$u = \begin{bmatrix} y' \\ y\end{bmatrix}$</p>
+<p>then</p>
+<p>$u' = \begin{bmatrix} y'' \\ y'\end{bmatrix}$</p>
+<p>and we have</p>
+<p>$\begin{bmatrix} y'' \\ y'\end{bmatrix} = \begin{bmatrix}
+-b & -k \\
+1 & 0 \\\end{bmatrix}\begin{bmatrix} y' \\ y\end{bmatrix}$</p>
+<p>which is solving</p>
+<p>$\frac{du}{dx} = Au$</p>
+<p>In fact, every ordinary differential equation with order $n$ can be solved by setting</p>
+<p>$\begin{bmatrix} y^{(n)} \\ \vdots \\ y'\end{bmatrix} = \begin{bmatrix}
+-a_{n-1} & -a_{n-2} & -a_{n-3} & \cdots & -a_1 \\
+1 & 0 & \cdots & \cdots & 0 \\
+0 & 1 & 0 & \cdots & 0 \\
+\vdots & \vdots & \ddots & \ddots & \vdots\\
+0 & 0 & \cdots & 1 & 0\\\end{bmatrix}\begin{bmatrix} y^{(n-1)} \\ \vdots \\ y\end{bmatrix}$</p>
+<p>and use the technique mentioned on previous section.</p>
+
+</body>
