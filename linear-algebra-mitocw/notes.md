@@ -1135,14 +1135,6 @@ and
 > For short, for symmetric matrix $A$ and non-singular matrix $M$, $MAM^T$ has the same signs of the eigenvalues with $A$.  
 > Since the symmetric matrix can have a $LDL^T$ decomposition, if the abovementioned theorem is true then this property is true then.  
 
-### Positive Definite Symmetric Matrices
-**Definition.** A matrix $A$ is called *positive definite symmetric matrix* if  
-1. $A$ is symmetric.  
-2. All eigenvalues of $A$ is positive.  
-
-**Property.** All the pivots of any positive definite symmetric matrix* is positive.  
-**Property.** All the sub-determinant (i.e. pick all of the small submatrices) are positive.  
-
 \[Lecture 26 starts here]  
 
 ## Complex Matrices  
@@ -1262,3 +1254,45 @@ $$F_n = \begin{bmatrix}
 Utilizing this formula makes multiplication of $F_nx$ takes only $\mathcal O(n \log n)$ of time.  
 
 In fact we have $F_n^HF_n = nI$, so inverse should not be a problem.  
+
+\[Lecture 27 starts here]
+
+### Positive Definite Symmetric Matrices
+**Definition.** A Hermitian matrix $A$ is called *positive-definite matrix* if all eigenvalues of $A$ is positive.  
+**Theorem.** A Hermitian matrix $A$ is called *positive-definite matrix* is equivlant to all the following properties:
+1.  All the pivots are positive.  
+2.  All the determinant of the top left $k\times k$ matrices (for $1 \leq k \leq n$) are positive.  
+3.  For any non-zero column vector $x$, $x^HAx > 0$.  
+
+> *Proof for 1 $\Leftrightarrow$ 3.* Assume $A$ is a real matrix, if it is not then the proof still works.  
+> Let $x = [x_1,x_2,\cdots,x_n]$, then we are finding the minimum of 
+> $$f(x_1, x_2, \cdots, x_n) = \sum_{i=1}^{n}a_{i, i}x_i^2 + \sum_{i\neq j}a_{i, j}x_ix_j$$  
+> When we do an elimination, we are multiplying the pivot by $-\frac{a_{i, j}}{a_{i, i}}$ and subtract from row $j$, which means for the same $i$, we are doing
+> $$\begin{cases}
+	a_{j, i} \leftarrow 0 & i < j \\ 
+	a_{j,j} \leftarrow a_{j,j} - \frac{a_{i,j}^2}{a_{i,i}} &  \\ 
+	a_{j, k} \leftarrow a_{j,k} - \frac{a_{i,j}}{a_{i,i}}a_{j, k} & i \leq j, k \\ 
+\end{cases}$$
+> We can see the bottom-down submatrix is still Hermitian, so
+> $$\begin{align*}
+& a_{i, i}x_i^2+\sum\frac{a_{i,j}^2}{a_{i,i}}x_j^2+\sum\frac{a_{i,j}}{a_{i,i}}a_{j, k} \\
+= & a_{i, i}x_i^2+\sum\frac{a_{i,j}^2}{a_{i,i}}x_j^2+\sum_{j<k}2\frac{a_{i,j}}{a_{i,i}}a_{j, k} \\
+= & a_{i, i}\left(x_i^2+\sum\frac{a_{i,j}^2}{a_{i,i}^2}x_j^2+\sum_{j<k}2\frac{a_{i,j}}{a_{i,i}^2}a_{j, k}\right) \\
+= & a_{i, i}\left(x_i+\sum\frac{a_{i,j}}{a_{i,i}}x_j\right)^2 \\
+\end{align*}$$
+> Therefore the pivots must be positive to make the function positive (you can notice that these vectors in the parathesis must be independent). 
+ 
+#### Application
+In calculus, for a single variable function $f \in C^2$, $f(x)$ is minmum (maximum) if $f'(x) = 0$ and $f''(x)$ is positive (negative).  
+For a multivariable function $f(x_1, x_2, \cdots, x_n)$, $f(\mathbf x)$ is minmum (maximum) if $f_{x_i}(x) = 0$ and the matrix $A = [f_{x_ix_j}(\mathbf x)]_{n\times n}$ is **positive(negative)-definite**.  
+
+#### Ellipsoid
+Ellipisoid is a 3D shape looks like a elliptic. A standard ellipisoid has the formula of
+$$\frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2} = 1$$
+For a positive-definite $3\times 3$ matrix, $x^HAx = 1$ is a ellipisoid.  
+Since $A$ is Hermitian, we can find $A = Q\Lambda Q^H$, and the equation is
+$$x^HQ\Lambda Q^Hx = 1$$
+Let $y = Q^Hx$, then we have $y^H\Lambda y = 1$, which is
+$$\frac{y_1^2}{\lambda_1}+\frac{y_2^2}{\lambda_2}+\frac{y_3^2}{\lambda_3} = 1$$
+That is why we are choosing positive-definite to be the condition.  
+Moreover, $\sqrt{\lambda_i}$ is going to be the length of the three axes (treat $Q$ as a linear transform).  
