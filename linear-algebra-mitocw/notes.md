@@ -522,7 +522,7 @@ Also we have the following identity:
 1. $P^\top  = \dfrac{(aa^\top )^\top }{a^\top a}= \dfrac{a^{TT}a^\top }{a^\top a} = \dfrac{aa^\top }{a^\top a} = P$
 2. In geometric perspective, projecting a vector twice does the same thing of projecing it once. In explicit definition,
    $P^2 = \dfrac{aa^\top }{a^\top a}\dfrac{aa^\top }{a^\top a} = \dfrac{a}{a^\top a}\dfrac{a^\top a}{a^\top a}\dfrac{a^\top }{1} = \dfrac{aa^\top }{a^\top a} = P$  
-3. It is pretty obvious by the definition: every row is a multiple of $a^\top $. Moreover, $C(P) = \{ca\}$.  
+3. It is pretty obvious by the definition: every row is a multiple of $a^\top$. Moreover, $C(P) = \{ca\}$.  
 
 #### 3D cases
 Let's say there are two vectors $a_1, a_2$ and they form a plane. How do we project any $b$ onto the plane?  
@@ -535,7 +535,7 @@ In matrix form,
 $$ \underbrace{\begin{bmatrix} & a_1^\top  & \\ & a_2^\top  & \\\end{bmatrix}}_{A^\top }\left(b - \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\begin{bmatrix}x_1 \\ x_2\end{bmatrix}\right) = \mathbf 0$$
 $$A^\top b = A^\top A\hat x$$
 Notice that the error $b-A\hat x$ is in $N(A^\top )$ (which is kind of intuitive: we restrict it to perpendicular to the column space).  
-If the inverse of $AA^\top $ exists, then we can find
+If the inverse of $AA^\top$ exists, then we can find
 $$p = A\hat x = A(A^\top A)^{-1}A^\top b$$
 
 \[Lecture 16 starts here]
@@ -544,7 +544,7 @@ What is happening in the projection matrix $P = A(A^\top A)^{-1}A^\top $?
  - If $b$ is orthogonal to the column space, then $A^\top b = \mathbf 0$, giving $p = \mathbf 0$.  
  - If $b$ is in the column space, then there exists $Ax = b$, then $p = Pb = Ax = b$.  
 
-We can see that we are actually finding two projections: $b = p + e$ and $p \in C(A), e \in N(A^\top )$.  
+We can see that we are actually finding two projections: $b = p + e$ and $p \in C(A), e \in N(A^\top)$.  
 
 **Property.** If $A$ has independent columns, then $A^\top A$ is invertible.  
 *Proof.* Suppose $A^\top Ax = \mathbf 0$, then we want to show that $x = \mathbf 0$.  
