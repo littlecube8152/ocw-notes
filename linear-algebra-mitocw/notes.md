@@ -150,9 +150,9 @@ Then we have $EA = I$, which means $E = A^{-1}$ and on the right side we have $A
 ### More inverses
 Inverse of $AB$? $B^{-1}A^{-1}$. (Check it for both sides!)  
 Inverse of $A^{T}$?  
-$(A^{-1}A)^T = I^T$  
-$A^T(A^{-1})^T = I$  
-Therefore it is $(A^{-1})^T$.  
+$(A^{-1}A)^\top  = I^\top $  
+$A^\top (A^{-1})^\top  = I$  
+Therefore it is $(A^{-1})^\top $.  
 
 ## LU-factorization (decomposition)
 > Purposes of $LU$-factorization:
@@ -185,17 +185,17 @@ $$PA = LU$$
 A permutation matrix $P$ is a square matrix which has exactly one $1$ in each row and column, and other elements are all $0$.
 In the previous section, $P = I$, which means no row exchanges are performed.
 From the row picture, we can see what $P$ does is exactly permuting the rows.
-A cool fact is that, the inverse of $P$, $P^{-1}$, is actually identical to the transpose of $P$, $P^T$.
+A cool fact is that, the inverse of $P$, $P^{-1}$, is actually identical to the transpose of $P$, $P^\top$.
 
 ## Transpose
 Basic rule:
-$$(AB)^T = B^TA^T$$
+$$(AB)^\top  = B^\top A^\top $$
 Symmetric matrices are the matrices satisfying
-$$A = A^T$$
+$$A = A^\top $$
 And we have the following property:
-**Property.** For any matrix $A$, $AA^T$ is symmetric.
+**Property.** For any matrix $A$, $AA^\top$ is symmetric.
 *Proof.* 
-$$(AA^T)^T = A^{TT}A^T = AA^T$$
+$$(AA^\top )^\top  = A^{\top\top}A^\top  = AA^\top $$
 \[Lecture 06 starts here]
 ## Vector Spaces - A Generalization of Vectors
 A vector space is a set of vectors which supports scalar multiplication and addition (which is what we have used to solve linear equations so far).
@@ -217,6 +217,7 @@ If not mentioned, we assume it should be hold for any $a, b \in F$ and $u, v, w 
 |Compatibility (of scalars)\*|$(ab)v = a(bv)$
 |Distributivity (of vectors)|$a(u+v) = au + av$
 |Distributivity (of scalars)|$(a + b)v = av + bv$
+
 \* Note: associativity of scalars are defined by fields, and vector spaces are good with the non-associative fields.
 
 There are many examples. In fact, for any positive integer $n$, $\mathbb R^n$ is a vector space over $\mathbb R$ (and it is easy to verify that).
@@ -358,8 +359,8 @@ Keypoint: if you already know the dimension of $V$, then every independent $\dim
 Suppose $A$ is a $m \times n$ matrix.
  1. Column space $C(A) \subset \mathbb R^m$
  2. Null space $N(A) \subset \mathbb R^n$
- 3. Row space $C(A^T)  \subset \mathbb R^n$
- 4. Left null space $N(A^T)  \subset \mathbb R^m$
+ 3. Row space $C(A^\top )  \subset \mathbb R^n$
+ 4. Left null space $N(A^\top )  \subset \mathbb R^m$
 
 We aleady know how to find the first two. What about the rest?
 
@@ -376,9 +377,9 @@ Say $A = \begin{bmatrix} 1 & 2 & 3 & 1 \\ 1 & 1 & 2 & 1 \\ 1 & 2 & 3 & 1\end{bma
 
 ### Left null space
 The reason it is called *left* null space is because, it contains all elements $y$ satisfying
-$$A^Ty = \mathbf 0$$
+$$A^\top y = \mathbf 0$$
 Transpose both side yields
-$$y^TA = \mathbf 0^T$$
+$$y^\top A = \mathbf 0^\top $$
 which resembles the definition of null space but the vector is on the left side.  
 
 How do we find it? Well, now we are interested in **what linear combinations of rows gives a zero row**.  
@@ -393,8 +394,8 @@ For example, take $A = \begin{bmatrix} 1 & 2 & 3 & 1 \\ 1 & 1 & 2 & 1 \\ 1 & 2 &
 ### Dimension relation
 The following relation holds:
 $$\dim C(A) + \dim N(A) = n$$
-$$\dim C(A^T) + \dim N(A^T) = m$$
-$$\dim C(A) = \dim C(A^T)$$
+$$\dim C(A^\top ) + \dim N(A^\top ) = m$$
+$$\dim C(A) = \dim C(A^\top )$$
 The first two are pretty obvious according to the definition, and the last can be observed that the pivot columns have the same number of non-zero rows, thus they have the same dimension.  
 
 \[Lecture 11 starts here]
@@ -449,11 +450,11 @@ Why this is important? We will see a few applications.
   Solving $Ax = \mathbf 0$ gives us some possiblilties of stable state. More specifically, the set of all stable states is the null space $N(A)$. 
 - Currents  
   In circuits, these edges are wires and some currents run through them. In this case, the potential of each node should have net difference of zero. Therefore it is stated by the equation  
-  $$ A^Ty=\mathbf 0$$
+  $$ A^\top y=\mathbf 0$$
   $$\begin{bmatrix}-1 & 0 & -1 & -1 & 0 \\ 1 & -1 & 0 & 0 & 0 \\ 0 & 1 & 1 & 0 & -1 \\ 0 & 0 & 0 & 1 & 1 \end{bmatrix}\begin{bmatrix}y_1 \\ y_2 \\ y_3 \\ y_4 \\ y_5\end{bmatrix} = \begin{bmatrix} 0 \\ 0 \\ 0 \\ 0\end{bmatrix}$$
-  Solving the left null space, $N(A^T)$, tells us what are the stable states. In fact, the basis of the null space are *circuits* (or called *cycles*).  
+  Solving the left null space, $N(A^\top )$, tells us what are the stable states. In fact, the basis of the null space are *circuits* (or called *cycles*).  
   Assume the graph is *connected*, we have the following identity:
-  $$\text{\#nodes } - \text{\#edges +} \dim N(A^T) = 1$$ 
+  $$\text{\#nodes } - \text{\#edges +} \dim N(A^\top ) = 1$$ 
   In physics, this is called **Kirchhoff's Current Law**.  
 
 Using Ohm's Law, the two aspects of incidence matrix can be united into a single equation.  
@@ -464,15 +465,15 @@ Using Ohm's Law, the two aspects of incidence matrix can be united into a single
 ## Orthogonality
 
 Two column matrices $x, y$ are called **orthogonal** ($x \perp y$) if
-$$x^Ty = \mathbf 0$$
+$$x^\top y = \mathbf 0$$
 
-**Property.** Let $\|x\|^2 = x^Tx$. $x$ and $y$ are orthogonal if and only if
+**Property.** Let $\|x\|^2 = x^\top x$. $x$ and $y$ are orthogonal if and only if
 $$\|x\|^2 + \|y\|^2 = \|x+y\|^2$$
 *Proof.* Expand RHS gives 
-$$x^Tx + x^Ty + y^Tx + y^Ty = x^Tx + y^Ty = \|x\|^2 + \|y\|^2$$
+$$x^\top x + x^\top y + y^\top x + y^\top y = x^\top x + y^\top y = \|x\|^2 + \|y\|^2$$
 
 **Definition.** Subspace $S$ is called **orthogonal to** subspace $T$ if 
-$$\forall s \in S, \forall t \in T, s^Tt = \mathbf 0$$
+$$\forall s \in S, \forall t \in T, s^\top t = \mathbf 0$$
 
 For example,  
 **Property.** For the same matrix $A$, row space is orthogonal to the null space.  
@@ -484,7 +485,7 @@ Since row space only contains linear combinations of the rows, they all satisfy 
 Formally, let's say $A$ is $m \times n$, and we denote row $i$ by vector $u_i$. For each element $v$ in the row space, we can find $m$ real numbers $c_1, c_2, \cdots, c_m$ satisfying
 $$c_1 u_1 + c_2 u_2 + \cdots + c_m u_m = u$$
 Therefore, for any element $x$ in the null space,
-$$u^Tx = (c_1 u_1 + c_2 u_2 + \cdots + c_m u_m)^Tx = 0 + 0 + \cdots + 0 = 0$$
+$$u^\top x = (c_1 u_1 + c_2 u_2 + \cdots + c_m u_m)^\top x = 0 + 0 + \cdots + 0 = 0$$
 For the same reason, column space is orthogonal to the left null space.  
 
 Not only they are orthogonal, they are *orthogonal complements* in $\mathbb R^n$, which means null space contains *all* vectors that are orthogonal to the (all the elements in) the row space and vice versa.  
@@ -505,12 +506,12 @@ Projection, is the tool that enables us project any $b$ onto the $C(A)$ in a for
 #### 2D cases
 Let's say $a, b$ are two vectors. What does it mean to *project* $b$ onto $a$?  
 We want to find some $p = xa$, and the error $b - p$, should perpendicular (or *orthogonal*) to $a$. In the language of math, 
-$$a^T(b - xa) = \mathbf 0$$
+$$a^\top (b - xa) = \mathbf 0$$
 Solving it yields
-$$a^Tb = xa^Ta \Rightarrow x = \frac{a^Tb}{a^Ta} \Rightarrow p = a \cdot \frac{a^Tb}{a^Ta}$$
+$$a^\top b = xa^\top a \Rightarrow x = \frac{a^\top b}{a^\top a} \Rightarrow p = a \cdot \frac{a^\top b}{a^\top a}$$
 There is something noteworthy, that is, if we re-write the equation as
-$$p = \frac{aa^T}{a^Ta}\cdot b$$
-This gives a matrix $P = \dfrac{aa^T}{a^Ta}$ which does the projection work!
+$$p = \frac{aa^\top }{a^\top a}\cdot b$$
+This gives a matrix $P = \dfrac{aa^\top }{a^\top a}$ which does the projection work!
 Also we have the following identity:  
 **Property.** Assume $P$ is a projection matrix, then  
 1. $P$ is symmetric.  
@@ -518,10 +519,10 @@ Also we have the following identity:
 3. $\dim C(P) = 1$ if $a \neq \mathbf 0$
 
 *Proof.* 
-1. $P^T = \dfrac{(aa^T)^T}{a^Ta}= \dfrac{a^{TT}a^T}{a^Ta} = \dfrac{aa^T}{a^Ta} = P$
+1. $P^\top  = \dfrac{(aa^\top )^\top }{a^\top a}= \dfrac{a^{TT}a^\top }{a^\top a} = \dfrac{aa^\top }{a^\top a} = P$
 2. In geometric perspective, projecting a vector twice does the same thing of projecing it once. In explicit definition,
-   $P^2 = \dfrac{aa^T}{a^Ta}\dfrac{aa^T}{a^Ta} = \dfrac{a}{a^Ta}\dfrac{a^Ta}{a^Ta}\dfrac{a^T}{1} = \dfrac{aa^T}{a^Ta} = P$  
-3. It is pretty obvious by the definition: every row is a multiple of $a^T$. Moreover, $C(P) = \{ca\}$.  
+   $P^2 = \dfrac{aa^\top }{a^\top a}\dfrac{aa^\top }{a^\top a} = \dfrac{a}{a^\top a}\dfrac{a^\top a}{a^\top a}\dfrac{a^\top }{1} = \dfrac{aa^\top }{a^\top a} = P$  
+3. It is pretty obvious by the definition: every row is a multiple of $a^\top $. Moreover, $C(P) = \{ca\}$.  
 
 #### 3D cases
 Let's say there are two vectors $a_1, a_2$ and they form a plane. How do we project any $b$ onto the plane?  
@@ -529,34 +530,34 @@ We want to find some $p$ which is the linear combination of $a_1$ and $a_2$, and
 $$p = x_1 a_1 + x_2 a_2$$
 we could re-write that as
 $$p = \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\underbrace{\begin{bmatrix}x_1 \\ x_2\end{bmatrix}}_{\hat x}$$
-$$\begin{cases}a_1^T(b - A\hat x) & = \mathbf 0 \\ a_2^T(b - A\hat x) & = \mathbf 0  \end{cases}$$
+$$\begin{cases}a_1^\top (b - A\hat x) & = \mathbf 0 \\ a_2^\top (b - A\hat x) & = \mathbf 0  \end{cases}$$
 In matrix form, 
-$$ \underbrace{\begin{bmatrix} & a_1^T & \\ & a_2^T & \\\end{bmatrix}}_{A^T}\left(b - \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\begin{bmatrix}x_1 \\ x_2\end{bmatrix}\right) = \mathbf 0$$
-$$A^Tb = A^TA\hat x$$
-Notice that the error $b-A\hat x$ is in $N(A^T)$ (which is kind of intuitive: we restrict it to perpendicular to the column space).  
-If the inverse of $AA^T$ exists, then we can find
-$$p = A\hat x = A(A^TA)^{-1}A^Tb$$
+$$ \underbrace{\begin{bmatrix} & a_1^\top  & \\ & a_2^\top  & \\\end{bmatrix}}_{A^\top }\left(b - \underbrace{\begin{bmatrix} & \\ a_1 & a_2 \\ & \\\end{bmatrix}}_A\begin{bmatrix}x_1 \\ x_2\end{bmatrix}\right) = \mathbf 0$$
+$$A^\top b = A^\top A\hat x$$
+Notice that the error $b-A\hat x$ is in $N(A^\top )$ (which is kind of intuitive: we restrict it to perpendicular to the column space).  
+If the inverse of $AA^\top $ exists, then we can find
+$$p = A\hat x = A(A^\top A)^{-1}A^\top b$$
 
 \[Lecture 16 starts here]
 
-What is happening in the projection matrix $P = A(A^TA)^{-1}A^T$?
- - If $b$ is orthogonal to the column space, then $A^Tb = \mathbf 0$, giving $p = \mathbf 0$.  
+What is happening in the projection matrix $P = A(A^\top A)^{-1}A^\top $?
+ - If $b$ is orthogonal to the column space, then $A^\top b = \mathbf 0$, giving $p = \mathbf 0$.  
  - If $b$ is in the column space, then there exists $Ax = b$, then $p = Pb = Ax = b$.  
 
-We can see that we are actually finding two projections: $b = p + e$ and $p \in C(A), e \in N(A^T)$.  
+We can see that we are actually finding two projections: $b = p + e$ and $p \in C(A), e \in N(A^\top )$.  
 
-**Property.** If $A$ has independent columns, then $A^TA$ is invertible.  
-*Proof.* Suppose $A^TAx = \mathbf 0$, then we want to show that $x = \mathbf 0$.  
-BRILLIANT IDEA: multiply both side by $x^T$ on the left.  
-$$x^TA^TAx = \mathbf 0$$
+**Property.** If $A$ has independent columns, then $A^\top A$ is invertible.  
+*Proof.* Suppose $A^\top Ax = \mathbf 0$, then we want to show that $x = \mathbf 0$.  
+BRILLIANT IDEA: multiply both side by $x^\top $ on the left.  
+$$x^\top A^\top Ax = \mathbf 0$$
 Therefore 
-$$(Ax)^T(Ax) = \mathbf 0 \Rightarrow \|Ax\| = 0 \Rightarrow Ax = \mathbf 0$$
+$$(Ax)^\top (Ax) = \mathbf 0 \Rightarrow \|Ax\| = 0 \Rightarrow Ax = \mathbf 0$$
 Since $A$ has independent columns, its null space is $\{\mathbf 0\}$. Thus $x = \mathbf 0$.  
 
 ### Application - Smallest Square
 Let's head back the example we left as describing why projection is important and actually solve it.  
 
-**Property.** If $b = p + e$ and $p \in C(A)$, then $e$ attains its minimum length ($\|e\|$) if $e \in N(A^T)$.  
+**Property.** If $b = p + e$ and $p \in C(A)$, then $e$ attains its minimum length ($\|e\|$) if $e \in N(A^\top )$.  
 It is kind of intuitive, if $e$ is not then we can always extract the part in column space and get a smaller one.  
 
 In 2D, we are going to find a line $a + bt$ to make the error as small as possible. The points were $(1, 1), (2, 2), (3, 2)$, thus
@@ -590,15 +591,15 @@ which gives $a = \frac 2 3, b = \frac 1 2$.
 \[Lecture 17 starts here]
 
 ### Orthonormal basis and matrix
-A basis $q_1, q_2, \cdots, q_n$ is called a **orthonormal basis** if $q_i^Tq_j = \begin{cases} 0 & \text{if } i \neq j \\ 1 & \text{if } i = j\end{cases}$.  
+A basis $q_1, q_2, \cdots, q_n$ is called a **orthonormal basis** if $q_i^\top q_j = \begin{cases} 0 & \text{if } i \neq j \\ 1 & \text{if } i = j\end{cases}$.  
 A **square** matrix is **orthonormal (orthogonal)** if its columns are orthonormal basis.  
 
-**Property.** Let $q$ be a orthonormal basis, and $Q = \begin{bmatrix}q_1 & q_2 & \cdots & q_n\end{bmatrix}$, then $Q^TQ = I$.  
-**Property.** Let $Q$ be a orthonormal matrix, then $Q^T = Q^{-1}, Q^TQ = QQ^T = I$.
+**Property.** Let $q$ be a orthonormal basis, and $Q = \begin{bmatrix}q_1 & q_2 & \cdots & q_n\end{bmatrix}$, then $Q^\top Q = I$.  
+**Property.** Let $Q$ be a orthonormal matrix, then $Q^\top  = Q^{-1}, Q^\top Q = QQ^\top  = I$.
 
 Why are we discussing orthonormal basis? It turns out when dealing with projections,  
-$$P = Q(Q^TQ)^{-1}Q^T = QQ^T$$
-$$Q^TQ\hat x=\hat x=Q^Tb$$
+$$P = Q(Q^\top Q)^{-1}Q^\top  = QQ^\top $$
+$$Q^\top Q\hat x=\hat x=Q^\top b$$
 If we could, somehow turn every matrix $A$ into orthonomal basis $Q$, then projection is very easy.  
 
 ### Gram-Schmidt Process
@@ -607,8 +608,8 @@ Idea: The first vector can stay, and for each new vector we meet, we subtract it
 
 Suppose we have $v_1, v_2, v_3$.  
  - $u_1 = v_1$
- - $u_2 = v_2 - \dfrac{u_1^Tv_2}{u_1^Tu_1}u_1$  
- - $u_3 = v_3 - \dfrac{u_1^Tv_3}{u_1^Tu_1}u_1 - \dfrac{u_2^Tv_3}{u_2^Tu_2}u_2$  
+ - $u_2 = v_2 - \dfrac{u_1^\top v_2}{u_1^\top u_1}u_1$  
+ - $u_3 = v_3 - \dfrac{u_1^\top v_3}{u_1^\top u_1}u_1 - \dfrac{u_2^\top v_3}{u_2^\top u_2}u_2$  
 
 Then $q_1 = \dfrac{u_1}{\|u_1\|}, q_2 = \dfrac{u_2}{\|u_2\|}, q_3 = \dfrac{u_3}{\|u_3\|}$.  
 
@@ -618,7 +619,7 @@ Then $q_1 = \dfrac{u_1}{\|u_1\|}, q_2 = \dfrac{u_2}{\|u_2\|}, q_3 = \dfrac{u_3}{
 If we have all orthonormal vectors in a vector space, when computing
 $$v = c_1q_1 + c_2q_2 + \cdots c_nq_n$$
 We can do
-$$q_i^Tv = c_1q_i^Tq_1 + c_2q_i^Tq_2 + \cdots c_nq_i^Tq_n = c_iq_i^Tq_i = c_i$$
+$$q_i^\top v = c_1q_i^\top q_1 + c_2q_i^\top q_2 + \cdots c_nq_i^\top q_n = c_iq_i^\top q_i = c_i$$
 
 A fourier series is to break some $f: [0, 2\pi) \rightarrow \mathbb R$ into
 $$f(x) = a_0 + a_1 \cos x + b_1 \sin x + a_2 \cos 2x + b_2 \sin 2x + \cdots$$
@@ -676,8 +677,8 @@ There are 11 basic properties of determinant, and the first four of them (is one
 9. $\det A = 0$ if $A$ is singular; $\det A \neq 0$ if $A$ is invertible.  
    *Proof.* With 6. we can do elimination and this property is pretty obvious.  
 10. $\det AB = \det A \det B$.
-11. $\det A^T = \det A$.
-    *Proof.* If $A$ is singular then both sides are $0$. Otherwise let $A = LU$, then $A^T=U^TL^T$ and it is obvious that $\det A^T = \det U^T \det L^T = \det U \det L = \det L \det U = \det A$.  
+11. $\det A^\top  = \det A$.
+    *Proof.* If $A$ is singular then both sides are $0$. Otherwise let $A = LU$, then $A^\top =U^\top L^\top $ and it is obvious that $\det A^\top  = \det U^\top  \det L^\top  = \det U \det L = \det L \det U = \det A$.  
 
 \[Lecture 19 starts here]
 
@@ -836,18 +837,18 @@ $$\det A_n = \det A_{n - 1} - \det A_{n - 2}$$
 ### Inverse Formula
 Let the cofactor matrix $C$ be $c_{i, j} = (-1)^{i + 1}\det M_{i, j}$.  
 The inverse of $A$ is 
-$$A^{-1} = \frac 1 {\det A}C^T$$
+$$A^{-1} = \frac 1 {\det A}C^\top $$
 Why?
 For the main diagaonal of row $i$,
 $$\sum_{j = 1}^{n}a_{i, j}c_{i, j} = \det A$$
 For the rest, say row $i$ column $j$,
 $$\sum_{k=1}^{n}a_{i, k}c_{j, k}$$
 we rebuild a matrix $K$ the same with $A$ but the row $j$ is replaced by row $i$, then this matrix is singular and $\det K = 0$.  
-Therefore $AC^T = (\det A)I$, $A^{-1} = \frac 1 {\det A}C^T$.  
+Therefore $AC^\top  = (\det A)I$, $A^{-1} = \frac 1 {\det A}C^\top $.  
 
 ### Cramer's Rule
 If $A$ is invertible then
-$$Ax = b \Rightarrow x = A^{-1}b = \frac 1 {\det A} C^Tb$$
+$$Ax = b \Rightarrow x = A^{-1}b = \frac 1 {\det A} C^\top b$$
 What is $x_i$?
 $$x_i = \frac 1 {\det A}\sum_{j=1}^n b_jc_{j, i}$$
 If we define the matrix $B_i$ the same with $A$ but the column $i$ is replaced by $b$, then
@@ -1114,7 +1115,7 @@ Let $A$ be a symmetric matrix.
 
 **Property.** All eigenvalues $\lambda_i$ of $A$ is real.  
 *Proof.* Assume $x$ is the correspond eigenvector of eigenvector $\lambda$.  
-$$Ax = \lambda x \Rightarrow \bar A\bar x = \bar\lambda \bar x \Rightarrow \bar x^T\bar A = \bar\lambda \bar x^T$$
+$$Ax = \lambda x \Rightarrow \bar A\bar x = \bar\lambda \bar x \Rightarrow \bar x^\top \bar A = \bar\lambda \bar x^\top $$
 Let $A^*$ be the conjugate transpose of $A$.  
 We have
 $$x^*A = \bar \lambda x^* \Rightarrow x^*Ax = \lambda x^*x = \bar \lambda x^*x$$
@@ -1126,14 +1127,14 @@ Since $x$ is non-zero, $\|x\|^2 = x^*x > 0$, and $\lambda = \bar\lambda \Rightar
 > For now this part is skipped and it will be filled in later (hope so).  
 
 Using the two properties we get that not only $A$ is diagonalizable but also  
-$$A = Q\Lambda Q^{-1} = Q\Lambda Q^T$$  
+$$A = Q\Lambda Q^{-1} = Q\Lambda Q^\top $$  
 and  
 **Proposition.** Every symmetric matrix is a linear combination of projection matrices.  
 
 **Property.** For symmetric matrices, the signs of the pivots are the same as the signs of the eigenvalues.  
 > *Proof.* There is a thing called congurent relation, link: https://math.stackexchange.com/questions/57887/how-does-number-of-signs-of-pivots-same-as-number-of-signs-of-eigenvalues-help-i  
-> For short, for symmetric matrix $A$ and non-singular matrix $M$, $MAM^T$ has the same signs of the eigenvalues with $A$.  
-> Since the symmetric matrix can have a $LDL^T$ decomposition, if the abovementioned theorem is true then this property is true then.  
+> For short, for symmetric matrix $A$ and non-singular matrix $M$, $MAM^\top $ has the same signs of the eigenvalues with $A$.  
+> Since the symmetric matrix can have a $LDL^\top$ decomposition, if the abovementioned theorem is true then this property is true then.  
 
 \[Lecture 26 starts here]  
 
@@ -1143,14 +1144,14 @@ There are some details we are going to change before we go from *real* to *compl
   - Norm  
 	In real world, we can take $|a|^2 = a^2$, but in complex numbers, $|z|^2 = z\bar z$.  
 	Therefore the new definition of magnitude is  
-	$$\|v\|^2 = v^Hv \quad (v^H = \bar v^T)$$
+	$$\|v\|^2 = v^Hv \quad (v^H = \bar v^\top )$$
 	We call the conjugate transpose of $v$ the *Hermitian* of $v$.  
   - Inner Product  
 	We are going to change the definition of inner product because this definition is subjective to the definition of norm.  
 	$$y \cdot x = y^Hx$$ 
   - Symmetric Matrix  
 	Now symmetric matrices are the matrices satisfying  
-	$$\bar A^T = A^H = A$$
+	$$\bar A^\top  = A^H = A$$
   - Orthogonal  
 	A new definition: if complex square matrix $Q$ satisfying  
 	$$Q^HQ = I$$
@@ -1282,6 +1283,8 @@ In fact we have $F_n^HF_n = nI$, so inverse should not be a problem.
 \end{align*}$$
 > Therefore the pivots must be positive to make the function positive (you can notice that these vectors in the parathesis must be independent). 
  
+**Property.** For any $m \times n$ matrix $A$, $A^\top A$ is semi-positive definite and if its rank is $n$, it is positive definite.  
+
 #### Application
 In calculus, for a single variable function $f \in C^2$, $f(x)$ is minmum (maximum) if $f'(x) = 0$ and $f''(x)$ is positive (negative).  
 For a multivariable function $f(x_1, x_2, \cdots, x_n)$, $f(\mathbf x)$ is minmum (maximum) if $f_{x_i}(x) = 0$ and the matrix $A = [f_{x_ix_j}(\mathbf x)]_{n\times n}$ is **positive(negative)-definite**.  
@@ -1296,3 +1299,105 @@ Let $y = Q^Hx$, then we have $y^H\Lambda y = 1$, which is
 $$\frac{y_1^2}{\lambda_1}+\frac{y_2^2}{\lambda_2}+\frac{y_3^2}{\lambda_3} = 1$$
 That is why we are choosing positive-definite to be the condition.  
 Moreover, $\sqrt{\lambda_i}$ is going to be the length of the three axes (treat $Q$ as a linear transform).  
+
+\[Lecture 28 starts here]
+## Similar Matrices  
+**Definition.** Two square matrices $A$, $B$ are *similar* if there exist a invertible matrix $M$ such that $M^{-1}AM = B$.  
+
+**Property.** Two similar matrices $A, B$ have the same eigenvalues.  
+*Proof.*  
+$$Ax = \lambda x \Rightarrow M^{-1}AMM^{-1}x =\lambda M^{-1}x \Rightarrow B(M^{-1}x) = \lambda (M^{-1}x)$$
+
+### Jordan Form
+**Definition.** A Jordan block $J$ is matrix such that
+$$J = \begin{bmatrix}
+\lambda & 1 & 0 & \cdots & 0 & 0 \\
+0 & \lambda & 1 & \cdots & 0 & 0 \\
+0 & 0 & \lambda & \ddots & 0 & 0 \\
+\vdots & \vdots & \ddots & \ddots & \ddots & \vdots \\
+0 & 0 & 0 & \ddots & \lambda & 1 \\
+0 & 0 & 0 & \cdots & 0 & \lambda \\
+\end{bmatrix}$$	
+
+**Theorem.** For any square matrix $A$, there exists a matrix $P$ in the form of
+$$P = \begin{bmatrix}
+J_1 & 0 & 0 & \cdots & 0 \\
+0 & J_2 & 0 & \cdots & 0 \\
+0 & 0 & J_3 & \cdots & 0 \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+0 & 0 & 0 & \cdots & J_p \\
+\end{bmatrix}$$
+where $J_i$ is a Jordan block. Such $P$ is called the **Jordan Canonical Form** of $A$.  
+
+> ### Finding Jordan Canonical Form
+> This part does not contain proof currently (since it is said to be hard, but that might be filled up later).  
+> For some $n \times n$ square matrix $A$, the problem is that
+> $$(A - \lambda I)v = 0$$
+> might not have enough solution although $\lambda$ are sure to have $n$ roots of the characteristic polynomial.  
+> So we generalize it. A $v$ is called a *generalized eigenvector* if
+> $$(A - \lambda I)^kv = 0$$
+> for some integer $k$.  
+> Then there are always $n$ generalized eigenvectors.
+> > *Non-rigorous Proof.*  
+> > Assume for some eigenvalue $\lambda$ it has multiplicity $r$ (which means $\lambda$ exists $r$ times as the roots in the characteristic polynomial), then the following equations:
+> > $$\begin{cases}(A - \lambda I)v = 0 \\ (A - \lambda I)^2v = 0 \\ \vdots \\ (A - \lambda I)^rv = 0\end{cases}$$
+> > solve $r$ linearly independent $v$.
+> > Since we can rewrite that as 
+> > $$\begin{cases}(A - \lambda I)v_1 = 0 \\ (A - \lambda I)v_2 = v_1 \\ \vdots \\ (A - \lambda I)v_r = v_{r-1}\end{cases}$$
+> > $v_{i+1}$ is in $v_i$ equation's row space, and row space is orthogonal to the null space so they should be linearly independent.  
+>
+> Finding the $n$ generalized eigenvectors follows the procedure below:  
+> For each $\lambda_i$ with multiplicity $r$, we solve $(A - \lambda_iI)v = 0$ and see if there is $r$ inearly independent solutions.  
+> If not, we solve $(A - \lambda_iI)^2v = 0$, $(A - \lambda_iI)^3v = 0$, and so on until we have $r$ linearly independent solutions.  
+> Now we consider the *chain* generated by solving $(A - \lambda_iI)v_{i+1} = v_i$, we can partition these solutions into many chains $\{v_1, v_2, \cdots\}$.  
+> Let the chains' sizes be $s_1, s_2, \cdots, s_k$ (there should be $\mathrm{rank}(A - \lambda_iI)$ chains), then the Jordan blocks of $\lambda_i$ has sizes of $s_1, s_2, \cdots, s_k$.  
+> (For the proof of why, search Jordan chains and I might fill up this as well later.)  
+> 
+> Solving each eigenvalues and put their blocks into a matrix gives the Jordan form.  
+>
+> To find such $M^{-1}AM = P$, we have to find these basis (in the order of *chains*), and put them in the blocks' order first and the decreasing rank order next in $M$.  
+
+The idea for the Jordan Form is because there are some matrices that are not diagonalizable, but by finding the Jordan Form of them, we can obtain a somewhat silimar form. As you can see:
+
+$$A = Q\Lambda Q^{-1}$$
+$$A = MPM^{-1}$$
+
+are *similar* to each other.  
+
+\[Lecture 29 starts here]
+
+## Single Value Decomposition
+The target of single value decomposition is to decompose **ANY** $m \times n$ matrix $A$ into
+$$A = U\Sigma V^\top$$
+where $U, V$ are orthogonal matrices and $\Sigma$ is a diagonal matrix.  
+
+It is equivlant to
+$$AV = U\Sigma$$
+which means we are going to find orthonormal basis $v_i$ in row space, and $\sigma_i u_i = Av_i$ is an orthogonal basis of the column space.  
+
+How do we find it? A cool identity is
+$$A^\top A = V\Sigma^\top U^\top U\Sigma V^\top = V\begin{bmatrix}\sigma_1 \\ & \sigma_2 \\ && \ddots\end{bmatrix}V^\top$$
+and $A^\top A$ is semi-positive definite!  
+Therefore, we can find $A^\top A = Q\Lambda Q^\top$ and we can find $V$ and $\Sigma$.  
+
+Using the same method, we can find $AA^\top =  U\Sigma V^\top V\Sigma^\top U^\top = U\Sigma U^\top$ and again $AA^\top$ is semi-positive definite, so we can do another $AA^\top = Q'\Lambda' Q'^\top$ to find $U$ and $\Sigma$.  
+However using this method, $U$ might not be consistent with $V$, and the following construction is much better:  
+Since we hope $U$ satisfies $AV = U\Sigma$,
+let $u_i = \dfrac{Av_i}{\sigma_i}$.  
+We want to show that $u_i$ is orthonormal. By evaluating, 
+$$u_i^\top u_i = \dfrac{v_i^\top A^\top}{\sigma_i}\dfrac{Av_i}{\sigma_i} = \dfrac{v_i^\top \sigma_i^2 v_i}{\sigma_i^2} = 1$$
+$$u_i^\top u_j = \dfrac{v_i^\top A^\top}{\sigma_i}\dfrac{Av_j}{\sigma_j} = \dfrac{v_i^\top \sigma_j^2 v_j}{\sigma_i\sigma_j} = 0$$
+Therefore if $m \leq n$, we can directly make 
+$$U = \begin{bmatrix}u_1 & u_2 & \cdots & u_m \end{bmatrix}, \Sigma = \begin{bmatrix}\sigma_1 \\ & \sigma_2 \\ && \ddots \\ &&& \sigma_m & 0 & \cdots \end{bmatrix}$$
+Otherwise we can fill up $U$ using Gram-Schmidt process (by taking the null spaces) as
+
+$$U = \begin{bmatrix}u_1 & u_2 & \cdots & u_m \end{bmatrix}, \Sigma = \begin{bmatrix}\sigma_1 \\ & \sigma_2 \\ && \ddots \\ &&& \sigma_n \\ &&& 0 \\ &&& \vdots \end{bmatrix}$$
+
+An interesting fact is that if $\mathrm{rank}(A) = r$,  
+$v_{[1, r]}$ are the orthonormal basis of row space,  
+$u_{[1, r]}$ are the orthonormal basis of column space,  
+$v_{[r + 1, n]}$ are the orthonormal basis of null space,  
+$u_{[r + 1, m]}$ are the orthonormal basis of left null space.  
+
+\[Lecture 30 starts here]
+ 
