@@ -1,0 +1,13 @@
+{
+    "markdown.styles": [
+        "markdown.css"
+    ],
+    "files.exclude":{
+        "**/*.aux": true,
+        "**/*.log": true,
+        "**/*.synctex.gz": true
+    },
+    "[latex]": {
+        "editor.wordWrap": "on"
+    }
+}

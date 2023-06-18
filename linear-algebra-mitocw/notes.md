@@ -54,7 +54,7 @@ Then we subtract two times row 2 from row 3 to eliminate the four.
 $$\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 4 & 1\end{bmatrix}\rightarrow\begin{bmatrix}\mathbf{1} & 2 & 1 \\ 0 & \mathbf{2} & -2 \\ 0 & 0 & 5\end{bmatrix}$$
 Then only one row and one column are left, and we are done!
 
-Well, before we go to the solution of the original equation, let's see will the elimination work in every case?
+Well, before we go to the solution to the original equation, let's see will the elimination work in every case?
 Obvious no, if at some point we are not able to choose a pivot, that is, the column we are dealing with are left with all zeros.
 
 Let's head back to the solution. We put the constant term in column 4 and solve it, this called **augmented matrix**.
@@ -298,7 +298,7 @@ You see the formula we just obtained also works here.
 \[Lecture 08 starts here]
 
 #### Finding Solutions
-We already solved all solutions of $Ax = \mathbf 0$, then what about the general problem: solving $Ax = b$?
+We already solved all solutions to $Ax = \mathbf 0$, then what about the general problem: solving $Ax = b$?
 What are the solutions? How many are them? Or do they even exist?
 - Existence
 	$b$ has a solution if and only if the augmented matrix $[A|b]$ does not have any row with all zeroes in $A$ but non-zero in $b$.
@@ -519,7 +519,7 @@ Also we have the following identity:
 3. $\dim C(P) = 1$ if $a \neq \mathbf 0$
 
 *Proof.* 
-1. $P^\top  = \dfrac{(aa^\top )^\top }{a^\top a}= \dfrac{a^{TT}a^\top }{a^\top a} = \dfrac{aa^\top }{a^\top a} = P$
+1. $P^\top  = \dfrac{(aa^\top )^\top }{a^\top a}= \dfrac{a^{\top\top}a^\top }{a^\top a} = \dfrac{aa^\top }{a^\top a} = P$
 2. In geometric perspective, projecting a vector twice does the same thing of projecing it once. In explicit definition,
    $P^2 = \dfrac{aa^\top }{a^\top a}\dfrac{aa^\top }{a^\top a} = \dfrac{a}{a^\top a}\dfrac{a^\top a}{a^\top a}\dfrac{a^\top }{1} = \dfrac{aa^\top }{a^\top a} = P$  
 3. It is pretty obvious by the definition: every row is a multiple of $a^\top$. Moreover, $C(P) = \{ca\}$.  
@@ -980,7 +980,7 @@ When can we do such convenient thing? It turns out
 > If we have only one vector $x_1$, then $x_1$ is sure to be linearly independent.  
 > Assume we already have $k - 1$ linearly independent eigenvectors, then consider the $k$-th eigenvector.  
 > We want to show that
-> $c_1x_1 + c_2x_2 + \cdots + c_kx_k$ only have solution of $c_i = 0$.  
+> $c_1x_1 + c_2x_2 + \cdots + c_kx_k$ only have a solution of $c_i = 0$.  
 > Let $c = \begin{bmatrix}c_1, c_2, \cdots, c_k, 0, \cdots, 0\end{bmatrix}$. The equation is equivlant to
 > $$Sc = \mathbf 0$$
 > Multiply both side by $A$ gives

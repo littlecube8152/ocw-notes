@@ -1,0 +1,101 @@
+\documentclass[12pt,a4paper]{report}
+
+% math packages
+\usepackage{amsmath,amssymb,amsthm}
+
+% fonts
+\usepackage{fontspec}
+\renewcommand{\familydefault}{\sfdefault}
+\setsansfont[
+  BoldFont={WorkSans-Bold.ttf}, 
+  ItalicFont={WorkSans-Italic.ttf},
+  BoldItalicFont={WorkSans-BoldItalic.ttf}
+  ]{WorkSans-Regular.ttf}
+\setmonofont{Source Code Pro}
+\usepackage[no-math]{luatexja-fontspec}
+\setmainjfont[BoldFont=Noto Serif TC Bold]{Noto Serif TC}
+\setsansjfont[BoldFont=Noto Sans TC Bold]{Noto Sans TC}
+\ltjsetparameter{jacharrange={-1, -2, +3, -4, -5, +6, +7, +8}}
+\setmonofont{Monaco}
+
+% funny emoji
+\usepackage{emoji}
+\setemojifont{Twemoji Mozilla}
+
+% headers and footers
+\usepackage[margin=1.5cm]{geometry}
+\addtolength{\headheight}{1cm}
+\addtolength{\textheight}{-1cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\usepackage{calc}
+\fancypagestyle{firststyle}
+{
+\rhead{\makebox[3cm][r]{
+  \raisebox{-\totalheight+0.6cm}[0pt][0pt]{
+    \includegraphics[width=3cm]{qr}\hspace{-1em}}}}
+    }
+\cfoot{\thepage}
+
+% paragraph formatting
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.25}
+\usepackage{setspace}
+
+% tabular
+\usepackage{ctable}
+\usepackage{tabularx}
+
+% math convensional macro
+\newcommand{\ve}{\varepsilon}
+\newcommand{\overbar}[1]{\mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu}
+\renewcommand{\qedsymbol}{\(\blacksquare\)}
+
+
+\begin{document}
+  \title{General Physics Note}
+  \author{LittleCube \Huge\emoji{ice-cube}}
+
+  \maketitle
+
+  \section*{4 Motion in Two and Three Dimensions}
+  \subsection*{Proof of Uniform Circular Motion Acceleration}
+  A particle in two dimension is moving countercolockwise in a circular motion revolving the origin with radius \(R\), its velocity is constant and tangent to the circle, therefore
+  \[v_x = - v \sin \theta, v_y = v \cos \theta.\]
+  Substituting \(\cos \theta, \sin \theta\) with displacement gives
+  \[v_x = - v \cdot \frac{x_y}{R}, v_y = v \cdot \frac{x_x}{R}.\]
+  Differentiating them yields the acceleration,
+  \[a_x = - v \cdot \frac{v_y}{R} = - v^2 \cdot \frac{\sin \theta}{R}, a_y = v \cdot \frac{v_x}{R} = - v^2 \cdot \frac{\cos \theta}{R}.\]
+  Therefore the magnitude of the acceleration is
+  \[a = \frac{v^2}{R}\]
+
+  \section*{5 Force and Motion -- I}
+  \subsection*{A Confusion I Have Made For a Long Time}
+
+  The unit \textbf{Newton} is defined by
+  \[1 \mathrm{N} = 1 \mathrm{kg \cdot m/s^2}\]
+  Therefore, an object with mass \(m\) has the weight \(mg\) where \(g\) is the gravitational acceleration at the place.  
+  1 \(\mathrm{N}\) is \textbf{not} defined as 9.8 \(\mathrm{kg}\). It is a \textbf{misunderstand} (since in most cases we are dealing with objects on the Earth).
+  
+  \subsection*{Drag Force}
+  The formula to the drag force is
+  \[\frac 1 2 C \rho A v^2,\]
+  where \(C\) is the \textbf{drag coefficient}, \(\rho\) is the \textbf{density}, \(A\) is the \textbf{effective cross-section area} (the area that is facing toward the front; the area that is perpendicular to the direction of velocity).
+
+  \subsection*{Centripedal Force Does Not Change the Speed}
+  Let's say we have two vector functions: velocity \(\mathbf v(t)\) and acceleration \(\mathbf a(t)\) which satisfy \(\langle \mathbf v(t), \mathbf a(t)\rangle = 0\). We want to show that
+  \[\|\mathbf v(t)\| = \text{constant}.\]
+  
+  \begin{proof}
+    We know that
+    \[\langle \mathbf v(t), \mathbf v(t)\rangle = \|v(t)\|^2.\]
+    Differentiating both sides gives
+    \[\langle \mathbf a(t), \mathbf v(t)\rangle + \langle \mathbf v(t), \mathbf a(t)\rangle = \frac{d}{dt}\|v(t)\|^2\]
+    \[2\langle \mathbf a(t), \mathbf v(t)\rangle = 0 = \frac{d}{dt}\|v(t)\|^2\]
+    Therefore \(\|v(t)\|\) is constant. 
+  \end{proof}
+
+\end{document}
