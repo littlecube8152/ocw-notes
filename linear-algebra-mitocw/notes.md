@@ -1100,8 +1100,8 @@ and use the technique mentioned on previous section.
 **Property.** Any markov matrix $A$ has all eigenvalues $|\lambda_i| \leq 1$.  
 > *Proof.* Let $\lambda$ be any eigenvalue of $A$, we have
 > $$Ax = \lambda x$$
-> Let $k = \arg\max_i |x_i|$, we have
-> $$|\lambda||x_k| = \left|\sum_{i=1}^{n}a_{k, i}x_i\right| \leq \sum_{i=1}^{n}|a_{k, i}||x_i| = \sum_{i=1}^{n}a_{k, i}|x_i| = |x_i| \leq |x_k|$$
+> Therefore
+> $$|\lambda|\sum_{i=1}^{n}|x_i| = \sum_{i=1}^{n}\left|\sum_{j=1}^{n}a_{i, j}x_j\right| \leq \sum_{i=1}^{n}\sum_{j=1}^{n}|a_{i, j}||x_j| = \sum_{i=1}^{n}\sum_{j=1}^{n}a_{i, j}|x_j| = \sum_{i=1}^{n}|x_i|$$
 > Therefore $|\lambda| \leq 1$.  
 
 By this property, we know for some initial $u_0$, when $A^ku_0$ converges as $k \rightarrow \infty$, the parts with $|\lambda| < 1$ decay and left with all the steady states.  
