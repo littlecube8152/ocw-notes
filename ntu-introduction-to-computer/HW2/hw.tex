@@ -1,0 +1,143 @@
+\documentclass[12pt,a4paper]{article}
+
+% math packages
+\usepackage{amsmath,amssymb,amsthm}
+
+% fonts
+
+\usepackage{fontspec}
+\renewcommand{\familydefault}{\sfdefault}
+\setsansfont{Work Sans}[
+  Renderer = HarfBuzz,
+]
+\setmonofont{SourceCodePro}
+\usepackage[no-math]{luatexja-fontspec}
+\setmainjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setsansjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+% \ltjsetparameter{jacharrange={-1, -2, +3, -4, -5, +6, +7, +8}}
+% \setmonofont{Monaco}
+
+% funny emoji
+\usepackage{emoji}
+\setemojifont{Twemoji Mozilla}
+
+% headers and footers
+\usepackage[margin=1.5cm]{geometry}
+\addtolength{\headheight}{1cm}
+\addtolength{\textheight}{-1cm}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\usepackage{calc}
+
+
+% paragraph formatting
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\setlength{\parskip}{0.5em}
+\renewcommand{\baselinestretch}{1.25}
+\usepackage{setspace}
+
+% tabular
+\usepackage{ctable}
+\usepackage{tabularx}
+
+% math convensional macro
+\newcommand{\ve}{\varepsilon}
+\newcommand{\overbar}[1]{\mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu}
+\renewcommand{\qedsymbol}{\(\blacksquare\)}
+
+
+\begin{document}
+  \title{\vspace{-4em}Introduction to Computers \textbf{HW2}}
+  \author{B12902057 王淇}
+  \date{}
+  \maketitle
+  % \section*{Problem Solutions}
+  \begin{enumerate}
+    \item 
+      \begin{enumerate}
+        \item \texttt{127}
+        \item \texttt{-75}
+        \item \texttt{-42}
+        \item \texttt{-18}
+        \item \texttt{-124}
+      \end{enumerate}
+      \item 
+      \begin{enumerate}
+        \item \texttt{0111100001011010}
+        \item \texttt{101100001000}
+        \item \texttt{1000101110011110}
+        \item \texttt{110101001001}
+        \item \texttt{110110110011}
+      \end{enumerate}
+      \item \texttt{ltz E@sy haH@}
+      \item 
+      \begin{enumerate}
+        \item $\mathbf 1 \cdot 2^5 + 
+        \mathbf 0 \cdot 2^4 + 
+        \mathbf 1 \cdot 2^3 + 
+        \mathbf 0 \cdot 2^2 + 
+        \mathbf 1 \cdot 2^1 + 
+        \mathbf 1 \cdot 2^0 = 43$
+        \item $\mathbf 1 \cdot 2^4 + 
+        \mathbf 0 \cdot 2^3 + 
+        \mathbf 0 \cdot 2^2 + 
+        \mathbf 1 \cdot 2^1 + 
+        \mathbf 1 \cdot 2^0 + 
+        \mathbf 0 \cdot 2^{-1} + 
+        \mathbf 1 \cdot 2^{-2} + 
+        \mathbf 1 \cdot 2^{-3} = 19.375$
+        \item $\mathbf 2 \cdot 8^1 + 
+        \mathbf 4 \cdot 8^0 + 
+        \mathbf 3 \cdot 8^{-1} = 20.375$
+        \item $\mathbf 1 \cdot 16^1 + 
+        \mathbf {10} \cdot 16^0 + 
+        \mathbf {14} \cdot 16^{-1} = 26.875$
+        \item $\mathbf 5 \cdot 16^2 + 
+        \mathbf {15} \cdot 16^1 + 
+        \mathbf {11} \cdot 16^0 = 1531$
+      \end{enumerate}
+      \item 
+      \begin{enumerate}
+        \item (1)0000
+        \item (1)0011
+        \item 1110
+        \item (1)0010
+        \item None of them causes any overflow.
+      \end{enumerate}
+      \item 
+      \begin{enumerate}
+        \item False. Consider $-1 + -1$ always cause a carry at  33-rd bit but the result is correct ($-2$).
+        \item True.
+      \end{enumerate}
+      \item 
+      \begin{enumerate}
+        \item $3 \times 60 \times 44100 \times 16 = 127008000 \texttt{(bits)} = 15503.90625 \texttt{(KB)}$
+        \item $10 \times 1920 \times 1080 \times 8 \times 3 \times 60 = 29859840000 \texttt{(bits)} \approx 3559.570312 \texttt{(MB)}$
+      \end{enumerate}
+      \item 
+      \begin{enumerate}
+        \item \texttt{10$_{16}$}
+        \item \texttt{3B$_{16}$}
+        \item \texttt{E9$_{16}$}
+        \item \texttt{10$_{16}$}
+        \item \texttt{3C$_{16}$}. Only this summation causes overflow since the result is \texttt{13C$_{16}$} which is too large to fit in a 8-bit unsigned number.
+      \end{enumerate}
+      \item 
+      \texttt{
+        \begin{tabular}[t]{c|c|c|c}
+          A & B & C & result \\
+          \hline
+          0 & 0 & 0 & 0 \\
+          0 & 0 & 1 & 0 \\
+          0 & 1 & 0 & 1 \\
+          0 & 1 & 1 & 0 \\
+          1 & 0 & 0 & 1 \\
+          1 & 0 & 1 & 1 \\
+          1 & 1 & 0 & 0 \\
+          1 & 1 & 1 & 0 \\
+        \end{tabular}
+      } 
+  \end{enumerate}
+\end{document}
