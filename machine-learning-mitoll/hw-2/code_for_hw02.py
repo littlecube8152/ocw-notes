@@ -337,14 +337,14 @@ def gen_big_data():
         return vals
     return f
 
-def gen_lin_separable(num_points=20, th=np.array([[3],[4]]), th_0=np.array([[0]]), dim=2):
+def gen_lin_separable(num_points=20, th=np.array([[3],[4]]), th_0=np.array([[0]]), dim=2, C=5):
     ''' 
     Generate linearly separable dataset X, y given theta and theta0
     Return X, y where
     X is a numpy array where each column represents a dim-dimensional data point
     y is a column vector of 1s and -1s
     '''
-    X = np.random.uniform(low=-5, high=5, size=(dim, num_points))
+    X = np.random.uniform(low=-C, high=C, size=(dim, num_points))
     y = np.sign(np.dot(np.transpose(th), X) + th_0)
     return X, y
 
@@ -352,14 +352,14 @@ def big_higher_dim_separable():
     X, y = gen_lin_separable(num_points=50, dim=6, th=np.array([[3],[4],[2],[1],[0],[3]]))
     return X, y
 
-def gen_flipped_lin_separable(num_points=20, pflip=0.25, th=np.array([[3],[4]]), th_0=np.array([[0]]), dim=2):
+def gen_flipped_lin_separable(num_points=20, pflip=0.25, th=np.array([[3],[4]]), th_0=np.array([[0]]), dim=2, C=5):
     '''
     Generate difficult (usually not linearly separable) data sets by
     "flipping" labels with some probability.
     Return method which takes num_points and flips labels with pflip
     '''
-    def flip_generator(num_points=20):
-        X, y = gen_lin_separable(num_points, th, th_0, dim)
+    def flip_generator(num_points=num_points):
+        X, y = gen_lin_separable(num_points, th, th_0, dim, C)
         flip = np.random.uniform(low=0, high=1, size=(num_points,))
         for i in range(num_points):
             if flip[i] < pflip: y[0,i] = -y[0,i]
