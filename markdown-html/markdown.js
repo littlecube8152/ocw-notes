@@ -1,7 +1,7 @@
 const { Octokit, App } = require("@octokit/core");
 
 const octokit = new Octokit({
-    auth: '***REMOVED***'
+    auth: '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'
 })
 
 const { createHash } = require('crypto');
