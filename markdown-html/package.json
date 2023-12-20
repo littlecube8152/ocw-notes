@@ -1,5 +1,2 @@
 {
-  "dependencies": {
-    "octokit": "^2.0.19"
-  }
 }
