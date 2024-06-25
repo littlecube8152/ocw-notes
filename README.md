@@ -19,10 +19,10 @@ This repo contains all the notes (and maybe course materials) I have taken for m
 # 2024 Spring
 
 - Beauty of math (Withdrawn)
+- [Data Structure and Algorithms (CSIE 1212)](/2024s/dsa/)
+- [Digital System Design and Laboratory (CSIE 2344)](/2024s/dsdl/)
+- [English Technical Writing and Communication (Write 5038)](/2024s/eng-tech-writing/)
 - [General Physics II (Phys 1007, 15)](/2023f-2024s/general-physics/)
+- [German A1 - II (FL 2016, 07)](/2023f-2024s/german-a1/)
 - [Operating Systems (CSIE 3310)](/2024s/os/)
 - [Probability (CSIE 2121)](/2024s/probability/)
-- [German A1 - II (FL 2016, 07)](/2023f-2024s/german-a1/)
-- [Digital System Design and Laboratory (CSIE 2344)](/2024s/dsa/)
-- [Data Structure and Algorithms (CSIE 1212)](/2024s/dsa/)
-- [English Technical Writing and Communication (Write 5038)](/2024s/eng-tech-writing/)
