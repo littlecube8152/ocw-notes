@@ -1,0 +1,24 @@
+# jupyter notebook autosaves
+.ipynb_checkpoints
+
+# not sure why
+.js
+node_modules
+
+# latex logs
+*.aux
+*.log
+*.synctex.gz
+_minted-*
+
+# drawings
+drawing.*
+
+# python
+**/__pycache__
+
+# executables
+*.out
+
+# misc
+2024s/nasa

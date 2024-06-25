@@ -1,0 +1,221 @@
+\documentclass[10pt,a4paper,twoside]{article}
+
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath,amssymb,amsthm}			% math packages
+\usepackage{fontspec}						% fonts
+\usepackage{bold-extra}
+\usepackage[no-math]{luatexja-fontspec}
+\usepackage{newpxtext,newpxmath}
+\usepackage{emoji}							% funny emoji	
+\usepackage{geometry}
+\usepackage{calc}
+\usepackage{tikz}
+\usepackage{ctable}   		% tabular
+\usepackage{tabularx} 
+\usepackage{karnaugh-map} 	% k-map
+\usepackage{multirow}
+\usepackage{multicol}		% multicol for saving spaces
+\usepackage{enumerate}		% better enumerate
+\usepackage{listings}		% code blocks
+\usepackage{array}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{blindtext}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=0.2em} % useful for cheat sheets
+
+\setmainjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setsansjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setemojifont{Twemoji Mozilla}
+
+% headers and footers
+% \addtolength{\headheight}{1cm}
+% \addtolength{\textheight}{-1cm}
+% 
+\geometry{
+	includehead,includefoot,
+	landscape,
+	top=0cm,
+	bottom=0.5cm,
+	left=1cm,
+	right=1cm
+}
+% \pagestyle{fancy}
+% \fancyhead[RO,LE]{\thetitle}
+% \fancyhead[RE,LO]{\theauthor}
+% \renewcommand{\headrulewidth}{0pt}
+% \emergencystretch 3em
+
+% paragraph formatting
+% \usepackage{indentfirst}
+\setlength{\parindent}{0em}
+\setlength{\parskip}{0em}
+\renewcommand{\baselinestretch}{1.0}
+\renewcommand{\arraystretch}{1.2}
+% \usepackage{setspace}
+
+% section titles
+% \usepackage[md]{titlesec}
+
+% tikz
+\usetikzlibrary{automata,positioning,arrows}
+
+% math conventional macro
+\newcommand{\ve}{\varepsilon}
+\newcommand{\overbar}[1]{\mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu}
+\renewcommand{\qedsymbol}{\(\blacksquare\)}
+\newcommand{\Ex}{{E}}
+\newcommand{\edit}[2]{\text{\st{#1}}\;{\color{red}#2}}
+\DeclareMathOperator{\Var}{Var}
+
+% binary conventional macro
+\newcommand{\bin}{\textsubscript{2}\ }
+\newcommand{\dec}{\textsubscript{10}\ }
+
+\setlength{\droptitle}{-7em}
+\posttitle{\par\end{center}                 \vspace{-1em}}
+\postauthor{\end{tabular}\par\end{center}   \vspace{-1.5em}}
+\postdate{\par\end{center}                  \vspace{-3em}}
+
+\title{DSDL \textbf{Midterm}}
+\author{B12902057 王淇}
+\date{}
+
+\begin{document}
+  	% \maketitle
+	  \begin{multicols}{2}[\section*{Digital System Design and Laboratory Final}]
+		\subsection*{Misc Components}
+		\begin{itemize}
+			\item \textbf{Mu}ltiple\textbf{x}er, Three-State Buffers, Decoder, Encoder (one hot, priority based), \textbf Read \textbf Only \textbf Memory, \textbf Programmable \textbf Logic \textbf Arrays
+			\item FPGA: function generator (Shannon's Expansion)
+		\end{itemize}
+		\subsection*{Latches --- Asynchronous}
+		\begin{itemize}
+			\item SR Latch (Set-Reset), $SR \neq 1$ --- Application: Switch Debouncing
+			\item Gated D Latch (Data)
+		\end{itemize}
+		\input{sr-latch.pdf_tex}
+		\input{d-latch.pdf_tex}
+		\subsection*{Flip-Flop --- Synchronous}
+		\begin{center}
+			\begin{tabular}{|cl|c|c|c|c|l} \cline{1-6}
+				\multicolumn{2}{|c|}{$Q \to Q^+$} & 00 & 01 & 10 & 11 \\\cline{1-6}
+				$D$ & \hspace{-.5em}Flip-Flop 					& 0 & 1 & 0 & 1 
+				& Data\\\cline{1-6}
+				$S$ & \hspace{-.5em}\multirow{2}*{Flip-Flop} 	& 0 & 1 & 0 & {\color{lightgray}x} 
+				& Set-Reset \\
+				$R$ & 											& {\color{lightgray}x} & 0 & 1 & 0 
+				& (Not desired --- S, R can change only at high clock) \\\cline{1-6}
+				$T$ & \hspace{-.5em}Flip-Flop 					& 0 & 1 & 1 & 0 
+				& Toggle \\\cline{1-6}
+				$J$ & \hspace{-.5em}\multirow{2}*{Flip-Flop} 	& 0 & 1 & {\color{lightgray}x} & {\color{lightgray}x} 
+				& 00 Hold, 10 Jump, 01 Clear, 11 Toggle \\
+				$K$ & 											& {\color{lightgray}x} & {\color{lightgray}x} & 1 & 0 
+				& (same issue as SR)\\\cline{1-6}
+			\end{tabular}
+		\end{center}
+		\begin{itemize}
+			\item Setup Times (input should be prepared) and Hold Times (input should be hold)
+			\item Additional Inputs:
+			\begin{itemize}
+				\item ClrN: clear (often inverted), PreN: set 1 (often inverted), CE: clock enable
+			\end{itemize}
+		\end{itemize}
+		\input{d-flipflop.pdf_tex}
+		\input{sr-flipflop.pdf_tex}
+		\input{t-flipflop.pdf_tex}
+		\input{jk-flipflop.pdf_tex}
+		\subsection*{Registers}
+		\begin{itemize}
+			\item Normal, Shift Register, PIPO Shift
+			\item Counter: Ensure don't care states falls into loop, or reset upon power up
+		\end{itemize}
+		\subsection*{State Machines}
+		\begin{itemize}
+			\item Moore Machine: 
+			\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+				\scriptsize
+				\node[state with output] (q0) at (2,0) {state \nodepart{lower} output};
+				\node at (3.5,0)  (q1) {};
+				\path[->] (q0) edge              node [above]  {input} (q1);
+			\end{tikzpicture}, Mealy Machine: 
+			\begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+				\scriptsize
+				\node[state] (q0) at (2,0) {state};
+				\node at (6,0)  (q1) {};
+				\path[->] (q0) edge              node [above]  {input/output} (q1);
+				\path[->] (q0) edge              node [below]  {(prone to glitches and spikes)} (q1);
+			\end{tikzpicture}
+			\item Serial Data Transmission
+			\begin{itemize}
+				\item \textbf{NRZ}: 0 = 0, 1 = 1,  \textbf{NRZI}: 1 = T, \textbf{NRZ}: 0 = 00, 1 = 10, Manchester: 0 as 01, 1 as 10
+			\end{itemize}
+			\item State Equivalence
+			\begin{itemize}
+				\item All output of input are the same, or all next states and outputs are equivlant
+			\end{itemize}
+			\item State Reduction: Implication Table
+			\begin{itemize}
+				\item Draw a table (only half for simplification, full for equivlance test)
+				\item Each square has \#input pairs, with conditions that two state are equivlant
+				\item For example A $\rightarrow$ (B, C) and D $\rightarrow$ (E, F), put B-E and C-F
+				\item Delete self implied pairs
+				\item Cross out if output is already different, or pair is already crossed out
+			\end{itemize}
+			\item State Assignment --- Heuristic: Put ``similar'' states adjacent: same next state, output, (one of) previous states
+		\end{itemize}
+	\end{multicols}
+	\clearpage
+	\begin{multicols}{2}[\section*{Digital System Design and Laboratory Midterm}]
+		\subsection*{Switching Circuit}
+		\begin{itemize}
+			\item Asynchronous $\leftrightarrow$ Synchronous
+			\item Combinational $\leftrightarrow$ Sequential 
+		\end{itemize}
+		\subsection*{Numbers and Codes}
+		\begin{itemize}
+			\item 1's complement: Overflow carry wrap around
+			\item 2's complement: Overflow carry don't care
+			\item Binary Code: For display
+		\end{itemize}
+		\subsection*{Boolean Algebra}
+		\begin{itemize}
+			\item Precedence: (brackets), NOT, AND, OR
+			\item (\textit{$2^{\text{nd}}$ Distributive}) $X + YZ = (X + Y)(X + Z)$
+			\item (\textit{$1^{\text{st}}$ Elimination}) $X + X'Y = X + Y$
+			\item (\textit{$1^{\text{st}}$ Consensus}) $XY + X'Z + YZ = XY + X'Z$
+			\item (\textit{$2^{\text{nd}}$ Consensus}) $(X + Y)(X' + Z)(Y + Z) = (X + Y)(X' + Z)$
+			\item (\textit{Sum Product Exchange}) $(X + Y)(X' + Z) = XZ + X'Y$
+			\item XOR $\oplus$, XNOR $\equiv$
+		\end{itemize}
+		\subsection*{Truth Table and Karnaugh Map}
+		\begin{itemize}
+			\item Minterm $\sum m (6) = ABC'$
+			\item Maxterm $\prod M (6) = (A' + B' + C)$
+			\item Don't care: $\sum d$ or $\prod D$
+			\item Implicant: A product term
+			\item Prime Implicant: A maxim\underline{al} Implicant
+			\item Essential Prime Implicant: A PI with exclusive minterm(s)
+			\item Quine-McCluskey: PI finding, systematic, useless for human
+		\end{itemize}
+		\subsection*{Circuit Design}
+		\begin{itemize}
+			\item Level counts from output
+			\item Two-level Circuit: \\
+			AND-OR $\leftrightarrow$ NAND-NAND $\leftrightarrow$ OR-NAND $\leftrightarrow$ NOR-OR, \\
+			OR-AND $\leftrightarrow$ NOR-NOR $\leftrightarrow$ AND-NOR $\leftrightarrow$ NAND-AND, \\
+			others are degenerate
+			\item Multi-level: use OR-AND alternating and bubble-pushing to form NAND-NAND and NOR-NOR 
+			\item Multiple-output: Pay more attention to essential and common implicants
+		\end{itemize}
+		\subsection*{Delay and Hazard (SOP)}
+		\begin{itemize}
+			\item Delay causes hazard
+			\item When \textbf{analyzing} or \textbf{constructing hazard free circuit}, DO NOT assume $XX' = 0, X + X' = 1$, i.e. using simple factoring and DeMorgan's law.
+			\item Static 1-Hazard: Change from a implicant to another
+			\item Static 0-Hazard: Multi-level, from $X'X\alpha$.
+			\item Dynamic Hazard: Multi-level, from $X'X\alpha$, single difference propagates $\geq 3$ different paths.
+		\end{itemize}
+	\end{multicols}
+\end{document}

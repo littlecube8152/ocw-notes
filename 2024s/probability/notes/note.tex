@@ -1,0 +1,397 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\usepackage{amsmath,amssymb,amsthm}			% math packages
+\usepackage{fontspec}						% fonts
+\usepackage{bold-extra}
+\usepackage[no-math]{luatexja-fontspec}
+\usepackage{newpxtext,newpxmath}
+\usepackage{emoji}							% funny emoji	
+\usepackage{geometry}
+\usepackage{calc}
+\usepackage{tikz}
+\usepackage{ctable}   		% tabular
+\usepackage{tabularx} 
+\usepackage{karnaugh-map} 	% k-map
+\usepackage{multicol}		% multicol for saving spaces
+\usepackage{enumerate}		% better enumerate
+\usepackage{listings}		% code blocks
+\usepackage{array}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{blindtext}
+\usepackage{graphicx}
+
+\setmainjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setsansjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setemojifont{Twemoji Mozilla}
+
+\geometry{
+	includehead,includefoot,
+	top=1cm,
+	bottom=1cm,
+	left=2cm,
+	right=2cm
+}
+\pagestyle{fancy}
+\fancyhead[RO,LE]{\thetitle}
+\fancyhead[RE,LO]{\theauthor}
+\setlength{\parindent}{0em}
+
+% theorems
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{property}{Property}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem*{remark}{Remark}
+\theoremstyle{remark}
+\newtheorem*{example}{Example}
+
+% tikz
+\usetikzlibrary{automata,positioning,arrows}
+
+% math conventional macro
+\newcommand{\ve}{\varepsilon}
+\newcommand{\overbar}[1]{\mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu}
+\renewcommand{\qedsymbol}{\(\blacksquare\)}
+\newcommand{\Ex}{E}
+\DeclareMathOperator{\Var}{Var}
+
+% binary conventional macro
+\newcommand{\bin}{\textsubscript{2}\ }
+\newcommand{\dec}{\textsubscript{10}\ }
+
+\setlength{\droptitle}{-7em}
+\posttitle{\par\end{center}                 \vspace{-1em}}
+\postauthor{\end{tabular}\par\end{center}   \vspace{-1.5em}}
+\postdate{\par\end{center}                  \vspace{-3em}}
+
+\title{Probability \textbf{Note}}
+\author{我不知道}
+\date{}
+
+\begin{document}
+  	\maketitle
+  	\section{Variance}
+    \begin{property}
+        For two independent RVs $X, Y$, $\Var(X + Y) = \Var(X) + \Var(Y)$.
+    \end{property}
+    \begin{proof}
+    \begin{align*} 
+            & \Var(X + Y) \\
+        = \; &  \Ex[X + Y]^2 - \Ex[(X + Y)^2] \\
+        = \; &  \Ex[X]^2 + 2\Ex[X]\Ex[Y] + \Ex[Y]^2 - \Ex[X^2] - 2\Ex[XY] - \Ex[Y]^2 \\
+        = \; & \Var(X) + \Var(Y)
+    \end{align*}
+    \end{proof}
+    \begin{property}
+        For RV $X$, $Y = cX$ has variance $\Var(Y) = c^2\Var(x)$.
+    \end{property}
+    \begin{proof}
+        \begin{align*} 
+              & \Var(cX) \\
+            = \; & \Ex[cX]^2 - \Ex[(cX)^2] \\
+            = \; & c^2\Var(X)
+        \end{align*}
+    \end{proof}
+
+    \begin{lemma}
+        Let $x_1, x_2, \ldots, x_n$ be $n$ samples from a probability distribution. Let $\bar x$ denote the mean of the samples and $\mu$ be the \textit{real mean}. 
+        If the \textit{real mean} is known, the sample variance is 
+        \[ \frac 1 n \sum_{i=1}^n (x_i - \mu)^2 \]
+        Otherwise,
+        \[ \frac 1 {n-1} \sum_{i=1}^n (x_i - \bar x)^2 \]
+    \end{lemma}
+    \begin{proof}
+        Call $f(x)$ an \textit{unbiased estimator} of $\theta$ if 
+        \[ \mathbb E[f(u(x_1, x_2, \ldots, x_n))] = \theta \]
+        where $u$ means uniformly chosen from all samples $x_i$.
+        \clearpage 
+        Let us show that the given formula is indeed an unbiased estimator of $\Var(x)$.
+        \begin{align*} 
+                & \Ex\left[\frac 1 {n-1} \sum_{i=1}^n (x_i - \bar x)^2\right]  \\
+            = \; & \frac 1 {n-1} \Ex\left[\sum_{i=1}^n (x_i - \bar x)^2\right]  \\
+            = \; & \frac 1 {n-1} \Ex\left[\sum_{i=1}^n (x_i - \mu + \mu - \bar x)^2\right] \\
+            = \; & \frac 1 {n-1} \Ex\left[\sum_{i=1}^n (x_i - \mu)^2 + 2 \sum_{i=1}^n (x_i - \mu)(\mu - \bar x) + \sum_{i=1}^n(\mu - \bar x)^2 \right] \\
+            = \; & \frac n {n-1} \left(\Var(x) - 2 \Var(\bar x) + \Var(\bar x)\right) \\
+            = \; & \frac n {n-1} \left(\Var(x) - \Var(\bar x)\right) \\
+            = \; & \frac n {n-1} \left(\Var(x) - \Var\left(\frac{\sum_{i=1}^n x_i}{n}\right)\right) \\
+            = \; & \frac n {n-1} \left(\Var(x) - \frac 1 {n^2} \Var\left(\sum_{i=1}^n x_i\right)\right) \\
+            = \; & \frac n {n-1} \left(\Var(x) - \frac n {n^2} \Var(x)\right) \\
+            = \; & \frac n {n-1} \cdot \frac {n-1} n \Var(x) \\
+            = \; & \Var(x) \\
+        \end{align*}    
+        % Note that 
+        % % \begin{align*}
+        % %         & \Var(\bar x)
+        % %     =    
+        % % \end{align*}
+    \end{proof}
+    \section{Discrete Distributions}
+    \subsection{Binomial Distribution}
+    \begin{definition}%[Bernoulli Trial]
+        A \textit{Bernoulli Trial} is a RE that only has two outcomes, success and fail, each with probability of $p$ and $1 - p$.
+    \end{definition}
+    \begin{definition}%[Independent and Identically Distributed]
+        A sequence of RVs is \textit{independent and identically distributed} if each of them has the same probability distribution and they are mutally independent.
+    \end{definition}
+    \begin{definition}%[Binomial Distribution]
+        A \textit{Binomial Distribution}, denoted by $B(n, p)$, is the distribution the number of success of $n$ i.i.d. Bernoulli Trial with success probability $p$. The PMF of $X \sim B(n, p)$ is
+        \[ f(X) = \binom{n}{X} p^X(1-p)^X \]
+    \end{definition}
+    \begin{property}
+        Let $X \sim B(n, p)$. 
+        \begin{itemize}
+            \item $\mu = np$.
+            \item $\sigma^2 = np(1-p)$.
+        \end{itemize}
+    \end{property}
+    \begin{proof}
+        We will prove the variance. The MGF of $X$ is 
+        \[ M(t) = \sum_{X=0}^n e^{tX} \binom{n}{X} p^X(1-p)^X = \left(pe^t + (1-p)\right)^n \]
+        Therefore
+        \[ M'(t) = n\left(pe^t + (1-p)\right)^{n-1}pe^t \Rightarrow \mu = E[X] = M'(0) = np \]
+        \[ M''(t) = n(n-1)\left(pe^t + (1-p)\right)^{n-2}p^2e^{2t} + n\left(pe^t + (1-p)\right)^{n-1}pe^t \Rightarrow E[X^2] = M''(0) = n(n-1)p^2 + np \]
+        \[ \sigma^2 = E[X^2] - E[X]^2 = np - np^2 = np(1-p)\]
+    \end{proof}
+    \begin{definition}%[Negative Binomial Distribution]
+        A \textit{Negative Binomial Distribution}, denoted by $NB(r, p)$, is the distribution of the number of i.i.d. Bernoulli Trial with success probability $p$ needs to performed until $r$ success. The PMF of $X \sim NB(r, p)$ is
+        \[ f(X) = \binom{r + X - 1}{r - 1} p^r (1-p)^X \]
+    \end{definition}
+    \begin{definition}%[Geometric Distribution]
+        A \textit{Geometric Distribution} with probability $p$, denoted by $G(p)$, is defined as $NB(1, p)$. Its PMF is 
+        \[ f(X) = p (1-p)^X \]
+    \end{definition}
+    \begin{definition}[Poisson Distribution]
+        Observe the number of arrivals during a given period of time. Under the assumption of 
+        \begin{enumerate}
+            \item Each arrival is independent.
+            \item The probability of exactly one arrival in a sufficient short period of time $\Delta t$ is $\lambda \Delta t$.
+            \item The probability of two or more arrival in a sufficient short period of time is 0.
+        \end{enumerate}
+        Then the distribution is a \textit{Poisson Distribution}, denoted by $\text{Pois}(\lambda)$.
+    \end{definition}
+    \begin{property}
+        Let $X \sim \text{Pois}(\lambda)$
+        \begin{itemize}
+            \item PMF $f(X) = \dfrac{\lambda^Xe^{-\lambda}}{X!}$
+            \item $\mu = \lambda$.
+            \item $\sigma^2 = \lambda$.
+        \end{itemize}
+    \end{property}
+    \begin{proof}
+        We will prove the all of them. 
+        Assume the time period is splited into $n$ segments, then
+        \[ X \sim B(n, \frac{\lambda}{n}) \]
+        When $n \rightarrow \infty$,
+        \begin{align*} 
+        P(X = x) 
+            & = \lim_{n \to \infty} \binom{n}{x} \left(\frac\lambda n\right)^x \left(1 - \frac\lambda n\right)^{n-x}  \\
+            & = \lim_{n \to \infty} \frac{\prod^{i=n}_{n-x+1} i}{n^x} \frac{\lambda^x}{x!}\left(1 - \frac\lambda n\right)^n\left(1 - \frac\lambda n\right)^{-x} \\
+            & = 1 \cdot \frac{\lambda^x}{x!} \cdot e^{-\lambda} \cdot 1
+        \end{align*}
+        The MGF of the distribution is
+        \[ M(t) = \sum_{x=0}^{\infty} \dfrac{\lambda^Xe^{-\lambda}}{X!} e^{tX} = e^{-\lambda}e^{\lambda e^t} \]
+        Therefore 
+        \[ M'(t) = \lambda e^t e^{\lambda e^t - \lambda} \Rightarrow \mu = E[x] = M'(0) =\lambda \]
+        \[ M''(t) = \lambda e^t e^{\lambda e^t - \lambda} + \lambda^2 e^{2t} e^{\lambda e^t - \lambda}\Rightarrow E[x^2] = \lambda + \lambda^2 \Rightarrow \sigma^2 = \lambda \]
+    \end{proof}
+    
+    \section{Continuous Distributions}
+    \begin{definition}%[Cumulative Distribution Function]
+        For a RV $X$, the \textit{cumulative distribution function} is defined
+        \[ F_X(t) = P(X \leq t) \]
+        which the following must hold:
+        \begin{itemize}
+            \item $\lim\limits_{t\rightarrow\infty} F_X(t) = 1$.
+            \item $\lim\limits_{t\rightarrow-\infty} F_X(t) = 0$.
+            \item $a < b \Rightarrow F_X(a) \leq F_X(b)$.
+        \end{itemize}
+    \end{definition}
+    \begin{definition}%[Probability Density Function]
+        For a continuous RV $X$, the \textit{probability density function} is defined
+        \[ f_X(t) = \frac{d}{dt} F_X(t) \]
+        or equivlantly,
+        \[ \int_{-\infty}^x f_X(t) dt = F_X(t) \]
+    \end{definition}
+    \begin{property}
+        A valid PDF $f_X$ with space $S$ must have
+        \begin{itemize}
+            \item $f(x) \geq 0 \quad (x \in S)$
+            \item $\int_S f(x) dx = 1$
+            \item $P(a < X < b) = \int_a^b f(x) dx \quad ((a, b) \subseteq S)$.
+        \end{itemize}
+    \end{property}
+    \begin{remark}
+        Notice the following consequences:
+        \begin{itemize}
+            \item It is possible that $f(x) > 1$.
+            \item $P(X = x) = 0$.
+            \item It is possible $f_X$ is non-continuous
+            \item $P(X \in [a, b]) = P(X \in [a, b)) = P(X \in (a, b]) = P(X \in (a, b))$
+        \end{itemize}
+    \end{remark}
+    \begin{definition}%[Common Property of Continuous RV]
+        For a continuous RV $X$ with PDF $f_X$,
+        \begin{itemize}
+            \item Mean $\mu = E[X] = \int_{-\infty}^{\infty} x f_X(x) dx$
+            \item Variance $\sigma^2 = \Var(X) = \int_{-\infty}^{\infty} (x - \mu)^2 f_X(x) dx$
+            \item MGF $M(t) = \int_{-\infty}^{\infty} e^{tx} f(x) dx$, if there exists a open interval $(-\delta, \delta)$ which the integral converges.
+        \end{itemize}
+    \end{definition}
+    \begin{theorem}[Moment Generating Function Uniqueness Theorem]
+        If two MGF are the same, the PDF will also be the same.
+    \end{theorem}
+    Proof will not be present because it requires graduate courses.
+
+    \begin{example}
+        $X \sim U(a, b)$ means $X$ is uniformly random selected from the interval $[a, b]$, which has the following property.
+        \begin{itemize}
+            \item Mean $\mu = \dfrac {a + b} 2$
+            \item Variance $\sigma^2 = \dfrac{(b - a)^2}{12}$
+            \item MGF $M(t) = \begin{cases}\dfrac{e^{bt} - e^{at}}{t(b - a)} & (t \neq 0) \\ 1 & (t = 0) \end{cases}$
+        \end{itemize}
+    \end{example}
+    From discrete possion distribution, the waiting time between two successive arrival is also an RV. We denote this distribution as \textit{Exponential Distribution}.
+    \begin{definition}
+        $X \sim \text{Exp}(\lambda)$ denotes the distribution of two successive arrival under the setting of possion distribution. The CDF can be written as
+        \[ P(X \leq \omega) = 1 - \frac{(\omega\lambda)^0 e^{-\omega\lambda}}{0!} = 1 - e^{-\omega\lambda}\]
+        Therefore 
+        \[ f_X(\omega) = \lambda e^{-\lambda\omega} \quad (\omega \geq 0)\]
+    \end{definition}
+    \begin{property}
+        Let $X \sim \text{Exp}(\lambda)$, then the MGF is 
+        \[ M(t) = \frac 1 {1 - \lambda^{-1}t} \]
+        Consequently, $\mu = \lambda^{-1}, \sigma^2 = \lambda^{-2}$.
+    \end{property}
+    \begin{proof} When $t = \lambda$ the integral diverges, otherwise
+        \[
+            M(t) = \int_0^\infty \lambda e^{-\lambda x} e^{tx} dx = \left.\frac{\lambda}{t - \lambda} e^{(t-\lambda)x}\right|^\infty_0
+        \]
+        When $t > \lambda$ the integral also diverges. Therefore when $t < \lambda$,
+        \[
+            M(t) = -\frac{\lambda}{t - \lambda} = \frac 1 {1 - \lambda^{-1}t}    
+        \]
+    \end{proof}
+    \begin{property}
+        Exponential distribution is \textit{memoryless}. That is, for $a < b$, $P(X > b \mid X > a) = P(X > (b - a))$.
+    \end{property}
+    It is not hard to think of, because intuitively, in Possion distribution, every arrival is independent. In mathematical form,
+    \[ P(X > b \mid X > a) = \frac{P(X > b \cap X > a)}{P(X > a)} =  \frac{P(X > b)}{P(X > a)} = \frac{e^{-b\lambda}}{e^{-a\lambda}} = e^{-(b-a)\lambda}\]
+
+    It is possible to generalize the exponential distribution,
+    \begin{definition}
+        $X \sim \Gamma(\alpha, \lambda)$ denotes the distribution of waiting time before the $\alpha$-th under the setting of possion distribution. The CDF can be written as
+        \[ P(X \leq \omega) = 1 - \sum_{k=0}^{\alpha-1}\frac{(\omega\lambda)^k e^{-\omega\lambda}}{k!} \]
+        Therefore 
+        \[ 
+            f_X(\omega) = \lambda e^{-\omega\lambda} - \sum_{k=1}^{\alpha-1} \left(\frac{-\lambda(\omega\lambda)^k e^{-\omega\lambda}}{k!} + \frac{k\lambda(\omega\lambda)^{k-1} e^{-\omega\lambda}}{k!}\right) = 
+            \lambda e^{-\omega\lambda} - \lambda e^{-\omega\lambda}\left(1-\frac {(\lambda\omega)^{\alpha-1}}{(\alpha - 1)!}\right) = \frac {\omega^{\alpha-1}\lambda^\alpha e^{-\omega\lambda}} {(\alpha - 1)!} 
+        \]
+    \end{definition}
+    \begin{property}
+        Let $X \sim \Gamma(\alpha, \lambda)$, then the MGF is 
+        \[ M(t) = (1 - \lambda^{-1}t)^{-\alpha} \quad (t < \lambda)\]
+        Consequently, $\mu = \alpha\lambda^{-1}, \sigma^2 = \alpha\lambda^{-2}$.
+    \end{property}
+    \begin{proof} Let us prove by mathematical induction. Observe when $\alpha = 1$, the result is the same as exponential distribution, which we have already shown.
+        Assume the property is correct when $\alpha = k - 1$. When $\alpha = k$:
+        \begin{align*}
+            \int_0^\infty \frac {x^{\alpha-1}\lambda^\alpha e^{(t-\lambda)x}} {(\alpha - 1)!} dx 
+            & = \int_0^\infty \frac {x^{\alpha-1}\lambda^\alpha} {(\alpha - 1)!} \cdot e^{(t-\lambda)x} dx \\
+            & = \left.\frac {x^{\alpha-1}\lambda^\alpha} {(\alpha - 1)!} \cdot \frac{e^{(t-\lambda)x}}{t-\lambda}\right|_0^\infty 
+                    - \int_0^\infty \frac {x^{\alpha-2}\lambda^\alpha} {(\alpha - 2)!} \cdot \frac{e^{(t-\lambda)x}}{t-\lambda} dx \\
+            & = - \int_0^\infty \frac {x^{\alpha-2}\lambda^\alpha} {(\alpha - 2)!} \cdot \frac{e^{(t-\lambda)x}}{t-\lambda} dx \\
+            & = \frac {\lambda}{\lambda - t} \int_0^\infty \frac {x^{\alpha-2}\lambda^{\alpha-1}e^{(t-\lambda)x}} {(\alpha - 2)!} dx \\
+            & = (1 - \lambda^{-1}t)^{-\alpha}
+        \end{align*}
+        By induction, the property holds.
+    \end{proof}
+    \begin{definition}
+        The \textit{Chi-square Distribution} with $r$ degrees of freedom, denoted as $\chi^2(r)$, is equivlant to $\Gamma(\frac r 2, \frac 1 2)$.
+    \end{definition}
+    \begin{definition}
+        The \textit{Beta Distribution} with shape parameters $\alpha, \beta$, denoted as $\text{Beta}(\alpha, \beta)$, is defined on interval $[0, 1]$, and has PDF 
+        \[ \frac{x^{\alpha - 1}(1 - x)^{\beta - 1}}{\text{B}(\alpha, \beta)} \]
+        where $\text{B}(\alpha, \beta) = \dfrac{\Gamma(\alpha)\Gamma(\beta)}{\Gamma(\alpha + \beta)}$ is called beta function, which is a normalization constant.
+    \end{definition}
+    Beta distribution is the beta distribution is the conjugate prior probability distribution for the Bernoulli, binomial, negative binomial, and geometric distributions. Recall the Baye's Law:
+
+    \[ \overset{\text{\tiny Posterior}}{\boxed{P(A \mid B)}} = \frac {\overset{\text{\tiny Likelihood}}{\boxed{P(B \mid A)}} \times \overset{\text{\tiny Prior}}{\boxed{P(A)}}}{\underset{\text{\tiny Evidence}}{\boxed{P(B)}}} \]
+
+    Suppose we suspect the target distribution is binomial distribution, but with probability $p$ unknown, 
+    then we can choose beta distribution as the \textit{prior} probability, with parameters $\alpha, \beta$ reflecting existing belief or information. 
+    For example if we know the $p$ is selected uniformly at random, we might choose $\alpha = \beta = 1$.
+
+    We know that if we sampled $s$ success and $f$ faliure, then
+    \[ P(s, f \mid p = x) = \binom{s+f}{s}x^s(1-x)^f \]
+    \[ P(p = x) = \frac{x^{\alpha - 1}(1 - x)^{\beta - 1}}{\text{B}(\alpha, \beta)} \]
+    To compute the probability of $p$ being $x$ given the result of $s, f$, we use Baye's Law:
+    \begin{align*}
+        P(p = x \mid s, f) 
+        & = \frac{P(s, f \mid p = x)P(p = x)}{P(s, f)} \\
+        & = \frac{\binom{s+f}{s}x^s(1-x)^f \cdot \frac{x^{\alpha - 1}(1 - x)^{\beta - 1}}{\text{B}(\alpha, \beta)}}
+                 {\int P(s, f \mid p = y)P(p = y) dy} \\
+        & = \frac{\binom{s+f}{s}x^s(1-x)^f \cdot \frac{x^{\alpha - 1}(1 - x)^{\beta - 1}}{\text{B}(\alpha, \beta)}}
+                 {\int_0^1 \binom{s+f}{s}y^s(1-y)^f \cdot \frac{y^{\alpha - 1}(1 - y)^{\beta - 1}}{\text{B}(\alpha, \beta)} dy} \\
+        & = \frac{x^{s+\alpha-1}(1-x)^{f+\beta-1}}{\text{B}(s + \alpha, f + \beta)} \\
+        & \sim \text{Beta}(s + \alpha, f + \beta)
+    \end{align*}
+    We call this \textit{conjugate prior probability}, because the beta distribution appraring as prior results a beta distribution as posterior probability distribution. 
+
+    \section{Transformation of Random Variable}
+    Basic transformation:
+    \begin{property}
+        For a random variable $X$ of PDF $f_X$. The CDF of $Y = g(X)$ is 
+        \[ F_Y(y) = P(Y \leq y) = P(g(X) \leq Y) = \int_{g(x) \leq y} f_X(x) dx \] 
+    \end{property}
+    \begin{property}
+        Assume $Y = u(X)$ is \textbf{monotonic increasing} function. If the support $(c_1, c_2)$ maps to the $(d_1, d_2) = (u(c_1), u(c_2))$.
+        Then the distribution of $Y$ is 
+        \[ f_Y(y) = \frac{d}{dy} F_Y(y) = \frac{d}{dy} F_X(u^{-1}(y)) = f_X(u^{-1}(y))(u^{-1})'(y) \] 
+        If $u$ is \textbf{monotonic decreasing} function, then the result is
+        \[ f_Y(y) = -\frac{d}{dy} F_Y(y) = -\frac{d}{dy} F_X(u^{-1}(y)) = -f_X(u^{-1}(y))(u^{-1})'(y) \] 
+    \end{property}
+    Applying the whole domain might not be possible, but partition the domain into several monotonic intervals is a good idea.
+    \begin{example}
+        $X \sim \Gamma(\alpha, \lambda)$, find $Y$ where $Y = e^X$.
+
+        $X = \ln Y$, therefore 
+        \[ f_Y = -f_X(\ln Y) \cdot \frac 1 Y = \frac{(\ln Y)^{\alpha-1}Y^{-\lambda}\lambda^\alpha}{\Gamma(\alpha)Y} \]
+    \end{example}
+    \begin{example}
+        Assume a RV $X$ with $Y = aX + b$, find PDF of $Y$.
+
+        \[ f_Y = f_X\left(\frac{Y - b}{a}\right) \left|\frac 1 a\right| \]
+    \end{example}
+    \begin{example}
+        Assume a RV $X$ with $Y = X^n$ (where $n \in \mathbb N$), find PDF of $Y$.
+        
+        When $n$ is odd, the transformation property is applicable:
+        \[ f_Y = f_X\left(Y^{\frac 1 n}\right) \frac{Y^{\frac 1 n-1}}{n} \]
+        When $n$ is even, consider the both side:
+        \[ f_Y = \left(f_X\left(Y^{\frac 1 n}\right) + f_X\left(-Y^{\frac 1 n}\right)\right) \frac{Y^{\frac 1 n-1}}{n}  \quad (Y \geq 0)\]
+    \end{example}
+    
+    \section{Multivariable Distribution}
+    \begin{definition} 
+        A \textit{joint PMF} of $k$ discrete RVs $X_1, X_2, \ldots, X_k$ is a function that $P(X_1 = x_1, X_2 = x_2, \ldots, X_k = x_k) = f(x_1, x_2, \ldots, x_k)$. 
+        Such function satisfies
+        \begin{itemize}
+            \item $0 \leq f(x_1, x_2, \ldots, x_k) \leq 1$
+            \item $\sum_{(x_1, x_2, \ldots, x_k) \in S} f(x_1, x_2, \ldots, x_k) = 1$
+        \end{itemize}
+        The \textit{marginal PMF} of $X_i$ is 
+        \[ f_{X_i}(x) = P(X_i = x) = \sum f(x_1, x_2, \ldots, x_{i-1}, x, x_{i+1}, \ldots, x_k) \]
+    \end{definition}    
+    \begin{definition} 
+        A \textit{joint PDF} of $k$ continuous RVs $X_1, X_2, \ldots, X_k$ is a function that $P(X_1 = x_1, X_2 = x_2, \ldots, X_k = x_k) = f(x_1, x_2, \ldots, x_k)$. 
+        Such function satisfies
+        \begin{itemize}
+            \item $0 \leq f(x_1, x_2, \ldots, x_k)$
+            \item $\displaystyle\int_{-\infty}^\infty\cdots\int_{-\infty}^\infty\int_{-\infty}^\infty f(x_1, x_2, \ldots, x_k) dx_1 dx_2 \cdots dx_k$
+        \end{itemize}
+        The \textit{marginal PDF} of $X_i$ is 
+        \[ \int_{-\infty}^\infty f(x_1, x_2, \ldots, x_k) dx_i \]
+    \end{definition}    
+\end{document}

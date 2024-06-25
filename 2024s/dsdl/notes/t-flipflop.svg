@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="180"
+   height="110"
+   viewBox="0 0 47.625005 29.104166"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.3.2 (091e20e, 2023-11-25, custom)"
+   sodipodi:docname="t-flipflop.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="true"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="99.790444"
+     inkscape:cy="63.904775"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     width="100mm"
+     inkscape:showpageshadow="2"
+     inkscape:deskcolor="#d1d1d1">
+    <inkscape:grid
+       id="grid1"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="1.0583333"
+       spacingy="1.0583333"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="4"
+       dotted="false"
+       gridanglex="30"
+       gridanglez="30"
+       visible="true" />
+  </sodipodi:namedview>
+  <defs
+     id="defs2">
+    <rect
+       x="187.99998"
+       y="108"
+       width="51.999996"
+       height="31.999998"
+       id="rect2" />
+    <symbol
+       id="And_Gate">
+      <title
+         id="title890">And Gate</title>
+      <path
+         d="M 6.6145833,18.520833 V 15.875 13.229167 10.583333 7.9375 h 7.9374997 c 2.922507,0 5.291667,2.36916 5.291667,5.291667 0,2.922506 -2.36916,5.291666 -5.291667,5.291666 z"
+         id="path892"
+         style="stroke-width:0.264583" />
+    </symbol>
+    <symbol
+       id="Not_Gate_Small">
+      <title
+         id="title912">Not Gate Small</title>
+      <path
+         d="m 17.859375,13.229167 c 0,0.365313 -0.296145,0.661458 -0.661458,0.661458 -0.365314,0 -0.661459,-0.296145 -0.661459,-0.661458 0,-0.365314 0.296145,-0.661459 0.661459,-0.661459 0.365313,0 0.661458,0.296145 0.661458,0.661459 z"
+         id="path914"
+         style="stroke-width:0.264583" />
+      <path
+         d="M 9.9778537,10.583333 16.592437,13.229167 9.9778537,15.875 Z"
+         style="stroke-width:0.264583;stroke-miterlimit:2"
+         id="path916" />
+    </symbol>
+    <symbol
+       id="Nand_Gate">
+      <title
+         id="title883">Nand Gate</title>
+      <path
+         d="M 6.6145833,18.520833 V 15.875 13.229167 10.583333 7.9375 h 7.9374997 c 2.922507,0 5.291667,2.36916 5.291667,5.291667 0,2.922506 -2.36916,5.291666 -5.291667,5.291666 z"
+         id="path885"
+         style="stroke-width:0.264583" />
+      <path
+         d="m 21.166667,13.229167 c 0,0.365313 -0.296145,0.661458 -0.661459,0.661458 -0.365313,0 -0.661458,-0.296145 -0.661458,-0.661458 0,-0.365314 0.296145,-0.661459 0.661458,-0.661459 0.365314,0 0.661459,0.296145 0.661459,0.661459 z"
+         id="path887"
+         style="stroke-width:0.264583" />
+    </symbol>
+    <symbol
+       id="Or_Gate">
+      <title
+         id="title8">Or Gate</title>
+      <path
+         d="M 24.65625,70 H 45 C 65,70 75,50 75,50 75,50 70,30 45,30 H 24.65625 c 1.789926,3.094188 3.151364,6.453471 4.0625,10 C 29.54012,43.197121 30,46.545819 30,50 c 0,3.454181 -0.45988,6.802879 -1.28125,10 -0.911136,3.546529 -2.272574,6.905812 -4.0625,10 z"
+         id="path9" />
+    </symbol>
+    <symbol
+       id="Nor_Gate">
+      <title
+         id="title6">Nor Gate</title>
+      <path
+         d="M 24.65625,70 H 45 C 65,70 75,50 75,50 75,50 70,30 45,30 H 24.65625 c 1.789926,3.094188 3.151364,6.453471 4.0625,10 C 29.54012,43.197121 30,46.545819 30,50 c 0,3.454181 -0.45988,6.802879 -1.28125,10 -0.911136,3.546529 -2.272574,6.905812 -4.0625,10 z"
+         id="path7" />
+      <path
+         d="m 80,50 c 0,1.380712 -1.119288,2.5 -2.5,2.5 -1.380712,0 -2.5,-1.119288 -2.5,-2.5 0,-1.380712 1.119288,-2.5 2.5,-2.5 1.380712,0 2.5,1.119288 2.5,2.5 z"
+         id="path8-7" />
+    </symbol>
+    <symbol
+       id="Xor_Gate">
+      <title
+         id="title4">Xor Gate</title>
+      <path
+         d="M 24.65625,70 H 45 C 65,70 75,50 75,50 75,50 70,30 45,30 H 24.65625 c 1.789926,3.094188 3.151364,6.453471 4.0625,10 C 29.54012,43.197121 30,46.545819 30,50 c 0,3.454181 -0.45988,6.802879 -1.28125,10 -0.911136,3.546529 -2.272574,6.905812 -4.0625,10 z"
+         id="path5-1" />
+      <path
+         d="M 18.65625,70 C 22.629549,64.322431 25,57.455703 25,50 25,42.544297 22.629549,35.677569 18.65625,30"
+         id="path6" />
+    </symbol>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       d="m 19.049998,8.4666664 h 6.349999"
+       id="path15"
+       sodipodi:nodetypes="cc" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-dasharray:none"
+       d="M 38.099994,8.4666663 V 2.1166666 H 6.349999 v 4.2333333 h 6.35"
+       id="path11" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-dasharray:none"
+       d="m 12.699999,10.583333 h -6.35"
+       id="path12" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-opacity:1"
+       d="M 23.283331,21.166666 H 6.35"
+       id="path3"
+       sodipodi:nodetypes="cc" />
+    <g
+       id="g14">
+      <path
+         d="m 10.522653,12.6952 h 4.301211 c 4.228534,0 6.3428,-4.2285336 6.3428,-4.2285336 0,0 -1.057133,-4.2285334 -6.3428,-4.2285334 h -4.301211 c 0.378438,0.6541939 0.666282,1.3644359 0.858921,2.1142667 0.173659,0.6759566 0.27089,1.3839607 0.27089,2.1142667 0,0.730306 -0.09723,1.4383101 -0.27089,2.1142666 -0.192639,0.749831 -0.480483,1.460073 -0.858921,2.114267 z"
+         id="path8"
+         style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264584;stroke-dasharray:none" />
+      <g
+         id="g13">
+        <path
+           d="m 9.2540928,12.6952 c 0.8400612,-1.20039 1.3412382,-2.652199 1.3412382,-4.2285336 0,-1.5763345 -0.501177,-3.0281439 -1.3412382,-4.2285334"
+           id="path10"
+           style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.264584;stroke-dasharray:none" />
+      </g>
+    </g>
+    <path
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.264583;stroke-linecap:square;stroke-dasharray:none;stroke-opacity:1"
+       d="m 33.866662,8.4666664 h 6.349999"
+       id="path15-0" />
+    <path
+       style="fill:#ffffff;stroke:#000000;stroke-width:0.264583"
+       d="M 23.283331,4.2333335 V 25.4 H 35.983329 V 4.2333335 Z"
+       id="path1" />
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132291;stroke-dasharray:none;stroke-opacity:0.993528"
+       x="24.128073"
+       y="9.5801201"
+       id="text19-4-8-3-65"><tspan
+         sodipodi:role="line"
+         id="tspan19-4-9-8-1"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.132291;stroke-dasharray:none"
+         x="24.128073"
+         y="9.5801201">$D$</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132291;stroke-dasharray:none;stroke-opacity:0.993528"
+       x="2.961405"
+       y="11.696787"
+       id="text19-4-8-3-65-2"><tspan
+         sodipodi:role="line"
+         id="tspan19-4-9-8-1-8"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.132291;stroke-dasharray:none"
+         x="2.961405"
+         y="11.696787">$T$</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132291;stroke-dasharray:none;stroke-opacity:0.993528"
+       x="-0.096462093"
+       y="22.25256"
+       id="text19-4-8-3-65-2-3"><tspan
+         sodipodi:role="line"
+         id="tspan19-4-9-8-1-8-0"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.132291;stroke-dasharray:none"
+         x="-0.096462093"
+         y="22.25256">\scalebox{0.8}[1]{CLK}</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132291;stroke-dasharray:none;stroke-opacity:0.993528"
+       x="31.536402"
+       y="9.5801201"
+       id="text19-4-8-3-4"><tspan
+         sodipodi:role="line"
+         id="tspan19-4-9-8-5"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.132291;stroke-dasharray:none"
+         x="31.536402"
+         y="9.5801201">$Q$</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.132291;stroke-dasharray:none;stroke-opacity:0.993528"
+       x="41.061398"
+       y="9.5801201"
+       id="text19-4-8-3-4-4"><tspan
+         sodipodi:role="line"
+         id="tspan19-4-9-8-5-6"
+         style="font-size:2.82222px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.132291;stroke-dasharray:none"
+         x="41.061398"
+         y="9.5801201">$Q$</tspan></text>
+    <text
+       xml:space="preserve"
+       transform="matrix(0.26458333,0,0,0.26458333,2.1166661,-2.1166666)"
+       id="text2"
+       style="white-space:pre;shape-inside:url(#rect2);display:inline;fill:#000000;stroke-width:1.00157;stroke-linecap:round;stroke-opacity:0.993528" />
+    <path
+       style="fill:none;stroke:#000000;stroke-width:0.265;stroke-linecap:butt;stroke-dasharray:none"
+       d="m 23.283331,19.05 3.174998,2.116666 -3.174998,2.116667"
+       id="path5"
+       sodipodi:nodetypes="ccc" />
+    <ellipse
+       style="fill:#000001;fill-opacity:1;stroke:none;stroke-width:0.264583;stroke-linecap:square;stroke-dasharray:none"
+       id="path13"
+       cx="38.099995"
+       cy="8.4666662"
+       rx="0.52916658"
+       ry="0.52916664" />
+  </g>
+</svg>

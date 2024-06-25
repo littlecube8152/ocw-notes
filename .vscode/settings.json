@@ -9,5 +9,12 @@
     },
     "[latex]": {
         "editor.wordWrap": "on"
-    }
+    },
+    "files.associations": {
+        "random": "c",
+        "cstring": "c"
+    },
+    "terminal.integrated.commandsToSkipShell": [
+        "-workbench.action.quickOpenView"
+      ]
 }

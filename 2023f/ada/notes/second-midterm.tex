@@ -1,0 +1,128 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[landscape,margin=1em]{geometry}
+\usepackage{multicol}
+
+% math packages
+\usepackage{amsmath,amssymb,amsthm}
+
+% fonts
+\usepackage{fontspec}
+\renewcommand{\familydefault}{\sfdefault}
+\setsansfont[
+  BoldFont={WorkSans-Bold.ttf}, 
+  ItalicFont={WorkSans-Italic.ttf},
+  BoldItalicFont={WorkSans-BoldItalic.ttf}
+  ]{WorkSans-Regular.ttf}
+\setmonofont{Source Code Pro}
+\usepackage[no-math]{luatexja-fontspec}
+\setmainjfont[BoldFont=Noto Serif CJK TC Bold]{Noto Serif CJK TC}
+\setsansjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\ltjsetparameter{jacharrange={-1, -2, +3, -4, -5, +6, +7, +8}}
+% \setmonofont{Monaco}
+
+% funny emoji
+\usepackage{emoji}
+\setemojifont{Twemoji Mozilla}
+
+% paragraph formatting
+\usepackage{indentfirst}
+\setlength{\parindent}{2em}
+\usepackage{setspace}
+
+% tabular
+\usepackage{ctable}
+\usepackage{tabularx}
+
+% math convensional macro
+\newcommand{\ve}{\varepsilon}
+\newcommand{\overbar}[1]{\mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu}
+\renewcommand{\qedsymbol}{\(\blacksquare\)}
+
+
+\begin{document}
+\begin{multicols}{3}[\section*{ADA 2023 second midterm}]
+\subsection*{D\&C}
+  \begin{itemize} 
+    \item Median of median: \\ $T(n) = T(\frac{n}{5}) + T(\frac{7n}{10}) + O(n) = O(n)$.
+    \item Karatsuba: \\
+          $T(n) = 3T(\frac{n}{2}) + O(n) = O(n^{\log_2 3}) \approx O(n^{1.58})$ \\
+          $\begin{cases}
+            \mathbf C_2 = A_1B_1, \mathbf C_0 = A_0B_0 \\
+            \mathbf C_1 = A_1B_0 + A_0B_1 = (A_0 + A_1)(B_0 + B_1) - C_2 - C_0
+          \end{cases}$ \\
+          For any \textbf{constant} k, $O(n^{\log_k 2k-1})$ multiplication is possible.
+    \item Strassen's: \\ $T(n) = 7T(\frac{n}{2}) + O(n^2) = O(n^{\log_2 7}) \approx O(n^{2.807})$ \\
+          $\begin{cases}
+            \mathbf M_1 = (A_1 + A_4)(B_1 + B_4), \mathbf M_2 = (A_3 + A_4)B_1 \\ 
+            \mathbf M_3 = A_1(B_2 - B_4), \mathbf M_4 = A_4(B_3 - B_1), \mathbf M_5 = (A_1 + A_2)B_4 \\
+            \mathbf M_6 = (A_3 - A_1)(B_1 + B_2), \mathbf M_7 = (A_2 - A_4)(B_3 + B_4)
+          \end{cases}$
+          $\begin{cases}
+            \mathbf C_1 = M_1 + M_4 - M_5 + M_7 \\
+            \mathbf C_2 = M_3 + M_5, \mathbf C_3 = M_2 + M_4 \\
+            \mathbf C_4 = M_1 - M_2 + M_3 + M_6
+          \end{cases}$ \\
+    \item Victor Pan's: \\ $T(n) = ​143640T(\frac n {70}) + O(n^2) \approx O(n^{2.795122})$
+    \item Master Thm: Let $T(n) = a T(\frac n b) + f(n)$. \\
+    $\begin{cases}
+      T(n) = \Theta(n^{\log_ba}) & f(n) = O(n^{\log_ba-\ve}) \\
+      T(n) = \Theta(n^{\log_ba}\log^{k+1} n) & f(n) = \Theta(n^{\log_ba}\log^k n) \\
+      T(n) = \Theta(f(n)) & f(n) = \Omega(n^{\log_ba}) \text{ and}\\
+      & a f(\frac n b) < c f(n), c < 1
+    \end{cases}$ \\
+    Case 1
+      \[ T(n) = \sum_{j=0}^{\lceil\log_b n\rceil} a^jf\left(\frac{n}{b^j}\right) = O\left(\sum_{j=0}^{\lceil\log_b n\rceil} a^j\left(\frac{n}{b^j}\right)^{\log_ba-\ve}\right) \]
+      \[ = O\left(n^{\log_ba}\sum_{j=0}^{\lceil\log_b n\rceil} \left(\frac{n}{b^j}\right)^{-\ve}\right) = O\left(n^{\log_ba}\right) \]
+    Case 2 $\boxed{\mathbf k \geq \mathbf 0}$, ext $k = -1 \Rightarrow \log \log n, k < -1 \Rightarrow 1$
+      \[ T(n) = \Theta\left(\sum_{j=0}^{\lceil\log_b n\rceil} a^j\left(\frac{n}{b^j}\right)^{\log_ba}\log^k\left(\frac{n}{b^j}\right)\right) \]
+      \[ = n^{\log_ba} \Theta\left(\sum_{j=0}^{\lceil\log_b n\rceil}\log^k\left(\frac{n}{b^j}\right)\right) =  \Theta(n^{\log_ba}\log^{k+1}n) \]
+      \[ \left(\because\frac{\lceil\log_b n\rceil}{2} \log^k(\frac n 2) \leq \sum\log^k\left(\frac{n}{b^j}\right) \leq \lceil\log_b n\rceil\log^kn \right) \]
+    Case 3
+      \[ f(n) \geq \frac{a}{c}f\left(\frac{n}{b}\right) \geq \left(\frac{a}{c}\right)^2f\left(\frac{n}{b^2}\right) \geq \cdots \geq \left(\frac{a}{c}\right)^{\lceil\log_b n\rceil}f(1) \]
+      \[ f(n) = \Omega\left(\left(\frac{a}{c}\right)^{\lceil\log_b n\rceil}\right) = \Omega\left(n^{\log_ba - \log_bc}\right) = \Omega\left(n^{\log_ba + \ve}\right) \]
+    Counter Examples: Non polynomial differences
+     \[ T(n) = 2T\left(\frac n 2\right) + \frac{n}{\log n}, T(n) = \Theta (n \log \log n) \]
+
+  \end{itemize}
+
+\subsection*{DP}
+\begin{itemize} 
+  \item Fib Sequence, Matrix Chain Mul,
+  \item String Alignment Problem $O(|A||B|)$ \\
+        Input: string $A, B$, table $S: \Sigma \times \Sigma \rightarrow \mathbb R$. \\
+        Output: $\max \sum S(A'_i, B'_i)$ (inserted some \texttt{-}).
+\end{itemize}
+
+\subsection*{String Matching}
+\begin{itemize} 
+  \item $\begin{cases} Z_0 = \text{undefined} \\ Z_i = \displaystyle\max_{S_{[0, d)} = S_{[i, i + d)}} d \end{cases}$
+  \item Compute next $Z_i$: Let $j = \arg\max Z_j + j$. $Z_i \leftarrow \max \{0, \min(Z_j - (i - j), Z_{j - i}\}$.
+  \item If $Z_i + i = Z_j + j$, bruteforce increase. Otherwise $S_{Z_i + i} = S_{i - j + Z_i} \neq S_{Z_i}$.
+\end{itemize}
+
+\subsection*{Greedy}
+\begin{itemize} 
+  \item Huffman Code Optimality: Swap smallest two with deepest leaves.
+\end{itemize}
+
+\subsection*{MST}
+\begin{itemize} 
+  \item For any vertex $v$, its smallest out-going edge is on the MST.
+\end{itemize}
+
+\subsection*{Fibonacci Heap}
+Prim's MST, Dijkstra.\\
+Maintain a linked list where each node is a heap.
+\begin{itemize} 
+  \item \texttt{find\_min}: $\Theta(1)$
+  \item \texttt{merge}: concat list, $\Theta(1)$
+  \item \texttt{insert}: use \texttt{merge} $\Theta(1)$
+  \item \texttt{decrease}: if the node violates heap property, cut from parent and mark parent. If a node is marked twice cut the subtree and mark its parent again (and remove the mark). $\Theta(1)$ amortized.
+  \item \texttt{extract\_min}: remove the minimum (children become new trees) and keep linking two same degree nodes. $\Theta(\max \deg)$ + $\Theta(1)$ amortized.
+\end{itemize}
+Let the potential be $\text{\#trees} + 2 \text{\#marked}$ (explains amortized $\Theta(1)$) \\
+\textbf{Lemma.} Size of a subtree of degree $k$ node has at least $F_{k+2}$ nodes. \\
+$k = 0 \Rightarrow F_2 = 1$. For $k > 0$ sort children $c$ in dec. order of time. Then child $\deg c_i \geq i - 2$. $2 + \sum_{i=2}^{k} F_k = F_{k+2}$. \\
+\textbf{Remark.} If we run $\log \log n$ Borůvka steps, then the remaining graph only needs $O(m + n)$ with Prim's Algorithm. Thus MST can be solved under $O(m \log \log n)$. % reference: https://tmt514.github.io/algorithm-analysis/minimum-spanning-tree/boruvka-prim.html 
+\end{multicols}
+\end{document}

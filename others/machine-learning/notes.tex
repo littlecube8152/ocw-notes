@@ -1,0 +1,95 @@
+\documentclass[12pt,a4paper,twoside]{article}
+
+\usepackage{amsmath,amssymb,amsthm}			% math packages
+\usepackage{fontspec}						% fonts
+\usepackage{bold-extra}
+\usepackage[no-math]{luatexja-fontspec}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{emoji}							% funny emoji	
+\usepackage{geometry}
+\usepackage{calc}
+\usepackage{tikz}
+\usepackage{ctable}   		% tabular
+\usepackage{tabularx} 
+\usepackage{karnaugh-map} 	% k-map
+\usepackage{multicol}		% multicol for saving spaces
+\usepackage{enumerate}		% better enumerate
+\usepackage{listings}		% code blocks
+\usepackage{array}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{blindtext}
+\usepackage{graphicx}
+
+\setmainjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setsansjfont[BoldFont=Noto Sans CJK TC Bold]{Noto Sans CJK TC}
+\setemojifont{Twemoji Mozilla}
+
+\geometry{
+	includehead,includefoot,
+	top=1cm,
+	bottom=1cm,
+	left=2cm,
+	right=2cm
+}
+\pagestyle{fancy}
+\fancyhead[RO,LE]{\thetitle}
+\fancyhead[RE,LO]{\theauthor}
+\setlength{\parskip}{.5em}
+\setlength{\parindent}{0em}
+\renewcommand{\baselinestretch}{1.2}
+
+% theorems
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}{Definition}[section]
+\newtheorem{property}{Property}[section]
+\newtheorem{lemma}{Lemma}[section]
+\newtheorem*{remark}{Remark}
+\theoremstyle{remark}
+\newtheorem*{example}{Example}
+
+% tikz
+\usetikzlibrary{automata,positioning,arrows}
+
+% math conventional macro
+\newcommand{\ve}{\varepsilon}
+\newcommand{\overbar}[1]{\mkern1.5mu\overline{\mkern-1.5mu#1\mkern-1.5mu}\mkern1.5mu}
+\renewcommand{\qedsymbol}{\(\blacksquare\)}
+\newcommand{\Ex}{E}
+\DeclareMathOperator{\Var}{Var}
+
+% binary conventional macro
+\newcommand{\bin}{\textsubscript{2}\ }
+\newcommand{\dec}{\textsubscript{10}\ }
+
+\setlength{\droptitle}{-7em}
+\posttitle{\par\end{center}                 \vspace{-1em}}
+\postauthor{\end{tabular}\par\end{center}   \vspace{-1.5em}}
+\postdate{\par\end{center}                  \vspace{-3em}}
+
+\title{Machine Learning \textbf{Note}}
+\author{MIT 6.036}
+\date{}
+
+\begin{document}
+  	\maketitle
+  	\section{Introduction}
+  	\subsection{Problem classes}
+    \subsubsection{Supervised learning}
+    In \textit{supervised learning}, the learning system is given inputs and their expected outputs to learn their relations. If the output is discrete, we call it \textit{classification}. Otherwise, for continuous outcomes, we call it \textit{regression}. Classification can be further divided into \textit{two-class} if the output can only be two possible values, and \textit{multi-class} otherwise.
+
+    More formally, the learning system is given training data $\mathcal D_n = \{(x^{(1)}, y^{(1)}), \ldots, (x^{(n)}, y^{(n)})\}$. The goal is, given a new data $x^{(n + 1)}$, to predict the value of $y^{(n + 1)}$.
+    
+    \subsubsection{Unsupervised learning}
+    In \textit{unsupervised learning}, the learning system is not given expected outputs, but expected to find 
+    some inherent property or pattern in it. There are several problem classes:
+
+    \textit{Density estimation.} The goal is, given samples $x^{(1)}, \ldots, x^{(n)}$ drawn i.i.d. from the same distribution, to predict the probabaility of $P(x^{(n + 1)})$ appearing as next input.
+
+    \textit{Clustering.} Given samples $x^{(1)}, \ldots, x^{(n)} \in \mathbb R^D$, the goal is to found partitioning, or clusters that groups ``similar'' data together.
+
+    \textit{Dimensionality reduction.} Given samples $x^{(1)}, \ldots, x^{(n)} \in \mathbb R^D$, the goal is to re-represent them in smaller dimensional space while losing little informations.
+
+\end{document}
