@@ -4,8 +4,8 @@ This repo contains all the notes (and maybe course materials) I have taken for m
 ### OpenCourseWare
 
 - [Linear Algebra (MIT 18.06)](/others/linear-algebra/)
-- [Introduction to Machine Learning (MIT 6.036)](/others/machine-learning/)
 - [Introduction to Computer Graphics (MIT 6.837)](/others/computer-graphics/)
+- [Introduction to Machine Learning (MIT 6.036)](/others/machine-learning/)
 
 ### NTU 2023 Fall
 
